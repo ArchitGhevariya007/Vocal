@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    color: #fdfdfd;
+}
+
+.Heading {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 20px
+}
+
+.SearchBox {
+    background-color: #141619;
+    border-radius: 8px;
+    padding: 20px;
+    border: none;
+    color: #fdfdfd;
+}
+
+
+::placeholder {
+    opacity: 1;
+}
+
+.UserList {
+    background-color: #212229;
+}
