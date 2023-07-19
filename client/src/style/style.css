@@ -1,6 +1,7 @@
 * {
     margin: 0;
     color: #fdfdfd;
+    /* background-color: #131517; */
 }
 
 /* Users */
@@ -17,13 +18,11 @@
     caret-color: #fdfdfd;
     color: #fdfdfd;
     outline: none;
-
 }
 
 .SearchBox input::placeholder {
     color: #ffffff;
 }
-
 
 ::placeholder {
     opacity: 1;
@@ -42,11 +41,7 @@
 .username {
     font-weight: 600;
     font-size: 16px;
-}
-
-.last-message {
-    font-size: 14px;
-    color: #aaaaaa;
+    margin: 0;
 }
 
 .UserDetails {
@@ -56,5 +51,25 @@
 }
 
 .user-info {
-    flex: 1;
+    padding:15px;
+}
+
+.username-time {    
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.recent-time {
+    font-size: 13px;
+    color: #aaaaaa;
+    margin: 0;
+    margin-left: auto; 
+}
+
+
+.last-message {
+    font-size: 14px;
+    color: #aaaaaa;
+    margin: 0px;
 }

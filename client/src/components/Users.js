@@ -7,7 +7,9 @@ export default function Users() {
   return (
     <>
       <Container className="UserList">
+        {/* Title */}
         <p className="Heading">Messages</p>
+        {/* Search box */}
         <TextField
           placeholder="Search..."
           className="SearchBox"
@@ -21,6 +23,7 @@ export default function Users() {
           }}
         />
 
+        {/* User component start*/}
         <div className="UserDetails">
           <img
             className="profile-image"
@@ -28,10 +31,16 @@ export default function Users() {
             alt=""
           />
           <div className="user-info">
-            <p className="username">Archit Ghevariya</p>
+            <div className="username-time">
+              <p className="username">Archit Ghevariya</p>
+              <p className="recent-time">10.02 PM</p>
+            </div>
             <p className="last-message">Hello..!</p>
           </div>
         </div>
+
+        {/* User component end*/}
+
       </Container>
     </>
   );
