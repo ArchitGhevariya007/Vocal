@@ -3,6 +3,7 @@
     color: #fdfdfd;
 }
 
+/* Users */
 .Heading {
     font-size: 20px;
     font-weight: 700;
@@ -12,9 +13,15 @@
 .SearchBox {
     background-color: #141619;
     border-radius: 8px;
-    padding: 20px;
     border: none;
+    caret-color: #fdfdfd;
     color: #fdfdfd;
+    outline: none;
+
+}
+
+.SearchBox input::placeholder {
+    color: #ffffff;
 }
 
 
@@ -24,4 +31,30 @@
 
 .UserList {
     background-color: #212229;
+}
+
+.profile-image {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.username {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.last-message {
+    font-size: 14px;
+    color: #aaaaaa;
+}
+
+.UserDetails {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+}
+
+.user-info {
+    flex: 1;
 }
