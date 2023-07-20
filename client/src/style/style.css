@@ -6,8 +6,8 @@
 
 /* Users */
 .Heading {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 30px;
+    font-weight: 600;
     padding: 20px
 }
 
@@ -18,58 +18,96 @@
     caret-color: #fdfdfd;
     color: #fdfdfd;
     outline: none;
+    width: 100%;
 }
 
 .SearchBox input::placeholder {
     color: #ffffff;
 }
 
+/* removing blue outline of mui textfeild */
+fieldset{ 
+    border: none !important;
+    outline: none !important;
+}
+
+.Heading_Search {
+    margin-bottom: 12px;
+}
+
 ::placeholder {
     opacity: 1;
 }
 
-.UserList {
-    background-color: #212229;
+.allmsglbl {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    margin-bottom: 5px;
+    margin-top: 25px;
 }
+
+.lbltext{
+    color:#aaaaaa;
+    margin-left: 5px;
+    font-size: 14px;
+
+}
+
+.UserContacts {
+    background-color: #212229;
+    height: 100vh;
+}
+
 
 .profile-image {
     border-radius: 50%;
-    height: 40px;
-    width: 40px;
+    height: 47px;
+    width: 47px;
 }
 
-.username {
-    font-weight: 600;
-    font-size: 16px;
-    margin: 0;
-}
-
-.UserDetails {
+.profile_Container {
     display: flex;
     align-items: center;
-    padding: 12px;
+    padding-left: 15px;
+    cursor: pointer;
+}
+
+.profile_Container:hover {
+    background-color: #282932;
+    border-radius: 8px;
+    transition: background-color 0.4s;
 }
 
 .user-info {
-    padding:15px;
+    padding: 15px;
+    flex: 1;
 }
 
-.username-time {    
+.username-time {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-right: 8px;
 }
 
-.recent-time {
-    font-size: 13px;
-    color: #aaaaaa;
+.username {
+    font-weight: 500;
+    font-size: 16px;
     margin: 0;
-    margin-left: auto; 
 }
 
+.recent-time {
+    font-weight: 400;
+    font-size: 13px;
+    color: #aaaaaa;
+    margin-left: auto;
+}
 
 .last-message {
+    font-weight: 400;
     font-size: 14px;
     color: #aaaaaa;
     margin: 0px;
+    margin-top: 4px;
 }
