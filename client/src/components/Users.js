@@ -24,6 +24,33 @@ export default function Users() {
       lastmsg: "Hyy there..!",
       recenttime: "11:21 PM",
     },
+    {
+      profile: require("../assets/imgs/profile.jpg"),
+      name: "Harshil Ramani",
+      lastmsg: "Hyy there..!",
+      recenttime: "11:21 PM",
+    },{
+      profile: require("../assets/imgs/profile.jpg"),
+      name: "Harshil Ramani",
+      lastmsg: "Hyy there..!",
+      recenttime: "11:21 PM",
+    },{
+      profile: require("../assets/imgs/profile.jpg"),
+      name: "Harshil Ramani",
+      lastmsg: "Hyy there..!",
+      recenttime: "11:21 PM",
+    },{
+      profile: require("../assets/imgs/profile.jpg"),
+      name: "Harshil Ramani",
+      lastmsg: "Hyy there..!",
+      recenttime: "11:21 PM",
+    },
+    {
+      profile: require("../assets/imgs/profile.jpg"),
+      name: "Harshil Ramani",
+      lastmsg: "Hyy there..!",
+      recenttime: "11:21 PM",
+    },
   ];
 
   return (
