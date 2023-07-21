@@ -56,6 +56,7 @@ export default function Users() {
   return (
     <>
       <Container className="UserContacts">
+        
         <Box className="Heading_Search">
           {/* Title */}
           <p className="Heading">Vocal</p>
@@ -64,7 +65,6 @@ export default function Users() {
             placeholder="Search..."
             className="SearchBox"
             size="small"
-            
             InputProps={
               {              
               startAdornment: (

@@ -124,7 +124,7 @@ fieldset {
 .ChatHeader {
     background-color: #212229;
     width: calc("100%-430px");
-    margin-left: 431px;
+    margin-left: 430px;
     height: 80px;
     display: flex;
     align-items: center;
@@ -156,4 +156,27 @@ fieldset {
 
 .SearchIcon:hover {
     color: #ffffff;
+}
+
+/* MsgSender */
+
+.MsgSenderContainer{
+    background-color: #282932;
+    height:70px;
+    width: calc("100%-430px");
+    margin-left: 430px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 7px 50px 0px 50px;
+    
+}
+
+.MsgBox{
+    flex: 1;
+    margin: 0 auto;
+    /* width: 70%; */
 }

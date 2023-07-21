@@ -1,7 +1,8 @@
 import Users from "./components/Users";
-// import { Grid } from "@mui/material";
-import "./style/style.css";
 import ChatHeader from "./components/ChatHeader";
+import MsgSender from "./components/MsgSender";
+
+import "./style/style.css";
 
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
     <>
       <Users/>
       <ChatHeader/>
+      <MsgSender/>
     </>
   );
 }
