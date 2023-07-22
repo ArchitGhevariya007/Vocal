@@ -125,10 +125,10 @@ fieldset {
     background-color: #212229;
     width: calc("100%-430px");
     margin-left: 430px;
-    height: 80px;
+    height: 70px;
     display: flex;
     align-items: center;
-    padding:0px 30px 0px 30px;
+    padding: 0px 30px 0px 30px;
 }
 
 .UserNameTitle {
@@ -160,9 +160,9 @@ fieldset {
 
 /* MsgSender */
 
-.MsgSenderContainer{
+.MsgSenderContainer {
     background-color: #282932;
-    height:70px;
+    height: 70px;
     width: calc("100%-430px");
     margin-left: 430px;
     display: flex;
@@ -172,11 +172,49 @@ fieldset {
     left: 0;
     right: 0;
     padding: 7px 50px 0px 50px;
+
+}
+
+.MsgBox {
+    flex: 1;
+    margin: 0 auto;
+}
+
+.sendIcon {
+    font-size: 16px;
+    padding-right: 7px;
+}
+
+.sendIcon:hover {
+    background-color: #282932;
+    padding: 5px 6px 5px 6px;
+    border-radius: 5px;
+}
+
+.ChatContainer {
+    background-color: #131517;
+    height: calc(100vh - 200px);
+    margin-left: 430px;
+    overflow-y: auto;
+    padding: 40px;
+}
+
+.SenderMsg{
+    background-color:#1e1f25;
+    padding:10px;
+    border-radius: 8px;
+    display: inline-block;
+    max-width: 40%;
+    word-break: break-all;
     
 }
 
-.MsgBox{
-    flex: 1;
-    margin: 0 auto;
-    /* width: 70%; */
+.ReceiverMsg{
+    background-color: #296eff;
+    padding:10px;
+    border-radius: 8px;
+    display: block;
+    float: right; 
+    max-width: 40%;
+    word-break: break-all;
 }

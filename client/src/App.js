@@ -3,6 +3,7 @@ import ChatHeader from "./components/ChatHeader";
 import MsgSender from "./components/MsgSender";
 
 import "./style/style.css";
+import ChatContainer from "./components/ChatContainer";
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Users/>
       <ChatHeader/>
       <MsgSender/>
+      <ChatContainer/>
     </>
   );
 }

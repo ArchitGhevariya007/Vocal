@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, InputAdornment, Container, Box } from "@mui/material";
+import { TextField, InputAdornment, Container, Box,Avatar } from "@mui/material";
 import { Search, MessagesSquare } from "lucide-react";
 import "../style/style.css";
 
@@ -84,7 +84,7 @@ export default function Users() {
         </Box>
         {data.map((user) => (
           <div className="profile_Container">
-            <img className="profile-image" src={user.profile} alt="" />
+            <Avatar  src={user.profile} alt="" />
             <div className="user-info">
               <div className="username-time">
                 <p className="username">{user.name}</p>
