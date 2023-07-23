@@ -206,7 +206,8 @@ fieldset {
     display: inline-block;
     max-width: 40%;
     word-break: break-all;
-    
+    display: block;
+    margin:5px 0px 5px 0px;
 }
 
 .ReceiverMsg{
@@ -217,4 +218,5 @@ fieldset {
     float: right; 
     max-width: 40%;
     word-break: break-all;
+   display: block;
 }

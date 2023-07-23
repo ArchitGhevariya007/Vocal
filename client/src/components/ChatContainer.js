@@ -10,7 +10,6 @@ export default function ChatContainer() {
       <Box className="ChatContainer">
         <Box className="SenderMsg">Hello, how are you?</Box>
         <Box className="ReceiverMsg">I am Fine!sdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</Box>
-
       </Box>
     </>
   )
