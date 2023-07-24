@@ -1,29 +1,38 @@
 import React from "react";
-import { Box, TextField,InputAdornment,IconButton  } from "@mui/material";
-import { Send } from "lucide-react";
+import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
+import { Send, Paperclip } from "lucide-react";
 
 import "../style/style.css";
 
 export default function MsgSender() {
-return (
+  return (
     <>
-    <Box className="MsgSenderContainer">
+      <Box className="MsgSenderContainer">
         <TextField
-        placeholder="Type a message..."
-        className="MsgBox"
-        size="small"
-        InputProps={{
+          placeholder="Type a message..."
+          className="MsgBox"
+          autoComplete="off"
+          size="small"
+          InputProps={{
             endAdornment: (
-                <InputAdornment position="end">
+              <InputAdornment position="end">
                 <IconButton>
-                    <Send size="18" className="sendIcon"/>
+                  <Paperclip size="18" className="AttachIcon" />
                 </IconButton>
-                </InputAdornment>
+                <IconButton>
+                  <Send size="18" className="sendIcon" />
+                </IconButton>
+              </InputAdornment>
             ),
-            style: { color: "#ffffff",backgroundColor: "#1e1f25",borderRadius:"20px",padding:"7px"},
-        }}
+            style: {
+              color: "#ffffff",
+              backgroundColor: "#1e1f25",
+              borderRadius: "20px",
+              padding: "7px",
+            },
+          }}
         />
-    </Box>
+      </Box>
     </>
-);
+  );
 }

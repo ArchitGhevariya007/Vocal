@@ -181,15 +181,15 @@ fieldset {
 }
 
 .sendIcon {
-    font-size: 16px;
-    padding-right: 7px;
+    padding: 8px;
 }
 
 .sendIcon:hover {
     background-color: #282932;
-    padding: 5px 6px 5px 6px;
     border-radius: 5px;
 }
+
+
 
 .ChatContainer {
     background-color: #131517;
@@ -202,21 +202,31 @@ fieldset {
 .SenderMsg{
     background-color:#1e1f25;
     padding:10px;
-    border-radius: 8px;
+    border-radius: 0px 8px 8px 8px;
     display: inline-block;
     max-width: 40%;
     word-break: break-all;
     display: block;
     margin:5px 0px 5px 0px;
+    margin: 10px 0px 10px 0px;
 }
 
 .ReceiverMsg{
     background-color: #296eff;
     padding:10px;
-    border-radius: 8px;
+    border-radius: 8px 0px 8px 8px;
     display: block;
     float: right; 
     max-width: 40%;
     word-break: break-all;
-   display: block;
+    display: block;
+}
+
+/* Default Window */
+
+.defaultwindow{
+    background-color: #131517;
+    width: calc("100%-430px");
+    margin-left: 430px;
+    height: 100vh;
 }
