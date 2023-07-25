@@ -11,10 +11,10 @@ function App() {
   return (
     <>
       <Users/>
-      {/* <ChatHeader/>
+      <ChatHeader/>
       <MsgSender/>
-      <ChatContainer/> */}
-      <DefaultWindow/>
+      <ChatContainer/>
+      {/* <DefaultWindow/> */}
     </>
   );
 }

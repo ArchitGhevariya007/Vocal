@@ -206,7 +206,6 @@ fieldset {
     display: inline-block;
     max-width: 40%;
     word-break: break-all;
-    display: block;
     margin:5px 0px 5px 0px;
     margin: 10px 0px 10px 0px;
 }
@@ -216,10 +215,21 @@ fieldset {
     padding:10px;
     border-radius: 8px 0px 8px 8px;
     display: block;
-    float: right; 
     max-width: 40%;
     word-break: break-all;
-    display: block;
+    float: right; 
+}
+
+.msgSentTime{
+    font-size: 11px;
+    margin-top: 0px;
+}
+
+.msgReceiveTime{
+    font-size: 11px;
+    float: right; 
+
+
 }
 
 /* Default Window */
@@ -229,4 +239,7 @@ fieldset {
     width: calc("100%-430px");
     margin-left: 430px;
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

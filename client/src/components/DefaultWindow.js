@@ -5,7 +5,11 @@ import { Box} from "@mui/material";
 export default function DefaultWindow() {
   return (
     <>
-      <Box className="defaultwindow">asd</Box>
+      <Box className="defaultwindow">
+        
+        Welcome to Vocal !
+        
+        </Box>
     </>
   )
 }
