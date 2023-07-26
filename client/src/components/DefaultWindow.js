@@ -6,9 +6,7 @@ export default function DefaultWindow() {
   return (
     <>
       <Box className="defaultwindow">
-        
         Welcome to Vocal !
-        
         </Box>
     </>
   )
