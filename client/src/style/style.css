@@ -199,6 +199,12 @@ fieldset {
     padding: 40px;
 }
 
+.MessageGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
 .SenderMsg{
     background-color:#1e1f25;
     padding:10px;
@@ -206,8 +212,8 @@ fieldset {
     display: inline-block;
     max-width: 40%;
     word-break: break-all;
-    margin:5px 0px 5px 0px;
-    margin: 10px 0px 10px 0px;
+    align-self: flex-start; 
+    margin: 10px 0px 5px 0px;
 }
 
 .ReceiverMsg{
@@ -217,19 +223,24 @@ fieldset {
     display: block;
     max-width: 40%;
     word-break: break-all;
-    float: right; 
+    align-self: flex-end;
+    margin: 5px 0px 5px 0px;
+
 }
 
 .msgSentTime{
+    align-self: flex-start;
     font-size: 11px;
     margin-top: 0px;
+    color: #dfdfdf;
+
 }
 
 .msgReceiveTime{
     font-size: 11px;
-    float: right; 
-
-
+    float: right;
+    align-self: flex-end;
+    color: #dfdfdf;
 }
 
 /* Default Window */

@@ -1,57 +1,13 @@
-import React from "react";
+import React,{useContext} from "react";
 import { TextField, InputAdornment, Container, Box,Avatar } from "@mui/material";
 import { Search, MessagesSquare } from "lucide-react";
+import {AppContext} from "../context/ContextAPI"
 import "../style/style.css";
 
 export default function Users() {
-  // Temp data
-  const data = [
-    {
-      profile: require("../assets/imgs/profile.jpg"),
-      name: "Archit Ghevariya",
-      lastmsg: "Hello..!",
-      recenttime: "10:25 PM",
-    },
-    {
-      profile: require("../assets/imgs/profile.jpg"),
-      name: "Shubham Khunt",
-      lastmsg: "How are you?",
-      recenttime: "12:35 PM",
-    },
-    {
-      profile: require("../assets/imgs/profile.jpg"),
-      name: "Harshil Ramani",
-      lastmsg: "Hyy there..!",
-      recenttime: "11:21 PM",
-    },
-    {
-      profile: require("../assets/imgs/profile.jpg"),
-      name: "Harshil Ramani",
-      lastmsg: "Hyy there..!",
-      recenttime: "11:21 PM",
-    },{
-      profile: require("../assets/imgs/profile.jpg"),
-      name: "Harshil Ramani",
-      lastmsg: "Hyy there..!",
-      recenttime: "11:21 PM",
-    },{
-      profile: require("../assets/imgs/profile.jpg"),
-      name: "Harshil Ramani",
-      lastmsg: "Hyy there..!",
-      recenttime: "11:21 PM",
-    },{
-      profile: require("../assets/imgs/profile.jpg"),
-      name: "Harshil Ramani",
-      lastmsg: "Hyy there..!",
-      recenttime: "11:21 PM",
-    },
-    {
-      profile: require("../assets/imgs/profile.jpg"),
-      name: "Harshil Ramani",
-      lastmsg: "Hyy there..!",
-      recenttime: "11:21 PM",
-    },
-  ];
+
+   //************* Using Context *************
+   const Users = useContext(AppContext);
 
   return (
     <>
@@ -82,8 +38,8 @@ export default function Users() {
           <MessagesSquare size="14" color="#aaaaaa"/>
           <p className="lbltext">All messages</p>
         </Box>
-        {data.map((user) => (
-          <div className="profile_Container">
+        {Users.users.map((user,key) => (
+          <div className="profile_Container" key={key}>
             <Avatar  src={user.profile} alt="" />
             <div className="user-info">
               <div className="username-time">
@@ -94,6 +50,7 @@ export default function Users() {
             </div>
           </div>
         ))}
+       {/* { console.log(Users.users)} */}
 
         {/* User component end*/}
       </Container>
