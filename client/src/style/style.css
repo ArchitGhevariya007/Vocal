@@ -8,7 +8,36 @@
     display: none;
 }
 
-/* Users */
+
+/****************************************** Login ******************************************/
+
+.Login{
+    background-color: #131517;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+}
+
+.LoginContainer{
+    background-color:#212229;
+    display:block;
+    width:50%;
+    height:40%;
+    border-radius: 10px;
+}
+
+.LoginFields{
+    width: 80%;
+    background-color: #131517;
+    border-radius: 5px;
+
+}
+
+.LoginFields input {
+}
+
+/****************************************** Users ******************************************/
 .Heading {
     font-size: 30px;
     font-weight: 600;
@@ -119,7 +148,7 @@ fieldset {
     margin-top: 4px;
 }
 
-/* ChatHeader */
+/****************************************** ChatHeader ******************************************/
 
 .ChatHeader {
     background-color: #212229;
@@ -158,7 +187,7 @@ fieldset {
     color: #ffffff;
 }
 
-/* MsgSender */
+/****************************************** MsgSender ******************************************/
 
 .MsgSenderContainer {
     background-color: #282932;
@@ -243,7 +272,7 @@ fieldset {
     color: #dfdfdf;
 }
 
-/* Default Window */
+/****************************************** Default Window ******************************************/
 
 .defaultwindow{
     background-color: #131517;
