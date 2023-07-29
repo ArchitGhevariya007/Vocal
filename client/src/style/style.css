@@ -9,10 +9,11 @@
 }
 
 
-/****************************************** Login ******************************************/
+/****************************************** Login/Signup ******************************************/
+
 
 .Login{
-    background-color: #131517;
+    background: linear-gradient(150deg, #54303c, #1a2a4c);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,23 +21,54 @@
 }
 
 .LoginContainer{
-    background-color:#212229;
-    display:block;
-    width:50%;
     height:40%;
     border-radius: 10px;
+    width: 270px;
+
 }
 
 .LoginFields{
-    width: 80%;
-    background-color: #131517;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.353);
     border-radius: 5px;
+    margin-bottom: 10px !important;
+    caret-color: grey;
 
 }
 
-.LoginFields input {
+::placeholder {
+    font-size: 12px;
 }
 
+.LoginTitle{
+    font-size: 25px;
+    font-weight: 500;
+    margin : 10px 0px 10px 0px;
+}
+
+.LoginButton{
+    background: linear-gradient(180deg, rgb(80, 137, 184) 0%, rgb(54, 91, 164) 100%);
+    color: #dfdfdf !important;
+    width: 100%;
+    cursor: pointer;
+    text-transform: none !important;
+}
+
+.link{
+    color: rgb(192, 191, 191) !important;
+    text-decoration: none;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+.ProfilePic{
+    background: rgba(0, 0, 0, 0.353) !important;
+    width: 40%;
+    color: grey !important;
+    text-transform: none !important;
+    font-size: 12px !important;
+    margin-bottom: 10px !important;
+}
 /****************************************** Users ******************************************/
 .Heading {
     font-size: 30px;

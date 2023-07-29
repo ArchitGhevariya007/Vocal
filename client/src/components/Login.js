@@ -1,15 +1,17 @@
-import { Box, Button, TextField } from "@mui/material";
 import React from "react";
+import { Box, Button, TextField,Stack } from "@mui/material";
+import { Link } from "react-router-dom";
+
 import "../style/style.css";
 
 export default function Login() {
   return (
     <>
       <Box className="Login">
-        <Box className="LoginContainer">
-          <p>Login</p>
+        <Stack className="LoginContainer">
+          <p className="LoginTitle">Login</p>
           <TextField
-            placeholder="Email"
+            placeholder="Phone no / Email"
             className="LoginFields"
             size="small"
             InputProps={{
@@ -24,8 +26,13 @@ export default function Login() {
               style: { color: "#ffffff" },
             }}
           />
-          <Button>Login</Button>
-        </Box>
+          <Button className="LoginButton" size="small">Let me in </Button>
+          <Link 
+          to="/register"
+           className="link">
+            Don't have any account?
+          </Link>
+        </Stack>
       </Box>
     </>
   );
