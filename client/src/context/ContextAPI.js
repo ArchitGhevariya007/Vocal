@@ -91,8 +91,10 @@ export default function ContextAPI(props) {
 
   const [users, Setusers] = useState(userdata);
 
+  const [searchUser, setSearchUser] = useState("");
+
   return (
-    <AppContext.Provider value={{ users }}>
+    <AppContext.Provider value={{ users,Setusers,searchUser,setSearchUser }}>
       {props.children}
     </AppContext.Provider>
   );

@@ -27,7 +27,7 @@ export default function MsgSender() {
             style: {
               color: "#ffffff",
               backgroundColor: "#1e1f25",
-              borderRadius: "20px",
+              borderRadius: "13px",
               padding: "7px",
             },
           }}
