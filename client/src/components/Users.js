@@ -19,6 +19,10 @@ export default function Users() {
     user.name.toLowerCase().includes(Users.searchUser.toLowerCase())
   );
 
+  const handleUserClick=(user)=>{
+    Users.setSelectedUser(user);
+    console.log(Users.SelectedUser)
+  }
   return (
     <>
       <Container className="UserContacts">
@@ -54,7 +58,7 @@ export default function Users() {
 
         {/* Displaying Users */}
         {FilterdUsers.map((user, key) => (
-          <div className="profile_Container" key={key}>
+          <div className="profile_Container" key={key} onClick={() => handleUserClick(user)}>
             <Avatar src={user.profile} alt="" />
             <div className="user-info">
               <div className="username-time">

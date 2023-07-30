@@ -26,61 +26,71 @@ export default function ContextAPI(props) {
       name: "Archit Ghevariya",
       lastmsg: "Hello..!",
       recenttime: "10:25 PM",
-    },{
+    },
+    {
       user_id: "dfghzccbcjkl",
       profile: require("../assets/imgs/profile.jpg"),
       name: "Archit Ghevariya",
       lastmsg: "Hello..!",
       recenttime: "10:25 PM",
-    },{
+    },
+    {
       user_id: "dfghzccbcjkl",
       profile: require("../assets/imgs/profile.jpg"),
       name: "Archit Ghevariya",
       lastmsg: "Hello..!",
       recenttime: "10:25 PM",
-    },{
+    },
+    {
       user_id: "dfghzccbcjkl",
       profile: require("../assets/imgs/profile.jpg"),
       name: "Archit Ghevariya",
       lastmsg: "Hello..!",
       recenttime: "10:25 PM",
-    },{
+    },
+    {
       user_id: "dfghzccbcjkl",
       profile: require("../assets/imgs/profile.jpg"),
       name: "Archit Ghevariya",
       lastmsg: "Hello..!",
       recenttime: "10:25 PM",
-    },{
+    },
+    {
       user_id: "dfghzccbcjkl",
       profile: require("../assets/imgs/profile.jpg"),
       name: "Archit Ghevariya",
       lastmsg: "Hello..!",
       recenttime: "10:25 PM",
-    },{
+    },
+    {
       user_id: "dfghzccbcjkl",
       profile: require("../assets/imgs/profile.jpg"),
       name: "Archit Ghevariya",
       lastmsg: "Hello..!",
       recenttime: "10:25 PM",
-    },{
+    },
+    {
       user_id: "dfghzccbcjkl",
       profile: require("../assets/imgs/profile.jpg"),
       name: "Archit Ghevariya",
       lastmsg: "Hello..!",
       recenttime: "10:25 PM",
-    },{
+    },
+    {
       user_id: "dfghzccbcjkl",
       profile: require("../assets/imgs/profile.jpg"),
       name: "Archit Ghevariya",
       lastmsg: "Hello..!",
       recenttime: "10:25 PM",
-    },{
+    },
+    {
       user_id: "dfghzccbcjkl",
       profile: require("../assets/imgs/profile.jpg"),
       name: "Archit Ghevariya",
       lastmsg: "Hello..!",
       recenttime: "10:25 PM",
-    },{
+    },
+    {
       user_id: "dfghzccbcjkl",
       profile: require("../assets/imgs/profile.jpg"),
       name: "Archit Ghevariya",
@@ -93,8 +103,20 @@ export default function ContextAPI(props) {
 
   const [searchUser, setSearchUser] = useState("");
 
+  // State to track which user's chat to show
+  const [selectedUser, setSelectedUser] = useState(null);
+
   return (
-    <AppContext.Provider value={{ users,Setusers,searchUser,setSearchUser }}>
+    <AppContext.Provider
+      value={{
+        users,
+        Setusers,
+        searchUser,
+        setSearchUser,
+        selectedUser,
+        setSelectedUser,
+      }}
+    >
       {props.children}
     </AppContext.Provider>
   );
