@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 //Schema
-const conversationsSchema=new mongoose.Schema({
+const roomSchema=new mongoose.Schema({
     participants:{
         type:[mongoose.Schema.Types.ObjectId],
         default:[],
@@ -11,6 +11,6 @@ const conversationsSchema=new mongoose.Schema({
 })
 
 //Model
-const Conversations=mongoose.model('Conversations',conversationsSchema);
+const Rooms=mongoose.model('Rooms',roomSchema);
 
-module.exports = Conversations;
+module.exports = Rooms;
