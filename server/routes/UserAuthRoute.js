@@ -1,7 +1,8 @@
 const express=require('express');
+const routes=express.Router();
 
-const register_route=()=>{
+const {register} = require('../controllers/UserAuthController');
 
-}
+routes.post("/register",register);
 
-module.exports={register_route}
+module.exports=routes;

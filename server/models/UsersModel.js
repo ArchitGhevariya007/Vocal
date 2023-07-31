@@ -21,8 +21,7 @@ const userSchema=new mongoose.Schema({
         }
     },
     profile_photo:{
-        data: Buffer,
-        contentType: String,
+        type: String,
         required:[true,"Please provide a profile photo!"],
     },
     email:{
