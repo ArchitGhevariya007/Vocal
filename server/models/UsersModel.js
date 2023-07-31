@@ -45,7 +45,8 @@ const userSchema=new mongoose.Schema({
     access_token:{
         type:String,
         default:"-"
-    },
+    }
+},{
     timestamps:true
 
 });
