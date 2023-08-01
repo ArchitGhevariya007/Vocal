@@ -1,46 +1,86 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const Users =require("../models/UsersModel");
+
 
 const register=async(req,res)=>{
     try{
-        const {name,phone_no,profile_photo,email,visibility}=req.body;
+
+        const {name,phone_no,profile_photo,password,email,visibility}=req.body;
 
         //Check if the data is empty
-        if(!name || !phone_no ||!profile_photo|| !email|| !visibility ){
-            res.status(404).json({
-                "message":"Please fill all required fields!",
-                "app_status":false
-            })
-        }
+        // if(!name || !phone_no ||!profile_photo||!password || !email|| !visibility ){
+        //     return res.status(404).json({
+        //         "message":"Please fill all required fields!",
+        //         "app_status":false
+        //     })
+        // }
 
         // check if phone_no is already registered
         const phoneAvailable=await Users.findOne({phone_no})
-
+        console.log(phoneAvailable)
         if(phoneAvailable){
-            res.status(403).json({
+            return res.status(403).json({
                 "message":"Mobile already exists!",
                 "app_status":false
             })
         }
 
-         // check if email is already registered
+        // check if email is already registered
         const emailAvailable=await Users.findOne({email})
-
         if(emailAvailable){
-            res.status(403).json({
-                "message":"Mobile already exists!",
+            return res.status(403).json({
+                "message":"Email already exists!",
                 "app_status":false
             })
         }
-        
 
-        res.status(200).json({
-            name,
-            phone_no
-        })
-    }catch(e){
-        res.status(500).json({
-            "message":e,
+        // Hash the password using bcrypt
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        //JWT token
+        const token=jwt.sign(
+            {
+                name,
+                phone_no,
+                email,
+                hashedPassword,
+                visibility
+            },
+            process.env.TOKEN_SECRET,
+            {expiresIn:"365d"})
+        
+        const newUser = await Users.create({
+                name,
+                phone_no,
+                profile_photo,
+                email,
+                password,
+                visibility,
+                access_token:token
+        });
+
+        if(newUser){
+            res.setHeader("Authorization",token)
+            const result={
+                name:newUser.name,
+                phone_no:newUser.phone_no,
+                email:newUser.email,
+                message:"User registered successfully!",
+                "app_status":true
+            }
+            return res.status(200).json(result)
+        }else{
+            return res.status(400).json({
+                "message": "Unable to register user!",
+                "app_status":false
+            })
+        }
+
+    }catch(err){
+        return res.status(500).json({
+            "message":err.message,
             "app_status":false
         })
     }
@@ -52,7 +92,7 @@ module.exports={register}
 //        **** Sign up a user ****
 // 1. check if all fields are empty or not ✅
 // 2. check mobile, email is exits or not  ✅
-// 3. assign jwt token
-// 4. insert new user in DB
-// 5. send a response whether the user added or not
+// 3. assign jwt token                     ✅
+// 4. insert new user in DB                ✅
+// 5. send a response whether the user added or not ✅
 

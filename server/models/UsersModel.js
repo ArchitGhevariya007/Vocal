@@ -37,6 +37,11 @@ const userSchema=new mongoose.Schema({
             message: '{VALUE} is not a valid email address!'
         }
     },
+    password:{
+        type:String,
+        required:[true,"Please provide a password!"],
+        trim:true,
+    },
     visibility:{
         type:String,
         enum:['public', 'private'],

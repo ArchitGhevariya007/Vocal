@@ -1,4 +1,5 @@
 const express=require('express');
+const dotenv = require("dotenv").config(); //loads environment variables from a .env file into process.env
 const cors = require('cors');
 const dbConnection=require('./config/dbConnection'); //DB connection
 
