@@ -106,6 +106,11 @@ export default function ContextAPI(props) {
   // State to track which user's chat to show
   const [selectedUser, setSelectedUser] = useState(null);
 
+  const [loginData,setLoginData] = useState({
+    email:"",
+    password:""
+  })
+
   return (
     <AppContext.Provider
       value={{
@@ -115,6 +120,8 @@ export default function ContextAPI(props) {
         setSearchUser,
         selectedUser,
         setSelectedUser,
+        loginData,
+        setLoginData
       }}
     >
       {props.children}

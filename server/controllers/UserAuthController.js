@@ -6,18 +6,9 @@ const Users =require("../models/UsersModel");
 //------------------------ Register user ------------------------
 const register=async(req,res)=>{
     try{
-
         const {name,phone_no,profile_photo,password,email,visibility}=req.body;
 
-        //Check if the data is empty
-        // if(!name || !phone_no ||!profile_photo||!password || !email|| !visibility ){
-        //     return res.status(404).json({
-        //         "message":"Please fill all required fields!",
-        //         "app_status":false
-        //     })
-        // }
-
-        // check if phone_no is already registered
+        // Check if phone_no is already registered
         const phoneAvailable=await Users.findOne({phone_no})
         console.log(phoneAvailable)
         if(phoneAvailable){
@@ -27,7 +18,7 @@ const register=async(req,res)=>{
             })
         }
 
-        // check if email is already registered
+        // Check if email is already registered
         const emailAvailable=await Users.findOne({email})
         if(emailAvailable){
             return res.status(403).json({
@@ -39,7 +30,7 @@ const register=async(req,res)=>{
         // Hash the password using bcrypt
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        //JWT token
+        // JWT token
         const token=jwt.sign(
             {
                 name,
@@ -51,6 +42,7 @@ const register=async(req,res)=>{
             process.env.TOKEN_SECRET,
             {expiresIn:"365d"})
         
+        // Insert new User
         const newUser = await Users.create({
                 name,
                 phone_no,
@@ -71,14 +63,16 @@ const register=async(req,res)=>{
                 "app_status":true
             }
             return res.status(200).json(result)
-        }else{
+        }
+        else{
             return res.status(400).json({
                 "message": "Unable to register user!",
                 "app_status":false
             })
         }
 
-    }catch(err){
+    }
+    catch(err){
         return res.status(500).json({
             "message":err.message,
             "app_status":false
@@ -93,6 +87,7 @@ const login=async (req,res)=>{
         const {email,phone_no,password}=req.body;
         const user=await Users.findOne({ $or: [{ email }, { phone_no }]});
         
+        // Checking user Availability
         if(!user){
             return res.status(404).json({
                 "message":"User Not Found!",
@@ -100,7 +95,7 @@ const login=async (req,res)=>{
             })
         }   
         
-
+        // Validating password
         const isValidPsd=await bcrypt.compare(password,user.password);
         if(!isValidPsd){
             return res.status(401).json({
@@ -109,6 +104,7 @@ const login=async (req,res)=>{
             })
         }
 
+        // JWT token
         const token = jwt.sign(
             {
                 name: user.name,
@@ -126,7 +122,8 @@ const login=async (req,res)=>{
             "app_status":true
         })
 
-    }catch(err){
+    }
+    catch(err){
         return res.status(500).json({
             message:err.message,
             "app_status":false
