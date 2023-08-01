@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Users =require("../models/UsersModel");
 
-
+//------------------------ Register user ------------------------
 const register=async(req,res)=>{
     try{
 
@@ -56,7 +56,7 @@ const register=async(req,res)=>{
                 phone_no,
                 profile_photo,
                 email,
-                password,
+                password:hashedPassword,
                 visibility,
                 access_token:token
         });
@@ -86,13 +86,54 @@ const register=async(req,res)=>{
     }
 }
 
-module.exports={register}
+//------------------------ Login user ------------------------
 
+const login=async (req,res)=>{
+    try{
+        const {email,phone_no,password}=req.body;
+        const user=await Users.findOne({ $or: [{ email }, { phone_no }]});
+        
+        if(!user){
+            return res.status(404).json({
+                "message":"User Not Found!",
+                "app_status":false
+            })
+        }   
+        
 
-//        **** Sign up a user ****
-// 1. check if all fields are empty or not ✅
-// 2. check mobile, email is exits or not  ✅
-// 3. assign jwt token                     ✅
-// 4. insert new user in DB                ✅
-// 5. send a response whether the user added or not ✅
+        const isValidPsd=await bcrypt.compare(password,user.password);
+        if(!isValidPsd){
+            return res.status(401).json({
+                "message":"Invalid Password!",
+                "app_status":false
+            })
+        }
+
+        const token = jwt.sign(
+            {
+                name: user.name,
+                phone_no: user.phone_no,
+                email: user.email,
+                visibility: user.visibility
+            },
+            process.env.TOKEN_SECRET,
+            { expiresIn: "365d" }
+        );
+
+        return res.status(200).json({
+            "message":"User logged in successfully!",
+            "Token":token,
+            "app_status":true
+        })
+
+    }catch(err){
+        return res.status(500).json({
+            message:err.message,
+            "app_status":false
+        })
+    }
+}
+
+module.exports={register,login}
+
 
