@@ -31,16 +31,16 @@ const register=async(req,res)=>{
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // JWT token
-        const token=jwt.sign(
-            {
-                name,
-                phone_no,
-                email,
-                hashedPassword,
-                visibility
-            },
-            process.env.TOKEN_SECRET,
-            {expiresIn:"365d"})
+        // const token=jwt.sign(
+        //     {
+        //         name,
+        //         phone_no,
+        //         email,
+        //         hashedPassword,
+        //         visibility
+        //     },
+        //     process.env.TOKEN_SECRET,
+        //     {expiresIn:"365d"})
         
         // Insert new User
         const newUser = await Users.create({
@@ -50,11 +50,11 @@ const register=async(req,res)=>{
                 email,
                 password:hashedPassword,
                 visibility,
-                access_token:token
+                // access_token:token
         });
 
         if(newUser){
-            res.setHeader("Authorization",token)
+            // res.setHeader("Authorization",token)
             const result={
                 name:newUser.name,
                 phone_no:newUser.phone_no,
@@ -87,6 +87,19 @@ const login=async (req,res)=>{
         const {email,phone_no,password}=req.body;
         const user=await Users.findOne({ $or: [{ email }, { phone_no }]});
         
+        if (!email && !phone_no) {
+            return res.status(400).json({
+              message: "Please provide either email or phone number!",
+              app_status: false,
+            });
+          }
+
+        if(!password) {
+            return res.status(404).json({
+                "message":"Please provide password!",
+                "app_status":false
+            })
+        }
         // Checking user Availability
         if(!user){
             return res.status(404).json({
@@ -107,10 +120,11 @@ const login=async (req,res)=>{
         // JWT token
         const token = jwt.sign(
             {
-                name: user.name,
-                phone_no: user.phone_no,
-                email: user.email,
-                visibility: user.visibility
+                userId: user._id,
+                // name: user.name,
+                // phone_no: user.phone_no,
+                // email: user.email,
+                // visibility: user.visibility
             },
             process.env.TOKEN_SECRET,
             { expiresIn: "365d" }

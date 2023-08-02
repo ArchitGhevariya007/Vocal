@@ -10,10 +10,26 @@ export default function Login() {
   //************* Using Context *************
   const Users = useContext(AppContext);
 
-  const handleInputChange =(event)=>{
-    const {name,value} = event.target;
-    Users.setLoginData({...Users.loginData,[name]:value})
-  }
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+  
+    const fieldName = value.includes('@') ? 'email' : 'phone_no';
+  
+    if (name==="password") {
+      Users.setLoginData({ ...Users.loginData, [name]: value });
+    } else if(fieldName==="email"){
+      Users.setLoginData({ ...Users.loginData, "email": value,...Users.loginData.password="" });
+      
+    } else{
+      Users.setLoginData({ ...Users.loginData, "phone_no": value });
+    }
+  };
+
+
+  
+  
+  console.log(Users.loginData)
 
   const handleLogin=async ()=>{
     try{
@@ -22,7 +38,7 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify()
+        body: JSON.stringify(Users.loginData)
       })
 
       const data=await response.json();
@@ -44,6 +60,7 @@ export default function Login() {
         <Stack className="LoginContainer">
           <p className="LoginTitle">Login</p>
           <TextField
+          // name="email"
             placeholder="Phone no / Email"
             className="LoginFields"
             size="small"
@@ -53,6 +70,7 @@ export default function Login() {
             onChange={handleInputChange}
           />
           <TextField
+            name="password"
             placeholder="Password"
             type="password"
             className="LoginFields"
@@ -65,7 +83,7 @@ export default function Login() {
           <Button className="LoginButton" size="small" onClick={handleLogin}>Let me in </Button>
           <Link 
           to="/register"
-           className="link">
+          className="link">
             Don't have any account?
           </Link>
         </Stack>

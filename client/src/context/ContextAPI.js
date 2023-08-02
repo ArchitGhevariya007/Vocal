@@ -107,8 +107,8 @@ export default function ContextAPI(props) {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const [loginData,setLoginData] = useState({
-    email:"",
-    password:""
+    // email:"",
+    // password:""  
   })
 
   return (
