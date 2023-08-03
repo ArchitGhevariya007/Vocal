@@ -1,4 +1,3 @@
-// const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Users =require("../models/UsersModel");
@@ -6,7 +5,8 @@ const Users =require("../models/UsersModel");
 //------------------------ Register user ------------------------
 const register=async(req,res)=>{
     try{
-        const {name,phone_no,profile_photo,password,email,visibility}=req.body;
+        const {name,phone_no,password,email,visibility}=req.body;
+        const profile_photo = req.file.path;
 
         // Check if phone_no is already registered
         const phoneAvailable=await Users.findOne({phone_no})
@@ -29,18 +29,6 @@ const register=async(req,res)=>{
 
         // Hash the password using bcrypt
         const hashedPassword = await bcrypt.hash(password, 10);
-
-        // JWT token
-        // const token=jwt.sign(
-        //     {
-        //         name,
-        //         phone_no,
-        //         email,
-        //         hashedPassword,
-        //         visibility
-        //     },
-        //     process.env.TOKEN_SECRET,
-        //     {expiresIn:"365d"})
         
         // Insert new User
         const newUser = await Users.create({
@@ -50,11 +38,9 @@ const register=async(req,res)=>{
                 email,
                 password:hashedPassword,
                 visibility,
-                // access_token:token
         });
 
         if(newUser){
-            // res.setHeader("Authorization",token)
             const result={
                 name:newUser.name,
                 phone_no:newUser.phone_no,
@@ -89,10 +75,10 @@ const login=async (req,res)=>{
         
         if (!email && !phone_no) {
             return res.status(400).json({
-              message: "Please provide either email or phone number!",
-              app_status: false,
+                message: "Please provide credentials!",
+                app_status: false,
             });
-          }
+        }
 
         if(!password) {
             return res.status(404).json({
@@ -100,10 +86,11 @@ const login=async (req,res)=>{
                 "app_status":false
             })
         }
+
         // Checking user Availability
         if(!user){
             return res.status(404).json({
-                "message":"User Not Found!",
+                "message":"Invalid credentials!",
                 "app_status":false
             })
         }   

@@ -33,7 +33,6 @@
     border-radius: 5px;
     margin-bottom: 10px !important;
     caret-color: grey;
-
 }
 
 ::placeholder {
@@ -68,6 +67,12 @@
     text-transform: none !important;
     font-size: 12px !important;
     margin-bottom: 10px !important;
+}
+
+.toast_message{
+    background-color: rgba(0, 0, 0, 0.353) !important;
+    color: #fff;
+
 }
 /****************************************** Users ******************************************/
 .Heading {

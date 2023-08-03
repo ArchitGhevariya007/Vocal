@@ -1,74 +1,92 @@
-import React,{useContext} from "react";
-import { Box, Button, TextField,Stack } from "@mui/material";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Box, Button, TextField, Stack } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/ContextAPI";
-
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "../style/style.css";
 
 export default function Login() {
-  //************* Using Context *************
+
+  //-------------- Using Context --------------
   const Users = useContext(AppContext);
 
+  const navigate = useNavigate();
 
+  //-------------- Handling User Input --------------
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-  
-    const fieldName = value.includes('@') ? 'email' : 'phone_no';
-  
-    if (name==="password") {
+
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    const phoneRegex = /^[0-9]{10}$/;
+
+    const isEmail = emailRegex.test(value);
+    const isPhone = phoneRegex.test(value);
+
+    if (name === "password") {
       Users.setLoginData({ ...Users.loginData, [name]: value });
-    } else if(fieldName==="email"){
-      Users.setLoginData({ ...Users.loginData, "email": value,...Users.loginData.password="" });
-      
-    } else{
-      Users.setLoginData({ ...Users.loginData, "phone_no": value });
+    } else if (isEmail) {
+      Users.setLoginData({ ...Users.loginData, email: value });
+    } else if (isPhone) {
+      Users.setLoginData({ ...Users.loginData, phone_no: value });
     }
   };
 
+  //-------------- Handling API --------------
+  const handleLogin = async () => {
+    try {
 
-  
-  
-  console.log(Users.loginData)
-
-  const handleLogin=async ()=>{
-    try{
-      const response=await fetch('http://localhost:5001/login',{
-        method:"POST",
+      //-------------- Fetching API --------------
+      const response = await fetch("http://localhost:5001/login", {
+        method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(Users.loginData)
-      })
+        body: JSON.stringify(Users.loginData),
+      });
 
-      const data=await response.json();
 
-      if(response.ok){
-          localStorage.setItem("token", data.token);
-          window.location.href = "/";
-      }else{
-        console.error("Login failed:", data.message);
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.Token);
+        navigate("/");
+        Users.setLoginData({})
+      } 
+      else {
+        toast.error(data.message, {
+          className: "toast_message",
+        });
       }
+
+    } 
+    catch (err) {
+      toast.error(err.message, {
+        className: "toast_message",
+      });
     }
-    catch(err){
-      alert(err.message)
-    }
-  }
+  };
+
   return (
     <>
       <Box className="Login">
         <Stack className="LoginContainer">
+
           <p className="LoginTitle">Login</p>
+
+          {/*-------------- Email / phone no --------------*/}
           <TextField
-          // name="email"
             placeholder="Phone no / Email"
             className="LoginFields"
             size="small"
             InputProps={{
-              style: { color: "#ffffff" },
+              style: { color: "#dfdfdf",fontSize: "16px"},
             }}
             onChange={handleInputChange}
           />
+
+          {/*-------------- Password --------------*/}
           <TextField
             name="password"
             placeholder="Password"
@@ -76,18 +94,32 @@ export default function Login() {
             className="LoginFields"
             size="small"
             InputProps={{
-              style: { color: "#ffffff" },
+              style: { color: "#dfdfdf",fontSize: "16px" },
             }}
             onChange={handleInputChange}
           />
-          <Button className="LoginButton" size="small" onClick={handleLogin}>Let me in </Button>
-          <Link 
-          to="/register"
-          className="link">
+
+
+          <Button className="LoginButton" size="small" onClick={handleLogin}>
+            Let me in
+          </Button>
+
+          <Link to="/register" className="link">
             Don't have any account?
           </Link>
+          
         </Stack>
       </Box>
+
+      {/*-------------- Toast Message --------------*/}
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={true}
+        theme="dark"
+        transition={Slide}
+      />
+
     </>
   );
 }
