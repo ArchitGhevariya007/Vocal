@@ -2,11 +2,12 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Users =require("../models/UsersModel");
 
+
 //------------------------ Register user ------------------------
 const register=async(req,res)=>{
     try{
         const {name,phone_no,password,email,visibility}=req.body;
-        const profile_photo = req.file.path;
+        const profile_photo = req.file.path; 
 
         // Check if phone_no is already registered
         const phoneAvailable=await Users.findOne({phone_no})
