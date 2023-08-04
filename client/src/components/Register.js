@@ -50,7 +50,13 @@ export default function Register() {
       const data = await response.json();
 
       if (response.ok) {
-        navigate("/login");
+        toast.success(data.message, {
+          className: "toast_message",
+        });
+        setTimeout(()=>{
+
+          navigate("/login");
+        },2000);
         Users.setRegisterData({});
       } 
       else {
@@ -66,8 +72,6 @@ export default function Register() {
       });
     }
   };
-
-  console.log(Users.registerData);
   return (
     <>
       <Box className="Login">
