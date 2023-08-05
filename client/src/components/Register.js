@@ -151,7 +151,7 @@ export default function Register() {
 
         </Stack>
       </Box>
-
+      
       {/*-------------- Toast Message --------------*/}
       <ToastContainer
         position="top-right"
