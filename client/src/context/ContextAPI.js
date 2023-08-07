@@ -109,7 +109,6 @@ export default function ContextAPI(props) {
   const [loginData,setLoginData] = useState({});
   const [registerData,setRegisterData] = useState({"profile_photo":null});
 
-
   return (
     <AppContext.Provider
       value={{
