@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "../style/style.css";
 
 export default function Login() {
-
   //-------------- Using Context --------------
   const Users = useContext(AppContext);
 
@@ -36,7 +35,6 @@ export default function Login() {
   //-------------- Handling API --------------
   const handleLogin = async () => {
     try {
-
       //-------------- Fetching API --------------
       const response = await fetch("http://localhost:5001/login", {
         method: "POST",
@@ -46,22 +44,19 @@ export default function Login() {
         body: JSON.stringify(Users.loginData),
       });
 
-
       const data = await response.json();
 
       if (response.ok) {
         localStorage.setItem("token", data.Token);
+        Users.SetisAuthUser(true);
         navigate("/");
-        Users.setLoginData({})
-      } 
-      else {
+        Users.setLoginData({});
+      } else {
         toast.error(data.message, {
           className: "toast_message",
         });
       }
-
-    } 
-    catch (err) {
+    } catch (err) {
       toast.error(err.message, {
         className: "toast_message",
       });
@@ -72,7 +67,6 @@ export default function Login() {
     <>
       <Box className="Login">
         <Stack className="LoginContainer">
-
           <p className="LoginTitle">Login</p>
 
           {/*-------------- Email / phone no --------------*/}
@@ -81,7 +75,7 @@ export default function Login() {
             className="LoginFields"
             size="small"
             InputProps={{
-              style: { color: "#dfdfdf",fontSize: "16px"},
+              style: { color: "#dfdfdf", fontSize: "16px" },
             }}
             onChange={handleInputChange}
           />
@@ -94,11 +88,10 @@ export default function Login() {
             className="LoginFields"
             size="small"
             InputProps={{
-              style: { color: "#dfdfdf",fontSize: "16px" },
+              style: { color: "#dfdfdf", fontSize: "16px" },
             }}
             onChange={handleInputChange}
           />
-
 
           <Button className="LoginButton" size="small" onClick={handleLogin}>
             Let me in
@@ -107,7 +100,6 @@ export default function Login() {
           <Link to="/register" className="link">
             Don't have any account?
           </Link>
-          
         </Stack>
       </Box>
 
@@ -119,7 +111,6 @@ export default function Login() {
         theme="dark"
         transition={Slide}
       />
-
     </>
   );
 }
