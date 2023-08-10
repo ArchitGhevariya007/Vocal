@@ -1,6 +1,7 @@
 const express=require('express');
 const routes=express.Router();
 
+
 //---------------------------- Middlewares ----------------------------
 const upload = require('../middlewares/FileUploadMidware');
 const UserAuth = require('../middlewares/UserAuth');
@@ -12,8 +13,10 @@ const {register,login} = require('../controllers/UserAuthController');
 
 
 //---------------------------- Routes ----------------------------
+routes.post("/login",login);
 routes.post("/register",upload.single('profile_photo'),register);
-routes.post("/login",UserAuth,login);
 
+routes.use(UserAuth);
+routes.post("/");
 
 module.exports=routes;

@@ -109,15 +109,11 @@ const login=async (req,res)=>{
         const token = jwt.sign(
             {
                 userId: user._id,
-                // name: user.name,
-                // phone_no: user.phone_no,
-                // email: user.email,
-                // visibility: user.visibility
             },
             process.env.TOKEN_SECRET,
             { expiresIn: "365d" }
         );
-
+        res.setHeader("Authorization",token)
         return res.status(200).json({
             "message":"User logged in successfully!",
             "Token":token,
