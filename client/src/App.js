@@ -4,7 +4,7 @@ import MainContainer from "./components/MainContainer";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ContextAPI, { AppContext } from "./context/ContextAPI";
-
+// import { ProtectedRoute } from "./routes/ProtectedRoute";
 // import DefaultWindow from "./components/DefaultWindow";
 import "./style/style.css";
 
@@ -19,12 +19,15 @@ function App() {
       <ContextAPI>
         <BrowserRouter>
           <Routes>
-            <Route
+            {/* <Route
               path="/"
+              exact
               element={
                 isAuthUser ? <MainContainer /> : <Navigate to="/login" />
               }
-            />
+            /> */}
+            {/* <ProtectedRoute path="/" exact component={<MainContainer />} /> */}
+            <Route path="/" element={<MainContainer />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<Navigate to="/login" />} />
