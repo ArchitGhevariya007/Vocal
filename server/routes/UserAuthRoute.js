@@ -1,22 +1,22 @@
-const express=require('express');
-const routes=express.Router();
-
+const express = require("express");
+const routes = express.Router();
 
 //---------------------------- Middlewares ----------------------------
-const upload = require('../middlewares/FileUploadMidware');
-const UserAuth = require('../middlewares/UserAuth');
-
-
+const upload = require("../middlewares/FileUploadMidware");
+const UserAuth = require("../middlewares/UserAuth");
 
 //---------------------------- Controllers ----------------------------
-const {register,login} = require('../controllers/UserAuthController');
-
+const { register, login } = require("../controllers/UserAuthController");
 
 //---------------------------- Routes ----------------------------
-routes.post("/login",login);
-routes.post("/register",upload.single('profile_photo'),register);
+routes.get("/", UserAuth, (req, res) => {
+    res.send(JSON.stringify("Hello"));
+});
 
-routes.use(UserAuth);
-routes.post("/");
 
-module.exports=routes;
+routes.post("/login", login);
+routes.post("/register", upload.single("profile_photo"), register);
+
+
+
+module.exports = routes;

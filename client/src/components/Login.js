@@ -47,9 +47,8 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", data.Token);
-        Users.SetisAuthUser(true);
         navigate("/");
+        console.log(response.token);
         Users.setLoginData({});
       } else {
         toast.error(data.message, {

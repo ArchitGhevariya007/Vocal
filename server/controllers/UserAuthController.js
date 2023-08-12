@@ -31,6 +31,15 @@ const register=async(req,res)=>{
         // Hash the password using bcrypt
         const hashedPassword = await bcrypt.hash(password, 10);
         
+                // JWT token
+                const token = await jwt.sign(
+                    {
+                        userId: user._id,
+                    },
+                    process.env.TOKEN_SECRET,
+                    { expiresIn: "365d" }
+                );
+
         // Insert new User
         const newUser = await Users.create({
                 name,
@@ -39,6 +48,7 @@ const register=async(req,res)=>{
                 email,
                 password:hashedPassword,
                 visibility,
+                token
         });
 
         if(newUser){
@@ -106,14 +116,16 @@ const login=async (req,res)=>{
         }
 
         // JWT token
-        const token = jwt.sign(
+        const token = await jwt.sign(
             {
                 userId: user._id,
             },
             process.env.TOKEN_SECRET,
             { expiresIn: "365d" }
         );
-        res.setHeader("Authorization",token)
+
+        res.setHeader("Authorization",`Bearer ${token}`)
+        
         return res.status(200).json({
             "message":"User logged in successfully!",
             "Token":token,

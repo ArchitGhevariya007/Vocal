@@ -1,16 +1,18 @@
 const jwt = require("jsonwebtoken");
 
-const UserAuth = (req, res, next) => {
+const UserAuth = async (req, res, next) => {
   const token = req.header("Authorization");
+
   if (!token) {
     return res.status(401).json({ message: "Unauthorized user" });
   }
+
   try {
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    const decoded = await jwt.verify(token, process.env.TOKEN_SECRET);
+    console.error(decoded);
     req.user = decoded;
     next();
   } catch (err) {
-    console.error(err);
     return res.status(403).json({ message: "Invalid token" });
   }
 };

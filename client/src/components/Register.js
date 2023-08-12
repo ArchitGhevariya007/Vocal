@@ -56,6 +56,8 @@ export default function Register() {
         setTimeout(()=>{
 
           navigate("/login");
+        console.log(response.token);
+
         },2000);
         Users.setRegisterData({});
       } 
