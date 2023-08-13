@@ -6,8 +6,17 @@ const Users =require("../models/UsersModel");
 //------------------------ Register user ------------------------
 const register=async(req,res)=>{
     try{
-        const {name,phone_no,password,email,visibility}=req.body;
+        const {name,phone_no,password,email,visibility,access_token}=req.body;
         const profile_photo = req.file.path; 
+
+
+        if(!name || !phone_no || !password || !email || !profile_photo){
+            return res.status(404).json({
+                "message":"Please Provide all data!",
+                "app_status":false
+            })
+        }
+
 
         // Check if phone_no is already registered
         const phoneAvailable=await Users.findOne({phone_no})
@@ -32,13 +41,13 @@ const register=async(req,res)=>{
         const hashedPassword = await bcrypt.hash(password, 10);
         
                 // JWT token
-                const token = await jwt.sign(
-                    {
-                        userId: user._id,
-                    },
-                    process.env.TOKEN_SECRET,
-                    { expiresIn: "365d" }
-                );
+        const accesstoken = await jwt.sign(
+        {
+            phone_no
+        },
+            process.env.TOKEN_SECRET,
+            { expiresIn: "365d" }
+        );
 
         // Insert new User
         const newUser = await Users.create({
@@ -48,7 +57,7 @@ const register=async(req,res)=>{
                 email,
                 password:hashedPassword,
                 visibility,
-                token
+                access_token:accesstoken
         });
 
         if(newUser){
