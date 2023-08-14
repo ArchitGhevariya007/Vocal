@@ -86,6 +86,8 @@ const register=async(req,res)=>{
     }
 }
 
+
+
 //------------------------ Login user ------------------------
 
 const login=async (req,res)=>{
