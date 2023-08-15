@@ -1,6 +1,11 @@
+// const express = require('express')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Users =require("../models/UsersModel");
+// const cookieParser = require("cookie-parser");
+// const app = express();
+
+// app.use(cookieParser());
 
 
 //------------------------ Register user ------------------------
@@ -86,8 +91,6 @@ const register=async(req,res)=>{
     }
 }
 
-
-
 //------------------------ Login user ------------------------
 
 const login=async (req,res)=>{
@@ -127,16 +130,16 @@ const login=async (req,res)=>{
         }
 
         // JWT token
-        const token = await jwt.sign(
+        const token = jwt.sign(
             {
                 userId: user._id,
             },
             process.env.TOKEN_SECRET,
             { expiresIn: "365d" }
         );
-
-        res.setHeader("Authorization",`Bearer ${token}`)
         
+        // res.cookie("token", token, { maxAge: 900000, httpOnly: true });
+
         return res.status(200).json({
             "message":"User logged in successfully!",
             "Token":token,

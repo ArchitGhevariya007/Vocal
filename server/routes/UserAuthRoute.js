@@ -9,9 +9,9 @@ const UserAuth = require("../middlewares/UserAuth");
 const { register, login } = require("../controllers/UserAuthController");
 
 //---------------------------- Routes ----------------------------
-routes.get("/", UserAuth, (req, res) => {
-    res.send(JSON.stringify("Hello"));
-});
+// routes.get("/", UserAuth, (req, res) => {
+//     res.send(JSON.stringify("Hello"));
+// });
 
 
 routes.post("/login", login);

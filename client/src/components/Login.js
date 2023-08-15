@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, {useEffect, useContext } from "react";
 import { Box, Button, TextField, Stack } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/ContextAPI";
 import { ToastContainer, toast, Slide } from "react-toastify";
+import Cookies from 'js-cookie';
 import "react-toastify/dist/ReactToastify.css";
 
 import "../style/style.css";
@@ -12,6 +13,13 @@ export default function Login() {
   const Users = useContext(AppContext);
 
   const navigate = useNavigate();
+
+  //-------------- Redirecting if cookie is set --------------
+  useEffect(() => {
+    if (Cookies.get('Token')) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   //-------------- Handling User Input --------------
   const handleInputChange = (event) => {
@@ -47,10 +55,12 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
+      //-------------- Setting up cookie --------------
+        Cookies.set('Token', data.Token, { expires: 365 })
         navigate("/");
-        console.log(response.token);
         Users.setLoginData({});
-      } else {
+      } 
+      else {
         toast.error(data.message, {
           className: "toast_message",
         });

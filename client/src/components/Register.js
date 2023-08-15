@@ -1,8 +1,10 @@
-import React, { useContext } from "react";
+import React, { useEffect,useContext } from "react";
 import { Box, Button, TextField, Stack } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/ContextAPI";
 import { ToastContainer, toast, Slide } from "react-toastify";
+import Cookies from 'js-cookie';
+
 import "react-toastify/dist/ReactToastify.css";
 
 import "../style/style.css";
@@ -14,6 +16,12 @@ export default function Register() {
 
   const navigate = useNavigate();
 
+  //-------------- Redirecting if cookie is set --------------
+  useEffect(() => {
+    if (Cookies.get('Token')) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   //-------------- Handling User Input --------------
   const handleInput = (event) => {
