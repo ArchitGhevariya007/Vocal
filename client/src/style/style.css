@@ -185,6 +185,9 @@ fieldset {
     margin-top: 4px;
 }
 
+.logout-icon{
+    cursor: pointer;
+}
 /****************************************** ChatHeader ******************************************/
 
 .ChatHeader {

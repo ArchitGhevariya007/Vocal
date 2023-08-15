@@ -6,30 +6,58 @@ import {
   Box,
   Avatar,
 } from "@mui/material";
-import { Search, MessagesSquare } from "lucide-react";
+import { Search, MessagesSquare, ArrowRightToLine } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+// import { ToastContainer, toast, Slide } from "react-toastify";
+import Cookies from "js-cookie";
 import { AppContext } from "../context/ContextAPI";
+
 import "../style/style.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Users() {
   //************* Using Context *************
   const Users = useContext(AppContext);
+  const navigate = useNavigate();
+
+  //Logout user
+  const LogOutUser = () => {
+    Cookies.remove("Token");
+    navigate("/login");
+    // toast.success("Logout succesfully", {
+    //   className: "toast_message",
+    // });
+  };
 
   //Searching User
   const FilterdUsers = Users.users.filter((user) =>
     user.name.toLowerCase().includes(Users.searchUser.toLowerCase())
   );
 
-  const handleUserClick=(user)=>{
+  const handleUserClick = (user) => {
     Users.setSelectedUser(user);
-    console.log(Users.SelectedUser)
-  }
+    console.log(Users.SelectedUser);
+  };
+
   return (
     <>
       <Container className="UserContacts">
         <Box className="Heading_Search">
           {/* Title */}
-          <p className="Heading">Vocal</p>
-
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <p className="Heading">Vocal</p>
+            <ArrowRightToLine
+              size="16"
+              className="logout-icon"
+              onClick={LogOutUser}
+            />
+          </Box>
           {/* Search box */}
           <TextField
             placeholder="Search..."
@@ -58,7 +86,11 @@ export default function Users() {
 
         {/* Displaying Users */}
         {FilterdUsers.map((user, key) => (
-          <div className="profile_Container" key={key} onClick={() => handleUserClick(user)}>
+          <div
+            className="profile_Container"
+            key={key}
+            onClick={() => handleUserClick(user)}
+          >
             <Avatar src={user.profile} alt="" />
             <div className="user-info">
               <div className="username-time">
@@ -72,6 +104,15 @@ export default function Users() {
 
         {/* User component end*/}
       </Container>
+
+      {/*-------------- Toast Message --------------*/}
+      {/* <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={true}
+        theme="dark"
+        transition={Slide}
+      /> */}
     </>
   );
 }

@@ -26,7 +26,7 @@ export default function Login() {
     const { name, value } = event.target;
 
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    const phoneRegex = /^[0-9]{10}$/;
+    const phoneRegex = /^[0-9]{10,12}$/;
 
     const isEmail = emailRegex.test(value);
     const isPhone = phoneRegex.test(value);
@@ -39,6 +39,7 @@ export default function Login() {
       Users.setLoginData({ ...Users.loginData, phone_no: value });
     }
   };
+  console.log(Users.loginData);
 
   //-------------- Handling API --------------
   const handleLogin = async () => {
