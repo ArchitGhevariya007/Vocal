@@ -39,7 +39,6 @@ export default function Login() {
       Users.setLoginData({ ...Users.loginData, phone_no: value });
     }
   };
-  console.log(Users.loginData);
 
   //-------------- Handling API --------------
   const handleLogin = async () => {
