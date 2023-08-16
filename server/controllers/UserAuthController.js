@@ -2,30 +2,47 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Users =require("../models/UsersModel");
-// const cookieParser = require("cookie-parser");
-// const app = express();
 
-// app.use(cookieParser());
 
 
 //------------------------ Register user ------------------------
 const register=async(req,res)=>{
     try{
         const {name,phone_no,password,email,visibility,access_token}=req.body;
-        const profile_photo = req.file.path; 
 
-
-        if(!name || !phone_no || !password || !email || !profile_photo){
+        if(!name || !phone_no || !password || !email){
             return res.status(404).json({
                 "message":"Please Provide all data!",
                 "app_status":false
             })
         }
 
+        if(!req.file){
+            return res.status(400).json({
+                "message":"Please provide profile photo!",
+                "app_status":false
+            })
+        }
+
+        // Check if image size is less than 1mb
+        // if(req.file.size>1024 * 1024 * 5){
+        //     return res.status(400).json({
+        //         "message":"Profile photo should be less than 5mb!",
+        //         "app_status":false
+        //     })
+            
+        // }
+
+        // Check if file is image
+        // if(!(req.file.mimetype=== "image/jpeg" || req.file.mimetype=== "image/png")){
+        //     return res.status(400).json({
+        //         "message":"File must me jpeg or png",
+        //         "app_status":false
+        //     })
+        // }
 
         // Check if phone_no is already registered
         const phoneAvailable=await Users.findOne({phone_no})
-        console.log(phoneAvailable)
         if(phoneAvailable){
             return res.status(403).json({
                 "message":"Mobile already exists!",
@@ -45,8 +62,9 @@ const register=async(req,res)=>{
         // Hash the password using bcrypt
         const hashedPassword = await bcrypt.hash(password, 10);
         
-                // JWT token
-        const accesstoken = await jwt.sign(
+
+        // JWT token
+        const accesstoken = jwt.sign(
         {
             phone_no
         },
@@ -58,7 +76,7 @@ const register=async(req,res)=>{
         const newUser = await Users.create({
                 name,
                 phone_no,
-                profile_photo,
+                profile_photo:req.file.path,
                 email,
                 password:hashedPassword,
                 visibility,

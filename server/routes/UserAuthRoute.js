@@ -2,18 +2,13 @@ const express = require("express");
 const routes = express.Router();
 
 //---------------------------- Middlewares ----------------------------
-const upload = require("../middlewares/FileUploadMidware");
-const UserAuth = require("../middlewares/UserAuth");
+const {upload,errorHandler} = require("../middlewares/FileUploadMidware");
 
+routes.use(errorHandler);
 //---------------------------- Controllers ----------------------------
 const { register, login } = require("../controllers/UserAuthController");
 
 //---------------------------- Routes ----------------------------
-// routes.get("/", UserAuth, (req, res) => {
-//     res.send(JSON.stringify("Hello"));
-// });
-
-
 routes.post("/login", login);
 routes.post("/register", upload.single("profile_photo"), register);
 
