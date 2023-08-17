@@ -53,6 +53,9 @@ export default function Register() {
       const response = await fetch("http://localhost:5001/register", {
         method: "POST",
         body: formData,
+        // headers: {
+        //   'content-Type':"multipart/form-data",
+        // }
       });
 
       const data = await response.json();

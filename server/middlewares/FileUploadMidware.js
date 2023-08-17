@@ -2,10 +2,10 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/profiles"); // Specify the directory where the files will be stored
+    cb(null, "uploads/profiles");
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname); // Generate a unique filename
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
@@ -13,33 +13,23 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-      cb(null, true); // Accept the file
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpeg") {
+      cb(null, true);
     } else {
-      cb(new Error("File must be jpeg or png"), false); // Reject the file
+      cb(new Error('Only PNG/JPG/JPEG files are allowed.'), false);
     }
   },
   limits: {
-    fileSize: 1024 * 1024 * 5, // Limit file size to 5MB
+    fileSize: 1024 * 1024 * 5,
   },
 });
 
 const errorHandler = (err, req, res, next) => {
-  if (err instanceof multer.MulterError) {
-    if (err.code === "LIMIT_FILE_SIZE") {
-      return res.status(400).json({
-        message: "File size should be less than 5MB!",
-        app_status: false,
-      });
-    }else if (err.message === "File must be jpeg or png") {
-      return res.status(400).json({
-        message: "File must be jpeg or png",
-        app_status: false,  
-      });
+    if (err instanceof multer.MulterError) {
+      return res.status(400).json({ app_status:false , message: err.message }); // Multer error
+    } else if (err) {
+      return res.status(500).json({ app_status:false, message: err.message }); // Other errors
     }
-  }
-  next(err);
 };
 
-
-module.exports = {upload,errorHandler};
+module.exports = { upload, errorHandler };
