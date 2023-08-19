@@ -14,7 +14,6 @@ const userAuth=require("./routes/UserAuthRoute.js");
 
 app.use("/",userAuth); //User registration
 
-
 app.listen(port,()=>{
     console.log(`Server running on port ${port}!`)
     dbConnection();
