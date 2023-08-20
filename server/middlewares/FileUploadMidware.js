@@ -13,9 +13,9 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpeg") {
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
       cb(null, true);
-    } else {
+    }else {
       cb(new Error('Only PNG/JPG/JPEG files are allowed.'), false);
     }
   },
@@ -24,6 +24,7 @@ const upload = multer({
   },
 });
 
+// Error handler
 const errorHandler = (err, req, res, next) => {
     if (err instanceof multer.MulterError) {
       return res.status(400).json({ app_status:false , message: err.message }); // Multer error
