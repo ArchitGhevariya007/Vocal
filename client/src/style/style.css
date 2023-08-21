@@ -74,7 +74,27 @@
     color: #fff;
 
 }
-/****************************************** Users ******************************************/
+/****************************************** Sidebar ******************************************/
+
+.Sidebar{
+    width: 50px !important;
+    float: left !important;
+    height:100vh !important;
+    overflow-y: auto;
+    background-color: #131517;
+    display: flex;
+    justify-content: center;
+}
+
+.add-user-btn{
+    margin-top: 20px !important;
+    background-color: #296dff24 !important;
+    border-radius: 10px !important;
+}
+
+
+/****************************************** User List ******************************************/
+
 .Heading {
     font-size: 30px;
     font-weight: 600;
@@ -126,10 +146,16 @@ fieldset {
 
 .UserContacts {
     background-color: #212229;
+    width: 390px !important;
+    float: left !important;
+    overflow-y: auto;
+    height: 100vh;
+    border-right: 1.5px solid #131517;
+}
+
+.UserList{
     height: 100vh;
     overflow-y: auto;
-    width: 430px !important;
-    float: left !important;
 }
 
 
@@ -233,7 +259,7 @@ fieldset {
     background-color: #282932;
     height: 70px;
     width: calc("100%-430px");
-    margin-left: 430px;
+    margin-left: 440px;
     display: flex;
     align-items: center;
     position: fixed;

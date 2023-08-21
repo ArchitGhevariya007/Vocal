@@ -5,12 +5,13 @@ import {
   Container,
   Box,
   Avatar,
+  IconButton,
 } from "@mui/material";
-import { Search, MessagesSquare, ArrowRightToLine } from "lucide-react";
+import { Search, MessagesSquare, ArrowRightToLine, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-// import { ToastContainer, toast, Slide } from "react-toastify";
 import Cookies from "js-cookie";
 import { AppContext } from "../context/ContextAPI";
+import AddUserModal from "./AddUserModal";
 
 import "../style/style.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,9 +25,6 @@ export default function Users() {
   const LogOutUser = () => {
     Cookies.remove("Token");
     navigate("/login");
-    // toast.success("Logout succesfully", {
-    //   className: "toast_message",
-    // });
   };
 
   //Searching User
@@ -39,8 +37,25 @@ export default function Users() {
     console.log(Users.SelectedUser);
   };
 
+  //Add user Modal
+  const handleOpenModal = () => {
+    Users.AddUserModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    Users.AddUserModalOpen(false);
+  };
+
   return (
     <>
+      <Box className="Sidebar" >
+        <Box >
+          <IconButton className="add-user-btn" onClick={handleOpenModal}>
+            <Plus color="#296eff" />
+          </IconButton>
+        </Box>
+      </Box>
+      <AddUserModal open={Users.AddUserModalOpen} onClose={handleCloseModal}/>
       <Container className="UserContacts">
         <Box className="Heading_Search">
           {/* Title */}
@@ -84,35 +99,28 @@ export default function Users() {
           <p className="lbltext">All messages</p>
         </Box>
 
-        {/* Displaying Users */}
-        {FilterdUsers.map((user, key) => (
-          <div
-            className="profile_Container"
-            key={key}
-            onClick={() => handleUserClick(user)}
-          >
-            <Avatar src={user.profile} alt="" />
-            <div className="user-info">
-              <div className="username-time">
-                <p className="username">{user.name}</p>
-                <p className="recent-time">{user.recenttime}</p>
+        <Box className="UserList">
+          {/* Displaying Users */}
+          {FilterdUsers.map((user, key) => (
+            <div
+              className="profile_Container"
+              key={key}
+              onClick={() => handleUserClick(user)}
+            >
+              <Avatar src={user.profile} alt="" />
+              <div className="user-info">
+                <div className="username-time">
+                  <p className="username">{user.name}</p>
+                  <p className="recent-time">{user.recenttime}</p>
+                </div>
+                <p className="last-message">{user.lastmsg}</p>
               </div>
-              <p className="last-message">{user.lastmsg}</p>
             </div>
-          </div>
-        ))}
+          ))}
+        </Box>
 
         {/* User component end*/}
       </Container>
-
-      {/*-------------- Toast Message --------------*/}
-      {/* <ToastContainer
-        position="top-right"
-        autoClose={4000}
-        hideProgressBar={true}
-        theme="dark"
-        transition={Slide}
-      /> */}
     </>
   );
 }
