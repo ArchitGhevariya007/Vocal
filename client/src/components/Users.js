@@ -39,23 +39,24 @@ export default function Users() {
 
   //Add user Modal
   const handleOpenModal = () => {
-    Users.AddUserModalOpen(true);
+    Users.SetAddUserModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    Users.AddUserModalOpen(false);
+    Users.SetAddUserModalOpen(false);
   };
 
   return (
     <>
-      <Box className="Sidebar" >
+      <Box className  ="Sidebar" >
         <Box >
           <IconButton className="add-user-btn" onClick={handleOpenModal}>
             <Plus color="#296eff" />
           </IconButton>
         </Box>
       </Box>
-      <AddUserModal open={Users.AddUserModalOpen} onClose={handleCloseModal}/>
+
+      <AddUserModal open={Users.AddUserModalOpen} handleClose={handleCloseModal}/>
       <Container className="UserContacts">
         <Box className="Heading_Search">
           {/* Title */}
