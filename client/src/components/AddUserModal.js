@@ -44,7 +44,7 @@ export default function AddUserModal({ open, handleClose }) {
         >
           <Box
             component="div"
-            sx={{ display: "flex", justifyContent: "space-between" }}
+            sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
           >
             <Typography
               id="modal-modal-title"
@@ -54,7 +54,7 @@ export default function AddUserModal({ open, handleClose }) {
             >
               Add Friend
             </Typography>
-            <X class="close-icon" onClick={handleCloseButtonClick} size={18}/>
+            <X class="close-icon" onClick={handleCloseButtonClick} size={18} />
           </Box>
 
           <TextField
@@ -66,12 +66,28 @@ export default function AddUserModal({ open, handleClose }) {
               style: { color: "#ffffff" },
             }}
           />
-          <Box sx={{mt:2,display: 'flex',flexDirection: 'row-reverse' }}>
-            <Button className="Add-">Add</Button>
-            <Button onClick={handleCloseButtonClick} >Cancle</Button>
+          <Box sx={{ mt: 2, display: "flex", flexDirection: "row-reverse" }}>
+            <Button
+              className="Add-User"
+              variant="contained"
+              sx={{
+                backgroundColor: "#2153bf",
+                color: "#dfdfdf",
+                textTransform: "none",
+                ml:1
+              }}
+            >
+              Add
+            </Button>
+            <Button 
+            onClick={handleCloseButtonClick}
+            sx={{
+              color: "#dfdfdf",
+              textTransform: "none",
+              ml:1
+            }}>
+              Cancle</Button>
           </Box>
-
-
         </Box>
       </Modal>
     </>

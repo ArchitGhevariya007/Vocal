@@ -11,8 +11,11 @@ app.use(express.json());
 
 //--------------------------Routes-------------------------- !
 const userAuth=require("./routes/UserAuthRoute.js");
+const userRoute=require("./routes/UserRoute");
 
-app.use("/",userAuth); //User registration
+app.use("/",userAuth); //User registration and login
+app.use("/user",userRoute); 
+
 
 app.listen(port,()=>{
     console.log(`Server running on port ${port}!`)

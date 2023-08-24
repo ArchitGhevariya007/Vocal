@@ -36,7 +36,7 @@
 }
 
 ::placeholder {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .LoginTitle{
@@ -362,3 +362,4 @@ fieldset {
     cursor:  pointer !important;
     margin-top: 5px !important;
 }
+
