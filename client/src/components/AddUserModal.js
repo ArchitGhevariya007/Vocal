@@ -1,12 +1,19 @@
 import React from "react";
-import { Modal, Box, Button, Backdrop } from "@mui/material";
+import {
+  Modal,
+  Box,
+  Button,
+  Backdrop,
+  Typography,
+  TextField,
+} from "@mui/material";
+import { X } from "lucide-react";
 
 export default function AddUserModal({ open, handleClose }) {
+  const handleCloseButtonClick = () => {
+    handleClose();
+  };
 
-    const handleCloseButtonClick = () => {
-        handleClose();
-      };
-      
   return (
     <>
       <Modal
@@ -29,20 +36,42 @@ export default function AddUserModal({ open, handleClose }) {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: 400,
-            bgcolor: "background.paper",
-            border: "2px solid #000",
+            border: "1px solid #000",
             boxShadow: 24,
-            p: 4,
+            p: 3,
           }}
+          className="AddUserModal"
         >
-          <p id="modal-modal-title" variant="h6" component="h2">
-            Modal Title
-          </p>
-          <p id="modal-modal-description" sx={{ mt: 2 }}>
-            This is the modal content. You can customize this area with your own
-            content.
-          </p>
-          <Button onClick={handleCloseButtonClick}>Close Modal</Button>
+          <Box
+            component="div"
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              fontWeight="bold"
+              mb={2}
+            >
+              Add Friend
+            </Typography>
+            <X class="close-icon" onClick={handleCloseButtonClick} size={18}/>
+          </Box>
+
+          <TextField
+            placeholder="Mobile Number"
+            className="SearchBox"
+            size="small"
+            autoComplete="off"
+            InputProps={{
+              style: { color: "#ffffff" },
+            }}
+          />
+          <Box sx={{mt:2,display: 'flex',flexDirection: 'row-reverse' }}>
+            <Button className="Add-">Add</Button>
+            <Button onClick={handleCloseButtonClick} >Cancle</Button>
+          </Box>
+
+
         </Box>
       </Modal>
     </>

@@ -349,3 +349,16 @@ fieldset {
     align-items: center;
     justify-content: center;
 }
+
+
+/****************************************** Add User Modal ******************************************/
+
+.AddUserModal{
+    background-color: #212229;
+    border-radius: 10px;
+}
+
+.close-icon{
+    cursor:  pointer !important;
+    margin-top: 5px !important;
+}
