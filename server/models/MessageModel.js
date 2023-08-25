@@ -11,6 +11,11 @@ const messasgeSchema = mongoose.Schema({
         ref:"Users",
         required: true,
     },
+    receiverId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Users",
+        required: true,
+    },
     content: {
         type:Mixed,
         lowercase:true,

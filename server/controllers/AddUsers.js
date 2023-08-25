@@ -63,7 +63,36 @@ const AddUser=async (req,res)=>{
     }
 }
 
-const ListUsers=()=>{
+const ListUsers=async (req,res)=>{
+    try{
+        const userId=req.user.userId;
+        const userRooms =await Room.find({participants:{$in:[userId]}})
+
+        // if(UsersList){
+        //     const otherParticipant = UsersList.participants.find(participantId => participantId != userId);
+        //     return res.status(200).json({"Participant":otherParticipant})
+        // }
+
+        const participantsMap = [];
+
+        userRooms.forEach(room => {
+            const otherParticipant = room.participants.find(participantId => participantId != userId).toString();
+            const participantName= Users.findOne({otherParticipant})
+
+            participantsMap.push({
+                id: room._id,
+                participant: otherParticipant,
+            });
+        });
+
+        return res.status(200).json({ participantsMap });
+    }
+    catch(err){
+        return res.status(500).json({
+            message:err.message,
+            app_status:false
+        })
+    }
 
 }
 
