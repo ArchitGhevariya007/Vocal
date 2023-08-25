@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Modal,
   Box,
@@ -7,11 +7,58 @@ import {
   Typography,
   TextField,
 } from "@mui/material";
+import { AppContext } from "../context/ContextAPI";
 import { X } from "lucide-react";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import Cookies from "js-cookie";
+
+import "react-toastify/dist/ReactToastify.css";
 
 export default function AddUserModal({ open, handleClose }) {
+
+  //-------------- Using Context --------------
+  const Users = useContext(AppContext);
+
+  //closing Modal
   const handleCloseButtonClick = () => {
     handleClose();
+  };
+
+  //Taking Input
+  const handleMobile = (event) => {
+    const { name, value } = event.target;
+    Users.SetAddUser({ [name]: value });
+  };
+
+  //A
+  const AddUser = async () => {
+    try {
+      const response = await fetch("http://localhost:5001/user/addusers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("Token")}`,
+        },
+        body: JSON.stringify(Users.AddUser),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success(data.message, {
+          className: "toast_message",
+        });
+        handleCloseButtonClick();
+      } else {
+        toast.error(data.message, {
+          className: "toast_message",
+        });
+      }
+    } catch (err) {
+      toast.error(err.message, {
+        className: "toast_message",
+      });
+    }
   };
 
   return (
@@ -54,10 +101,15 @@ export default function AddUserModal({ open, handleClose }) {
             >
               Add Friend
             </Typography>
-            <X class="close-icon" onClick={handleCloseButtonClick} size={18} />
+            <X
+              className="close-icon"
+              onClick={handleCloseButtonClick}
+              size={18}
+            />
           </Box>
 
           <TextField
+            name="phone_no"
             placeholder="Mobile Number"
             className="SearchBox"
             size="small"
@@ -65,6 +117,7 @@ export default function AddUserModal({ open, handleClose }) {
             InputProps={{
               style: { color: "#ffffff" },
             }}
+            onChange={handleMobile}
           />
           <Box sx={{ mt: 2, display: "flex", flexDirection: "row-reverse" }}>
             <Button
@@ -74,22 +127,33 @@ export default function AddUserModal({ open, handleClose }) {
                 backgroundColor: "#2153bf",
                 color: "#dfdfdf",
                 textTransform: "none",
-                ml:1
+                ml: 1,
               }}
+              onClick={AddUser}
             >
               Add
             </Button>
-            <Button 
-            onClick={handleCloseButtonClick}
-            sx={{
-              color: "#dfdfdf",
-              textTransform: "none",
-              ml:1
-            }}>
-              Cancle</Button>
+            <Button
+              onClick={handleCloseButtonClick}
+              sx={{
+                color: "#dfdfdf",
+                textTransform: "none",
+                ml: 1,
+              }}
+            >
+              Cancle
+            </Button>
           </Box>
         </Box>
       </Modal>
+      {/*-------------- Toast Message --------------*/}
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={true}
+        theme="dark"
+        transition={Slide}
+      />
     </>
   );
 }

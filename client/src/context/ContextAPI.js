@@ -110,6 +110,7 @@ export default function ContextAPI(props) {
   const [registerData,setRegisterData] = useState({"profile_photo":null});
   const [isAuthUser,SetisAuthUser] = useState(null);
   const [AddUserModalOpen,SetAddUserModalOpen] = useState(false);
+  const [AddUser,SetAddUser] = useState("");
 
   return (
     <AppContext.Provider
@@ -127,7 +128,9 @@ export default function ContextAPI(props) {
         isAuthUser,
         SetisAuthUser,
         AddUserModalOpen,
-        SetAddUserModalOpen
+        SetAddUserModalOpen,
+        AddUser,
+        SetAddUser
       }}
     >
       {props.children}
