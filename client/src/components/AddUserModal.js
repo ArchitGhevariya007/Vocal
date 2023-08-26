@@ -30,7 +30,7 @@ export default function AddUserModal({ open, handleClose }) {
     Users.SetAddUser({ [name]: value });
   };
 
-  //A
+  //Add Users
   const AddUser = async () => {
     try {
       const response = await fetch("http://localhost:5001/user/addusers", {
@@ -45,6 +45,7 @@ export default function AddUserModal({ open, handleClose }) {
       const data = await response.json();
 
       if (response.ok) {
+        Users.fetchUsers();
         toast.success(data.message, {
           className: "toast_message",
         });

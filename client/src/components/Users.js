@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import {
   TextField,
   InputAdornment,
@@ -29,8 +29,9 @@ export default function Users() {
 
   //Searching User
   const FilterdUsers = Users.users.filter((user) =>
-    user.name.toLowerCase().includes(Users.searchUser.toLowerCase())
+    user.participant.name.toLowerCase().includes(Users.searchUser.toLowerCase())
   );
+
 
   const handleUserClick = (user) => {
     Users.setSelectedUser(user);
@@ -45,6 +46,12 @@ export default function Users() {
   const handleCloseModal = () => {
     Users.SetAddUserModalOpen(false);
   };
+
+  // Fetching userdata after loading
+  useEffect(()=>{
+    Users.fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
   return (
     <>
@@ -102,19 +109,19 @@ export default function Users() {
 
         <Box className="UserList">
           {/* Displaying Users */}
-          {FilterdUsers.map((user, key) => (
+          {FilterdUsers.map((user) => (
             <div
               className="profile_Container"
-              key={key}
+              key={user.participant.id}
               onClick={() => handleUserClick(user)}
             >
-              <Avatar src={user.profile} alt="" />
+              <Avatar src={user.participant.photo} alt="" />
               <div className="user-info">
                 <div className="username-time">
-                  <p className="username">{user.name}</p>
-                  <p className="recent-time">{user.recenttime}</p>
+                  <p className="username">{user.participant.name}</p>
+                  <p className="recent-time">{user.recenttime}sad</p>
                 </div>
-                <p className="last-message">{user.lastmsg}</p>
+                <p className="last-message">{user.lastmsg}ads</p>
               </div>
             </div>
           ))}

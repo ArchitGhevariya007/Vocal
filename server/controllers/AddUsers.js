@@ -1,7 +1,7 @@
 const Users = require("../models/UsersModel");
 const Room = require("../models/RoomModel");
 
-
+// Adding Users for Chat
 const AddUser=async (req,res)=>{
     try{
         const {phone_no}=req.body;
@@ -63,29 +63,34 @@ const AddUser=async (req,res)=>{
     }
 }
 
+// Fetching Users in List
 const ListUsers=async (req,res)=>{
     try{
         const userId=req.user.userId;
+
+        //Finding in  how many rooms our user is enrolled
         const userRooms =await Room.find({participants:{$in:[userId]}})
 
-        // if(UsersList){
-        //     const otherParticipant = UsersList.participants.find(participantId => participantId != userId);
-        //     return res.status(200).json({"Participant":otherParticipant})
-        // }
+        const participantsList = [];
 
-        const participantsMap = [];
-
-        userRooms.forEach(room => {
+        // Fetching Room id / participant id,name and profile photo
+        await Promise.all(userRooms.map(async room => {
             const otherParticipant = room.participants.find(participantId => participantId != userId).toString();
-            const participantName= Users.findOne({otherParticipant})
 
-            participantsMap.push({
-                id: room._id,
-                participant: otherParticipant,
-            });
-        });
+            if(otherParticipant){
+                const participant=await Users.findOne({_id:otherParticipant})
+                participantsList.push({
+                    room_id: room._id,
+                    participant:{
+                        id:otherParticipant,
+                        name:participant.name,
+                        photo:participant.profile_photo
+                    } 
+                });
+            }
+        }));
 
-        return res.status(200).json({ participantsMap });
+        return res.status(200).json({ participantsList });
     }
     catch(err){
         return res.status(500).json({

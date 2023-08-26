@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('../uploads', express.static('uploads'));
+
 
 //---------------------------- Middlewares ----------------------------
 const {upload,errorHandler} = require("../middlewares/FileUploadMidware");
