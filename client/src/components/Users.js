@@ -32,11 +32,15 @@ export default function Users() {
     user.participant.name.toLowerCase().includes(Users.searchUser.toLowerCase())
   );
 
-
-  const handleUserClick = (user) => {
-    Users.setSelectedUser(user);
-    console.log(Users.SelectedUser);
+  // Selecting User
+  const handleUserClick = (userId) => {
+    Users.setSelectedUser(userId);
   };
+
+  useEffect(() => {
+    console.log(Users.selectedUser);
+  }, [Users.selectedUser]);
+  
 
   //Add user Modal
   const handleOpenModal = () => {
@@ -53,6 +57,7 @@ export default function Users() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
+
   return (
     <>
       <Box className  ="Sidebar" >
@@ -65,6 +70,8 @@ export default function Users() {
 
       <AddUserModal open={Users.AddUserModalOpen} handleClose={handleCloseModal}/>
       <Container className="UserContacts">
+
+        {/* App header and search */}
         <Box className="Heading_Search">
           {/* Title */}
           <Box
@@ -113,9 +120,11 @@ export default function Users() {
             <div
               className="profile_Container"
               key={user.participant.id}
-              onClick={() => handleUserClick(user)}
+              onClick={() => handleUserClick(user.participant.id)}
             >
-              <Avatar src={user.participant.photo} alt="" />
+              <Avatar src={`../../../server/${user.participant.photo}`} alt="" />
+              {/* <img src={`../../../server/${user.participant.photo}`} alt="" /> */}
+
               <div className="user-info">
                 <div className="username-time">
                   <p className="username">{user.participant.name}</p>

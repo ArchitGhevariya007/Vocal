@@ -5,115 +5,23 @@ import Cookies from "js-cookie";
 export const AppContext = createContext();
 
 export default function ContextAPI(props) {
-  //Temp data
-  // const userdata = [
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  //   {
-  //     user_id: "dfghfsdjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Shubham Khunt",
-  //     lastmsg: "How are you?",
-  //     recenttime: "12:35 PM",
-  //   },
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  //   {
-  //     user_id: "dfghzccbcjkl",
-  //     profile: require("../assets/imgs/profile.jpg"),
-  //     name: "Archit Ghevariya",
-  //     lastmsg: "Hello..!",
-  //     recenttime: "10:25 PM",
-  //   },
-  // ];
-
 
   const [users, Setusers] = useState([]);
 
   const [searchUser, setSearchUser] = useState("");
 
   // State to track which user's chat to show
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState("");
 
+  // Authorization
   const [loginData,setLoginData] = useState({});
   const [registerData,setRegisterData] = useState({"profile_photo":null});
-  const [isAuthUser,SetisAuthUser] = useState(null);
+
+  // Adding Users to conversations
   const [AddUserModalOpen,SetAddUserModalOpen] = useState(false);
   const [AddUser,SetAddUser] = useState("");
 
+  // Fetch Users in User-list
   const fetchUsers=async ()=>{
     try{
       const response=await fetch("http://localhost:5001/user/listusers",{
@@ -149,8 +57,6 @@ export default function ContextAPI(props) {
         setLoginData,
         registerData,
         setRegisterData,
-        isAuthUser,
-        SetisAuthUser,
         AddUserModalOpen,
         SetAddUserModalOpen,
         AddUser,
