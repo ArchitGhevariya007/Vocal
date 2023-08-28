@@ -2,27 +2,22 @@ const mongoose = require('mongoose');
 
 //Schema
 const messasgeSchema = mongoose.Schema({
-    conversationId:{
+    roomId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Rooms",
         required: true,
     },
-    senderId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Users",
+    sender: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Users",
         required: true,
     },
-    receiverId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Users",
+    receiver:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Users",
         required: true,
     },
-    SenderContent: {
-        type:String,
-        lowercase:true,
-        trim:true,
-    },
-    ReceiverContent: {
+    content: {
         type:String,
         lowercase:true,
         trim:true,

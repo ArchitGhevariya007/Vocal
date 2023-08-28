@@ -28,7 +28,7 @@ export default function Users() {
   };
 
   //Searching User
-  const FilterdUsers = Users.users.filter((user) =>
+  const FilterdUsers = Users.users?.filter((user) =>
     user.participant.name.toLowerCase().includes(Users.searchUser.toLowerCase())
   );
 
@@ -116,7 +116,7 @@ export default function Users() {
 
         <Box className="UserList">
           {/* Displaying Users */}
-          {FilterdUsers.map((user) => (
+          {FilterdUsers?.map((user) => (
             <div
               className="profile_Container"
               key={user.participant.id}
