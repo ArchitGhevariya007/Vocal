@@ -12,6 +12,7 @@ export default function ContextAPI(props) {
 
   // State to track which user's chat to show
   const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUserInfo,setSelectedUserInfo]= useState("");
 
   // Authorization
   const [loginData,setLoginData] = useState({});
@@ -36,7 +37,7 @@ export default function ContextAPI(props) {
       Setusers(data.participantsList);
     }
     catch(err){
-      console.log(err);
+      // console.log(err);
     }
   }
 
@@ -61,7 +62,9 @@ export default function ContextAPI(props) {
         SetAddUserModalOpen,
         AddUser,
         SetAddUser,
-        fetchUsers
+        fetchUsers,
+        selectedUserInfo,
+        setSelectedUserInfo
       }}
     >
       {props.children}

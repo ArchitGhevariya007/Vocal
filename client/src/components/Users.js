@@ -37,10 +37,6 @@ export default function Users() {
     Users.setSelectedUser(userId);
   };
 
-  useEffect(() => {
-    console.log(Users.selectedUser);
-  }, [Users.selectedUser]);
-  
 
   //Add user Modal
   const handleOpenModal = () => {

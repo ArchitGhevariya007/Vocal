@@ -2,35 +2,64 @@ const Users = require("../models/UsersModel");
 const Room = require("../models/RoomModel");
 const Messages = require("../models/MessageModel");
 
-const FetchChatData = async (req, res) => {
-    const { participantId } = req.body;
-    const userId = req.user.userId;
+const FetchSelectedUser = async (req, res) => {
+    try {
+        const { participantId } = req.body;
 
-    const user = await Users.findOne({ _id: participantId });
-    const msg=await Messages.find({'$or':[{ sender:userId },{receiver:userId}]});
-    const msgList = msg.map((message) => message.content);
+        const user = await Users.findOne({ _id: participantId });
 
-    // const newMsg = await Messages.create({
-    //     roomId: "64ea4a9f5cbd115e2b7aadb2",
-    //     sender: userId,
-    //     receiver: participantId,
-    //     content:"Hello"
-    // });
-    console.log(user);
-
-    res.status(200).json({
+        res.status(200).json({
         userInfo: {
-        id: user._id,
-        name: user.name,
-        phone_no: user.phone_no,
-        photo: user.profile_photo,
+            id: user._id,
+            name: user.name,
+            phone_no: user.phone_no,
+            photo: user.profile_photo,
         },
-        msgs:{
-            content:msgList
-        }
-        
-        
-    });
+        });
+    } catch (err) {
+        return res.status(500).json({
+        message: err.message,
+        app_status: false,
+        });
+    }
 };
 
-module.exports = { FetchChatData };
+const FetchChatData = async (req, res) => {
+    try {
+        const { participantId } = mongoose.Types.ObjectId(req.body);
+        const userId = mongoose.Types.ObjectId(req.user.userId);
+
+        // const msg=await Messages.find({'$or':[{ sender:userId },{receiver:userId}]});
+        const msg = await Messages.find({
+        $or: [
+            { sender: userId, receiver: participantId },
+            { sender: participantId, receiver: userId },
+        ],
+        });
+        // console.log(msg);
+        
+        const msgList = msg.map((message) => ({
+        sender: message.sender,
+        msg: message.content,
+        msgTime: message.createdAt,
+        }));
+
+        // const newMsg = await Messages.create({
+        //     roomId: "64ea4aad5cbd115e2b7aadb9",
+        //     sender: userId,
+        //     receiver: participantId,
+        //     content:"Hello"
+        // });
+
+        res.status(200).json({
+        messages: msgList,
+        });
+    } catch (err) {
+        return res.status(500).json({
+        message: err.message,
+        app_status: false,
+        });
+    }
+};
+
+module.exports = { FetchChatData, FetchSelectedUser };
