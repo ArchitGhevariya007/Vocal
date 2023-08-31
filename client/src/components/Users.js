@@ -47,12 +47,15 @@ export default function Users() {
     Users.SetAddUserModalOpen(false);
   };
 
+
+  
   // Fetching userdata after loading
   useEffect(()=>{
     Users.fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
+  console.log(Users.selectedUser+" Selected")
 
   return (
     <>
@@ -118,7 +121,7 @@ export default function Users() {
               key={user.participant.id}
               onClick={() => handleUserClick(user.participant.id)}
             >
-              <Avatar src={`../../../server/${user.participant.photo}`} alt="" />
+              <Avatar src={`${user.participant.photo}`} alt="" />
               {/* <img src={`../../../server/${user.participant.photo}`} alt="" /> */}
 
               <div className="user-info">

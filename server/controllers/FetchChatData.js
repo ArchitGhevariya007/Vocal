@@ -1,10 +1,18 @@
 const Users = require("../models/UsersModel");
 const Room = require("../models/RoomModel");
 const Messages = require("../models/MessageModel");
+const mongoose = require('mongoose');
+
 
 const FetchSelectedUser = async (req, res) => {
     try {
         const { participantId } = req.body;
+        if (!mongoose.Types.ObjectId.isValid(participantId)) {
+            return res.status(400).json({
+                message: 'Invalid participantId',
+                app_status: false
+            });
+        }
 
         const user = await Users.findOne({ _id: participantId });
 
