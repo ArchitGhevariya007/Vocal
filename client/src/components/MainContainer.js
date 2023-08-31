@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, {useContext, useEffect } from "react";
 import Users from "./Users";
 import ChatHeader from "./ChatHeader";
 import { useNavigate } from "react-router-dom";
@@ -20,16 +20,15 @@ export default function MainContainer() {
       navigate("/login");
     }
   }, [navigate]);
-  console.log("Hello"+UsersContext.selectedUserInfo)
 
   const userInfo = UsersContext.selectedUserInfo.userInfo;
 
   return (
     <>
       <Users />
-      {userInfo ? (
+      {userInfo !== null && userInfo !== undefined  ? (
         <>
-          <ChatHeader />
+          <ChatHeader/>
           <MsgSender />
           <ChatContainer />
         </>

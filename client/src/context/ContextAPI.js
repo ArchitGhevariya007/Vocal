@@ -12,7 +12,7 @@ export default function ContextAPI(props) {
 
   // State to track which user's chat to show
   const [selectedUser, setSelectedUser] = useState("");
-  const [selectedUserInfo,setSelectedUserInfo]= useState("");
+  const [selectedUserInfo,setSelectedUserInfo]= useState({userInfo: null});
 
   // Authorization
   const [loginData,setLoginData] = useState({});
@@ -45,6 +45,38 @@ export default function ContextAPI(props) {
     fetchUsers();
   },[])
 
+  // Fetching Selected User
+  const FetchSelectedUserInfo = async () => {
+    try {
+    const response = await fetch(
+        "http://localhost:5001/user/fetchselecteduser",
+        {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${Cookies.get("Token")}`,
+        },
+        body: JSON.stringify({ participantId: selectedUser }),
+        }
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+        setSelectedUserInfo(data);
+    }
+    } catch (err) {
+        // console.log(err);
+    }
+};
+
+  useEffect(() => {
+    if (selectedUser) {
+      FetchSelectedUserInfo();
+    }
+      // eslint-disable-next-line
+  }, [selectedUser]);
+
   return (
     <AppContext.Provider
       value={{
@@ -64,7 +96,8 @@ export default function ContextAPI(props) {
         SetAddUser,
         fetchUsers,
         selectedUserInfo,
-        setSelectedUserInfo
+        setSelectedUserInfo,
+        FetchSelectedUserInfo
       }}
     >
       {props.children}

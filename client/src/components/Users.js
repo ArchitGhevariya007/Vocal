@@ -47,15 +47,12 @@ export default function Users() {
     Users.SetAddUserModalOpen(false);
   };
 
-
-  
   // Fetching userdata after loading
   useEffect(()=>{
     Users.fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
-  console.log(Users.selectedUser+" Selected")
 
   return (
     <>
@@ -129,7 +126,7 @@ export default function Users() {
                   <p className="username">{user.participant.name}</p>
                   <p className="recent-time">{user.recenttime}sad</p>
                 </div>
-                <p className="last-message">{user.lastmsg}ads</p>
+                <p className="last-message">{user.lastmsg}sad</p>
               </div>
             </div>
           ))}
