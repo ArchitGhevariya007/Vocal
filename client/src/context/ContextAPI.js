@@ -77,6 +77,17 @@ export default function ContextAPI(props) {
       // eslint-disable-next-line
   }, [selectedUser]);
 
+
+
+  // MSG sending
+  const [message,SetMessage]=useState("");
+  const [chatMessages, setChatMessages] = useState([]);
+
+  // Function to add a new message to the chatMessages state
+  const addMessage = (message) => {
+    setChatMessages([...chatMessages, message]);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -97,7 +108,12 @@ export default function ContextAPI(props) {
         fetchUsers,
         selectedUserInfo,
         setSelectedUserInfo,
-        FetchSelectedUserInfo
+        FetchSelectedUserInfo,
+        message,
+        SetMessage,
+        chatMessages,
+        setChatMessages,
+        addMessage
       }}
     >
       {props.children}

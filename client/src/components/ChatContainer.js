@@ -1,36 +1,25 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import { Box  } from "@mui/material";
-// import { Send } from "lucide-react";
+import { AppContext } from "../context/ContextAPI";
 
 import "../style/style.css";
 
 export default function ChatContainer() {
+
+  //************* Using Context *************
+  const Users = useContext(AppContext);
+
   return (
     <>
       <Box className="ChatContainer">
-        <Box className="MessageGroup">
-          <Box className="SenderMsg"><p>Hello, how are you?</p></Box>
-          <Box><p className='msgSentTime'>1.25 PM</p></Box>
-        </Box>
+    {Users.chatMessages.map((message, index) => (
+    <Box className={"MessageGroup"} key={index}>
+      <Box className={`${message.sender === true ? 'SenderMsg' : 'ReceiverMsg'}`}><p>{message.text}</p></Box>
+      <Box className= {`${message.sender === true ? 'msgSentTime' : 'msgReceiveTime'}`}><p>1.25 PM</p></Box>
+    </Box>
+  ))}
+</Box>
 
-        <Box className="MessageGroup">
-          <Box className="ReceiverMsg"><p>I am Fine!</p></Box>
-          <Box><p className='msgReceiveTime'>1.25 PM</p></Box>
-        </Box>
-
-        <Box className="MessageGroup">
-          <Box className="SenderMsg"><p>Hello, how are you?</p></Box>
-          <Box><p className='msgSentTime'>1.25 PM</p></Box>
-        </Box>
-
-        
-
-        <Box className="MessageGroup">
-          <Box className="ReceiverMsg"><p>I am Fine!</p></Box>
-          <Box><p className='msgReceiveTime'>1.25 PM</p></Box>
-        </Box>
-
-      </Box>
     </>
   )
 }
