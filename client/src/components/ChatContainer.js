@@ -11,15 +11,19 @@ export default function ChatContainer() {
 
   return (
     <>
-      <Box className="ChatContainer">
-    {Users.chatMessages.map((message, index) => (
-    <Box className={"MessageGroup"} key={index}>
-      <Box className={`${message.sender === true ? 'SenderMsg' : 'ReceiverMsg'}`}><p>{message.text}</p></Box>
-      <Box className= {`${message.sender === true ? 'msgSentTime' : 'msgReceiveTime'}`}><p>1.25 PM</p></Box>
-    </Box>
-  ))}
-</Box>
+    <Box className="ChatContainer">
+      {Users.chatMessages.map((message, index) => (
+      <Box className={"MessageGroup"} key={index}>
+        <Box className={`${message.sender === true ? 'SenderMsg' : 'ReceiverMsg'}`}>
+          <p>{message.text}</p>
+        </Box>
 
+        <Box className= {`${message.sender === true ? 'msgSentTime' : 'msgReceiveTime'}`}>
+          <p>1.25 PM</p>
+        </Box>
+      </Box>
+    ))}
+  </Box>
     </>
   )
 }

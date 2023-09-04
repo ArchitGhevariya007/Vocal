@@ -1,28 +1,34 @@
-import React,{useContext} from "react";
+import React, { useContext, useEffect } from "react";
 import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
-import { ImagePlus,ArrowUpFromLine } from "lucide-react";
-
+import { ImagePlus, ArrowUpFromLine } from "lucide-react";
+import { io } from "socket.io-client";
 
 import "../style/style.css";
+const socket = io("http://localhost:5003");
 
 export default function MsgSender() {
-
   //************* Using Context *************
   const Users = useContext(AppContext);
 
-  const HandleMsgInput=(event)=>{
-    const {value}=event.target;
+  const HandleMsgInput = (event) => {
+    const { value } = event.target;
     Users.SetMessage(value);
-  }
+  };
 
-  const HandleMsgSend=()=>{
-    const newMsg=Users.message;
+  const HandleMsgSend = () => {
+    const newMsg = Users.message;
     Users.addMessage({ text: newMsg, sender: true });
+    socket.emit('send_message', {msg:newMsg,room:Users.selectedUser})
     Users.SetMessage("");
-    console.log(Users.chatMessages);
-  }
+  };
 
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      Users.SetMessage(data);
+      Users.addMessage({ text: data.msg, sender: false }); 
+    });
+  },[]);
   return (
     <>
       <Box className="MsgSenderContainer">
@@ -38,10 +44,14 @@ export default function MsgSender() {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton>
-                <ImagePlus size="18" className="AttachIcon"/>
+                  <ImagePlus size="18" className="AttachIcon" />
                 </IconButton>
                 <IconButton onClick={HandleMsgSend}>
-                <ArrowUpFromLine size="18" className="sendIcon" color="#296eff"/>
+                  <ArrowUpFromLine
+                    size="18"
+                    className="sendIcon"
+                    color="#296eff"
+                  />
                 </IconButton>
               </InputAdornment>
             ),

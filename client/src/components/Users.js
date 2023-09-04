@@ -12,9 +12,11 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { AppContext } from "../context/ContextAPI";
 import AddUserModal from "./AddUserModal";
+import { io } from "socket.io-client";
 
 import "../style/style.css";
 import "react-toastify/dist/ReactToastify.css";
+const socket = io("http://localhost:5003");
 
 export default function Users() {
   //************* Using Context *************
@@ -35,6 +37,7 @@ export default function Users() {
   // Selecting User
   const handleUserClick = (userId) => {
     Users.setSelectedUser(userId);
+    socket.emit("joinRoom", userId);
   };
 
 
@@ -52,6 +55,8 @@ export default function Users() {
     Users.fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
+
+
 
 
   return (

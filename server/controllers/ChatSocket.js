@@ -11,13 +11,29 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:3000'
-        // Can also specify methods: ['GET', 'POST'],
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST'],
     },
 });
 
+io.attach(server);
+
 io.on("connection", (socket) => {
     console.log(`User connected ${socket.id}`);
+
+    socket.on("joinRoom", (userId) => {
+        socket.join(userId);
+    });
+    
+    socket.on("send_message", (data) => {
+        console.log(data)
+        io.to(data.room).emit("receive_message", { msg: data.msg });
+    });
+
+    socket.on("disconnect", () => {
+        console.log(`User disconnected ${socket.id}`);
+    });
+
 });
 
-module.exports=io;
+module.exports=server;
