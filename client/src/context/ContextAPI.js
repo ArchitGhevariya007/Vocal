@@ -65,7 +65,7 @@ export default function ContextAPI(props) {
     if (response.ok) {
         setSelectedUserInfo(data);
     }
-    } catch (err) {
+    } catch (err) { 
         // console.log(err);
     }
 };

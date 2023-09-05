@@ -5,7 +5,10 @@ import { ImagePlus, ArrowUpFromLine } from "lucide-react";
 import { io } from "socket.io-client";
 
 import "../style/style.css";
-const socket = io("http://localhost:5003");
+
+const socket = io("http://localhost:5003",{  
+  withCredentials: true,
+});
 
 export default function MsgSender() {
   //************* Using Context *************
@@ -18,17 +21,27 @@ export default function MsgSender() {
 
   const HandleMsgSend = () => {
     const newMsg = Users.message;
-    Users.addMessage({ text: newMsg, sender: true });
-    socket.emit('send_message', {msg:newMsg,room:Users.selectedUser})
     Users.SetMessage("");
+    Users.addMessage({ text: newMsg, sender: true });
+    socket.emit('send_message', {msg:newMsg,room:Users.selectedUser});
   };
+
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      Users.SetMessage(data);
-      Users.addMessage({ text: data.msg, sender: false }); 
-    });
-  },[]);
+      console.log('Received message:', data);
+      Users.SetMessage("");
+      Users.addMessage({ text: data, sender: false}); 
+  });
+    console.log(Users.chatMessages);
+
+    return () => {
+      socket.off('receive_message');
+    };
+    // eslint-disable-next-line
+  },[Users.chatMessages]);
+
+
   return (
     <>
       <Box className="MsgSenderContainer">

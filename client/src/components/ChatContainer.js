@@ -8,17 +8,16 @@ export default function ChatContainer() {
 
   //************* Using Context *************
   const Users = useContext(AppContext);
-
   return (
     <>
     <Box className="ChatContainer">
       {Users.chatMessages.map((message, index) => (
-      <Box className={"MessageGroup"} key={index}>
-        <Box className={`${message.sender === true ? 'SenderMsg' : 'ReceiverMsg'}`}>
+        <Box className={"MessageGroup"} key={index}>
+        <Box className={`${message.sender  ? 'SenderMsg' : 'ReceiverMsg'}`}>
+        {message.sender && <p>Sender:</p>}
           <p>{message.text}</p>
         </Box>
-
-        <Box className= {`${message.sender === true ? 'msgSentTime' : 'msgReceiveTime'}`}>
+        <Box className= {`${message.sender? 'msgSentTime' : 'msgReceiveTime'}`}>
           <p>1.25 PM</p>
         </Box>
       </Box>

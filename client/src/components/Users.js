@@ -16,7 +16,9 @@ import { io } from "socket.io-client";
 
 import "../style/style.css";
 import "react-toastify/dist/ReactToastify.css";
-const socket = io("http://localhost:5003");
+const socket = io("http://localhost:5003",{  
+  withCredentials: true,
+});
 
 export default function Users() {
   //************* Using Context *************
@@ -35,9 +37,9 @@ export default function Users() {
   );
 
   // Selecting User
-  const handleUserClick = (userId) => {
-    Users.setSelectedUser(userId);
-    socket.emit("joinRoom", userId);
+  const handleUserClick = (roomId) => {
+    Users.setSelectedUser(roomId);
+    socket.emit("joinRoom", roomId);
   };
 
   //Add user Modal
