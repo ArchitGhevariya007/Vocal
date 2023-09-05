@@ -40,7 +40,6 @@ export default function Users() {
     socket.emit("joinRoom", userId);
   };
 
-
   //Add user Modal
   const handleOpenModal = () => {
     Users.SetAddUserModalOpen(true);
@@ -121,7 +120,7 @@ export default function Users() {
             <div
               className="profile_Container"
               key={user.participant.id}
-              onClick={() => handleUserClick(user.participant.id)}
+              onClick={() => handleUserClick(user.room_id)}
             >
               <Avatar src={`${user.participant.photo}`} alt="" />
               {/* <img src={`../../../server/${user.participant.photo}`} alt="" /> */}

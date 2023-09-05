@@ -21,7 +21,7 @@ export default function MainContainer() {
     }
   }, [navigate]);
 
-  const userInfo = UsersContext.selectedUserInfo.userInfo;
+  const userInfo = UsersContext.selectedUserInfo;
 
   return (
     <>

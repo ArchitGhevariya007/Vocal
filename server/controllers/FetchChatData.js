@@ -6,25 +6,54 @@ const mongoose = require('mongoose');
 
 const FetchSelectedUser = async (req, res) => {
     try {
-        const { participantId } = req.body;
-        if (!mongoose.Types.ObjectId.isValid(participantId)) {
-            return res.status(400).json({
-                message: 'Invalid participantId',
+        const { room_id } = req.body;
+
+        const userId=req.user.userId;
+
+        //Finding in  how many rooms our user is enrolled
+        const userRooms =await Room.findOne({_id:room_id});
+
+        if (!userRooms) {
+            return res.status(404).json({
+                message: 'Room not found',
                 app_status: false
             });
         }
 
-        const user = await Users.findOne({ _id: participantId });
+        let otherParticipantId = null;
+
+        for (const participantId of userRooms.participants) {
+            if (participantId.toString() !== userId.toString()) {
+                otherParticipantId = participantId;
+                break;
+            }
+        }
+
+        if (!otherParticipantId) {
+            return res.status(404).json({
+                message: 'Other participant not found in the room',
+                app_status: false
+            });
+        }
+
+        const user = await Users.findById(otherParticipantId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: 'User not found',
+                app_status: false
+            });
+        }
 
         res.status(200).json({
-        userInfo: {
             id: user._id,
             name: user.name,
             phone_no: user.phone_no,
             photo: user.profile_photo,
-        },
         });
-    } catch (err) {
+
+    } 
+    catch (err) {
         return res.status(500).json({
         message: err.message,
         app_status: false,

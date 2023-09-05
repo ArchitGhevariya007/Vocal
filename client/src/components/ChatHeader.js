@@ -13,11 +13,11 @@ export default function ChatHeader() {
 return (
     <>
         <Box className="ChatHeader">
-            <Avatar src={`${Users.selectedUserInfo.userInfo.photo}`} alt="" />
+            <Avatar src={`${Users.selectedUserInfo.photo}`} alt="" />
 
             <div className="name_msg">
             <p className="UserNameTitle">
-                {Users.selectedUserInfo.userInfo.name}
+                {Users.selectedUserInfo.name}
             </p>
             <p className="TypingMsg">Archit Typing...</p>
             </div>
