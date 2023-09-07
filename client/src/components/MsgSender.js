@@ -19,28 +19,26 @@ export default function MsgSender() {
     Users.SetMessage(value);
   };
 
-  const HandleMsgSend = () => {
-    const newMsg = Users.message;
-    Users.SetMessage("");
-    Users.addMessage({ text: newMsg, sender: true });
-    socket.emit('send_message', {msg:newMsg,room:Users.selectedUser});
-  };
-
-
   useEffect(() => {
-    socket.on("receive_message", (data) => {
+    socket.on("privateMessage", (data) => {
       console.log('Received message:', data);
-      Users.SetMessage("");
-      Users.addMessage({ text: data, sender: false}); 
-  });
+      const { sender, message } = data;
+      Users.addMessage({ text: message, sender:false}); 
+    });
+    
+    Users.SetMessage("");
     console.log(Users.chatMessages);
-
-    return () => {
-      socket.off('receive_message');
-    };
     // eslint-disable-next-line
   },[Users.chatMessages]);
 
+
+  const HandleMsgSend = () => {
+    const newMsg = Users.message;
+    Users.SetMessage("");
+    const receiver = Users.selectedUser;
+    Users.addMessage({ text: newMsg, sender: true });
+    socket.emit('privateMessage', {sender:Users.selectedUserInfo.senderId,receiver,message:newMsg});
+  };
 
   return (
     <>

@@ -170,9 +170,15 @@ fieldset {
     align-items: center;
     padding-left: 15px;
     cursor: pointer;
+    margin-bottom: 3px;
 }
 
-.profile_Container:hover {
+.selected-user{
+    background-color: #1315177b;
+    border-radius: 8px;
+}
+
+.profile_Container:not(.selected-user):hover {
     background-color: #282932;
     border-radius: 8px;
     transition: background-color 0.4s;
@@ -182,6 +188,8 @@ fieldset {
     padding: 15px;
     flex: 1;
 }
+
+
 
 .username-time {
     display: flex;

@@ -12,13 +12,13 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { AppContext } from "../context/ContextAPI";
 import AddUserModal from "./AddUserModal";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
 import "../style/style.css";
 import "react-toastify/dist/ReactToastify.css";
-const socket = io("http://localhost:5003",{  
-  withCredentials: true,
-});
+// const socket = io("http://localhost:5003",{  
+//   withCredentials: true,
+// });
 
 export default function Users() {
   //************* Using Context *************
@@ -37,9 +37,9 @@ export default function Users() {
   );
 
   // Selecting User
-  const handleUserClick = (roomId) => {
-    Users.setSelectedUser(roomId);
-    socket.emit("joinRoom", roomId);
+  const handleUserClick = (userId) => {
+    Users.setSelectedUser(userId);
+    // socket.emit("joinRoom", roomId);
   };
 
   //Add user Modal
@@ -56,9 +56,6 @@ export default function Users() {
     Users.fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
-
-
-
 
   return (
     <>
@@ -120,14 +117,16 @@ export default function Users() {
           {/* Displaying Users */}
           {FilterdUsers?.map((user) => (
             <div
-              className="profile_Container"
+              className={`profile_Container ${
+                user.room_id === Users.selectedUser ? "selected-user" : ""
+              }`}
               key={user.participant.id}
-              onClick={() => handleUserClick(user.room_id)}
+              onClick={() => handleUserClick(user.participant.id)}
             >
               <Avatar src={`${user.participant.photo}`} alt="" />
               {/* <img src={`../../../server/${user.participant.photo}`} alt="" /> */}
 
-              <div className="user-info">
+              <div className="user-info ">
                 <div className="username-time">
                   <p className="username">{user.participant.name}</p>
                   <p className="recent-time">{user.recenttime}sad</p>

@@ -56,7 +56,7 @@ export default function ContextAPI(props) {
             "Content-type": "application/json",
             Authorization: `Bearer ${Cookies.get("Token")}`,
         },
-        body: JSON.stringify({ room_id: selectedUser }),
+        body: JSON.stringify({ selectedUser: selectedUser }),
         }
     );
 
@@ -87,6 +87,8 @@ export default function ContextAPI(props) {
     setChatMessages([...chatMessages, message]);
   };
 
+
+
   return (
     <AppContext.Provider
       value={{
@@ -112,7 +114,8 @@ export default function ContextAPI(props) {
         SetMessage,
         chatMessages,
         setChatMessages,
-        addMessage
+        addMessage,
+
       }}
     >
       {props.children}

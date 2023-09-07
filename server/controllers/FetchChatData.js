@@ -6,28 +6,24 @@ const mongoose = require('mongoose');
 
 const FetchSelectedUser = async (req, res) => {
     try {
-        const { room_id } = req.body;
+        const { selectedUser } = req.body;
 
         const userId=req.user.userId;
 
         //Finding in  how many rooms our user is enrolled
-        const userRooms =await Room.findOne({_id:room_id});
+        const room = await Room.findOne({
+            participants: { $all: [userId, selectedUser] }
+        });
 
-        if (!userRooms) {
+        if (!room) {
             return res.status(404).json({
-                message: 'Room not found',
+                message: 'Room not found for the selected users',
                 app_status: false
             });
         }
 
-        let otherParticipantId = null;
-
-        for (const participantId of userRooms.participants) {
-            if (participantId.toString() !== userId.toString()) {
-                otherParticipantId = participantId;
-                break;
-            }
-        }
+        // Find the other participant's user details
+        const otherParticipantId = room.participants.find(participantId => participantId.toString() !== userId.toString());
 
         if (!otherParticipantId) {
             return res.status(404).json({
@@ -47,6 +43,7 @@ const FetchSelectedUser = async (req, res) => {
 
         res.status(200).json({
             id: user._id,
+            senderId:userId,
             name: user.name,
             phone_no: user.phone_no,
             photo: user.profile_photo,
