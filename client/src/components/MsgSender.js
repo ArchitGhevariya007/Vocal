@@ -6,40 +6,53 @@ import { io } from "socket.io-client";
 
 import "../style/style.css";
 
-const socket = io("http://localhost:5003",{  
-  withCredentials: true,
-});
+// const socket = io("http://localhost:5001",{  
+//   withCredentials: true,
+// });
 
 export default function MsgSender() {
   //************* Using Context *************
   const Users = useContext(AppContext);
 
+  const socket = io("http://localhost:5001", { withCredentials: true });
+
+  useEffect(() => {  
+    return () => {
+      socket.disconnect();
+    };
+  }, [socket]);
+  
   const HandleMsgInput = (event) => {
     const { value } = event.target;
     Users.SetMessage(value);
   };
 
-  useEffect(() => {
-    socket.on("privateMessage", (data) => {
-      console.log('Received message:', data);
-      const { sender, message } = data;
-      Users.addMessage({ text: message, sender:false}); 
-    });
-    
-    Users.SetMessage("");
-    console.log(Users.chatMessages);
-    // eslint-disable-next-line
-  },[Users.chatMessages]);
-
 
   const HandleMsgSend = () => {
     const newMsg = Users.message;
-    Users.SetMessage("");
     const receiver = Users.selectedUser;
-    Users.addMessage({ text: newMsg, sender: true });
-    socket.emit('privateMessage', {sender:Users.selectedUserInfo.senderId,receiver,message:newMsg});
+    const sender =Users.selectedUserInfo.senderId;
+
+    if (receiver && newMsg) {
+      socket.emit('send_msg', {sender,receiver, message: newMsg });
+      Users.addMessage({ sender:true, text: newMsg });
+      Users.SetMessage("");
+    }
   };
 
+  useEffect(() => {
+    socket.on("receive_msg", (data) => {
+      console.log('Received message:', data);
+      const {message } = data;
+      Users.addMessage({sender:false, text: message}); 
+    });
+    
+    // Users.SetMessage("");
+    console.log(Users.chatMessages);
+
+    // eslint-disable-next-line
+  },[]);
+  
   return (
     <>
       <Box className="MsgSenderContainer">

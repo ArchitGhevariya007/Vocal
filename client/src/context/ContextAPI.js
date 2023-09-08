@@ -87,8 +87,6 @@ export default function ContextAPI(props) {
     setChatMessages([...chatMessages, message]);
   };
 
-
-
   return (
     <AppContext.Provider
       value={{

@@ -12,18 +12,24 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { AppContext } from "../context/ContextAPI";
 import AddUserModal from "./AddUserModal";
-// import { io } from "socket.io-client";
+import { io } from "socket.io-client";
 
 import "../style/style.css";
 import "react-toastify/dist/ReactToastify.css";
-// const socket = io("http://localhost:5003",{  
-//   withCredentials: true,
-// });
+
 
 export default function Users() {
   //************* Using Context *************
   const Users = useContext(AppContext);
   const navigate = useNavigate();
+
+  const socket = io("http://localhost:5001", { withCredentials: true });
+
+  useEffect(() => {  
+    return () => {
+      socket.disconnect();
+    };
+  }, [socket]);
 
   //Logout user
   const LogOutUser = () => {
@@ -39,7 +45,7 @@ export default function Users() {
   // Selecting User
   const handleUserClick = (userId) => {
     Users.setSelectedUser(userId);
-    // socket.emit("joinRoom", roomId);
+    socket.emit("user_connected", userId);
   };
 
   //Add user Modal
@@ -56,6 +62,7 @@ export default function Users() {
     Users.fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
+
 
   return (
     <>
@@ -118,7 +125,7 @@ export default function Users() {
           {FilterdUsers?.map((user) => (
             <div
               className={`profile_Container ${
-                user.room_id === Users.selectedUser ? "selected-user" : ""
+                user.participant.id === Users.selectedUser ? "selected-user" : ""
               }`}
               key={user.participant.id}
               onClick={() => handleUserClick(user.participant.id)}
