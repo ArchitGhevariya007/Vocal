@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { AppContext } from "../context/ContextAPI";
 import AddUserModal from "./AddUserModal";
-import { io } from "socket.io-client";
+import socket from '../context/socket'
 
 import "../style/style.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,14 +22,6 @@ export default function Users() {
   //************* Using Context *************
   const Users = useContext(AppContext);
   const navigate = useNavigate();
-
-  const socket = io("http://localhost:5001", { withCredentials: true });
-
-  useEffect(() => {  
-    return () => {
-      socket.disconnect();
-    };
-  }, [socket]);
 
   //Logout user
   const LogOutUser = () => {
@@ -46,6 +38,7 @@ export default function Users() {
   const handleUserClick = (userId) => {
     Users.setSelectedUser(userId);
     socket.emit("user_connected", userId);
+
   };
 
   //Add user Modal

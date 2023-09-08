@@ -10,14 +10,10 @@ const SocketIO=(server)=>{
 });
 
 const userSocketMap = new Map();
-// var users = [];
+
 io.on("connection", (socket) => {
     console.log(`User connected ${socket.id}`);
-
-    // socket.on("storeUserId", (userId) => {
-    //     // Store the user's socket ID in the map along with their user ID
-    //     userSocketMap.set(userId, socket.id);
-    // });
+    
     socket.on("user_connected",(UserId)=>{
         userSocketMap.set(UserId, socket.id);
         socket.emit("user_connected", UserId);
@@ -25,11 +21,14 @@ io.on("connection", (socket) => {
 
     socket.on("send_msg", (data) => {
         const {sender,receiver,message}=data;
+        const senderSocketId = userSocketMap.get(sender);
         const receiverSocketId = userSocketMap.get(receiver);
 
         if(receiverSocketId){
-            io.to(receiverSocketId).emit("receive_msg", {sender,message});
-            console.log(`Message sent from ${sender} to ${receiver}`);
+            io.to(senderSocketId).emit("receive_msg", { senderSocketId, message });
+
+            // io.to(receiverSocketId).emit("receive_msg", {senderSocketId,message});
+            console.log(`Message sent from ${senderSocketId} to ${receiverSocketId}`);
         }else {
             console.log(`Receiver not found for user ${receiver}`);
         }

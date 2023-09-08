@@ -14,7 +14,6 @@ export default function ChatContainer() {
       {Users.chatMessages.map((message, index) => (
         <Box className={"MessageGroup"} key={index}>
         <Box className={`${message.sender  ? 'SenderMsg' : 'ReceiverMsg'}`}>
-        {message.sender && <p>Sender:</p>}
           <p>{message.text}</p>
         </Box>
         <Box className= {`${message.sender? 'msgSentTime' : 'msgReceiveTime'}`}>

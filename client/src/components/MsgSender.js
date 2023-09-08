@@ -2,31 +2,18 @@ import React, { useContext, useEffect } from "react";
 import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
 import { ImagePlus, ArrowUpFromLine } from "lucide-react";
-import { io } from "socket.io-client";
+import socket from '../context/socket'
 
 import "../style/style.css";
-
-// const socket = io("http://localhost:5001",{  
-//   withCredentials: true,
-// });
 
 export default function MsgSender() {
   //************* Using Context *************
   const Users = useContext(AppContext);
-
-  const socket = io("http://localhost:5001", { withCredentials: true });
-
-  useEffect(() => {  
-    return () => {
-      socket.disconnect();
-    };
-  }, [socket]);
   
   const HandleMsgInput = (event) => {
     const { value } = event.target;
     Users.SetMessage(value);
   };
-
 
   const HandleMsgSend = () => {
     const newMsg = Users.message;
@@ -34,12 +21,13 @@ export default function MsgSender() {
     const sender =Users.selectedUserInfo.senderId;
 
     if (receiver && newMsg) {
+      console.log('Sending message:', newMsg);
       socket.emit('send_msg', {sender,receiver, message: newMsg });
       Users.addMessage({ sender:true, text: newMsg });
       Users.SetMessage("");
     }
   };
-
+  
   useEffect(() => {
     socket.on("receive_msg", (data) => {
       console.log('Received message:', data);
@@ -47,9 +35,13 @@ export default function MsgSender() {
       Users.addMessage({sender:false, text: message}); 
     });
     
-    // Users.SetMessage("");
+    Users.SetMessage("");
     console.log(Users.chatMessages);
-
+    
+    // Clean up the socket event listener when the component unmounts
+    return () => {
+      socket.off("receive_msg");
+    };
     // eslint-disable-next-line
   },[]);
   
