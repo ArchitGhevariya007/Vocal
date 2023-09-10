@@ -90,7 +90,7 @@ const ListUsers=async (req,res)=>{
             }
         }));
 
-        return res.status(200).json({ participantsList });
+        return res.status(200).json({sender_id:userId, participantsList });
     }
     catch(err){
         return res.status(500).json({

@@ -7,6 +7,7 @@ export const AppContext = createContext();
 export default function ContextAPI(props) {
 
   const [users, Setusers] = useState([]);
+  const [currentUser,SetcurrentUser]=useState([]);
 
   const [searchUser, setSearchUser] = useState("");
 
@@ -35,6 +36,7 @@ export default function ContextAPI(props) {
 
       const data=await response.json();
       Setusers(data.participantsList);
+      SetcurrentUser(data.sender_id);
     }
     catch(err){
       // console.log(err);
@@ -113,7 +115,8 @@ export default function ContextAPI(props) {
         chatMessages,
         setChatMessages,
         addMessage,
-
+        currentUser,
+        SetcurrentUser
       }}
     >
       {props.children}

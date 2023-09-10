@@ -38,8 +38,13 @@ export default function Users() {
   const handleUserClick = (userId) => {
     Users.setSelectedUser(userId);
     socket.emit("user_connected", userId);
-
   };
+
+  useEffect(()=>{
+    socket.on("Welcome",(message)=>{
+      console.log("Welcome " + message);
+    })
+  },[])
 
   //Add user Modal
   const handleOpenModal = () => {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
 import { ImagePlus, ArrowUpFromLine } from "lucide-react";
@@ -17,8 +17,9 @@ export default function MsgSender() {
 
   const HandleMsgSend = () => {
     const newMsg = Users.message;
-    const receiver = Users.selectedUser;
-    const sender =Users.selectedUserInfo.senderId;
+    const receiver = Users.selectedUserInfo.id;
+    const sender =Users.currentUser;
+    console.log("Sender is "+Users.currentUser+" Receiver is "+Users.selectedUserInfo.name);
 
     if (receiver && newMsg) {
       console.log('Sending message:', newMsg);
@@ -28,22 +29,7 @@ export default function MsgSender() {
     }
   };
   
-  useEffect(() => {
-    socket.on("receive_msg", (data) => {
-      console.log('Received message:', data);
-      const {message } = data;
-      Users.addMessage({sender:false, text: message}); 
-    });
-    
-    Users.SetMessage("");
-    console.log(Users.chatMessages);
-    
-    // Clean up the socket event listener when the component unmounts
-    return () => {
-      socket.off("receive_msg");
-    };
-    // eslint-disable-next-line
-  },[]);
+
   
   return (
     <>
