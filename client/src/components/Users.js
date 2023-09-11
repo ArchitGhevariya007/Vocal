@@ -46,6 +46,9 @@ export default function Users() {
     })
   },[])
 
+  
+  
+
   //Add user Modal
   const handleOpenModal = () => {
     Users.SetAddUserModalOpen(true);
