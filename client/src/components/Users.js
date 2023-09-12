@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { AppContext } from "../context/ContextAPI";
 import AddUserModal from "./AddUserModal";
-import socket from '../context/socket'
 
 import "../style/style.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,6 +28,8 @@ export default function Users() {
     navigate("/login");
   };
 
+
+
   //Searching User
   const FilterdUsers = Users.users?.filter((user) =>
     user.participant.name.toLowerCase().includes(Users.searchUser.toLowerCase())
@@ -37,17 +38,9 @@ export default function Users() {
   // Selecting User
   const handleUserClick = (userId) => {
     Users.setSelectedUser(userId);
-    socket.emit("user_connected", userId);
   };
 
-  useEffect(()=>{
-    socket.on("Welcome",(message)=>{
-      console.log("Welcome " + message);
-    })
-  },[])
 
-  
-  
 
   //Add user Modal
   const handleOpenModal = () => {

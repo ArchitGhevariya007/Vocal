@@ -89,6 +89,7 @@ export default function ContextAPI(props) {
     setChatMessages((prevMessages) =>[...prevMessages, message]);
   };
 
+
   return (
     <AppContext.Provider
       value={{

@@ -2,11 +2,10 @@ import React, { useContext } from "react";
 import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
 import { ImagePlus, ArrowUpFromLine } from "lucide-react";
-import socket from '../context/socket'
 
 import "../style/style.css";
 
-export default function MsgSender() {
+export default function MsgSender({socket}) {
   //************* Using Context *************
   const Users = useContext(AppContext);
   
@@ -17,16 +16,26 @@ export default function MsgSender() {
 
   const HandleMsgSend = () => {
     const newMsg = Users.message;
-    const receiver = Users.selectedUserInfo.id;
-    const sender =Users.currentUser;
-    console.log("Sender is "+Users.currentUser+" Receiver is "+Users.selectedUserInfo.name);
+    const to = Users.selectedUserInfo.id;
+    const from =Users.currentUser;
 
-    if (receiver && newMsg) {
-      console.log('Sending message:', newMsg);
-      socket.emit('send_msg', {sender,receiver, message: newMsg });
-      Users.addMessage({ sender:true, text: newMsg });
-      Users.SetMessage("");
-    }
+    console.log("Sender is "+from+" Receiver is "+to);
+
+    // if (to && newMsg) {
+    //   console.log('Sending message:', newMsg);
+      socket.current.emit('send_msg', {to,from, message: newMsg }, (response) => {
+        if (response.error) {
+          console.error('Error sending message:', response.error);
+        } else {
+          console.log('Message sent successfully:', response.message);
+          Users.addMessage({ sender: true, text: newMsg });
+          Users.SetMessage('');
+        }
+      });
+
+      // Users.addMessage({ sender:true, text: newMsg });
+      // Users.SetMessage("");
+    // }
   };
   
 

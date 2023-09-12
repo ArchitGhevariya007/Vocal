@@ -1,31 +1,30 @@
 import React,{useContext,useEffect} from 'react'
 import { Box  } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
-import socket from '../context/socket'
 
 import "../style/style.css";
 
-export default function ChatContainer() {
+export default function ChatContainer({socket}) {
 
   //************* Using Context *************
   const Users = useContext(AppContext);
 
   useEffect(() => {
-    socket.on("receive_msg", (data) => {
-      console.log('Received message:', data);
-      const {message } = data;
-      Users.addMessage({sender:false, text: message}); 
-    });
-
+    console.log(socket.current)
+    if(socket.current){
+      socket.current.on("receive_msg", (data) => {
+        console.log('Received message:', data);
+        const {message } = data;
+        Users.addMessage({sender:false, text: message}); 
+      });
+    }
     Users.SetMessage("");
     console.log(Users.chatMessages);
     
-    // Clean up the socket event listener when the component unmounts
-    return () => {
-      socket.off("receive_msg");
-    };
     // eslint-disable-next-line
   },[]);
+
+
 
 
   
