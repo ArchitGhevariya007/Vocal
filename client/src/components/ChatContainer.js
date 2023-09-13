@@ -18,6 +18,11 @@ export default function ChatContainer({socket}) {
         Users.addMessage({sender:false, text: message}); 
       });
     }
+
+    socket.current.on("disconnect", () => {
+      console.log("Socket disconnected");
+    });
+    
     Users.SetMessage("");
     console.log(Users.chatMessages);
     

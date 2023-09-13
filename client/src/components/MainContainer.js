@@ -29,9 +29,9 @@ export default function MainContainer() {
   useEffect(() => {
     if (UsersContext.currentUser) {
         socket.current = io("http://localhost:5001");
-        socket.current.emit("add-user", UsersContext.selectedUserInfo?.id);
+        socket.current.emit("add-user", UsersContext.currentUser);
     }
-    console.log(UsersContext.selectedUserInfo?.id)
+    console.log(UsersContext.currentUser)
     // eslint-disable-next-line
 }, [UsersContext.selectedUserInfo])
 
