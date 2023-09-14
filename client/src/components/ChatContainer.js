@@ -1,4 +1,4 @@
-import React,{useContext,useEffect} from 'react'
+import React,{useContext,useEffect,useRef } from 'react'
 import { Box  } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
 
@@ -9,6 +9,9 @@ export default function ChatContainer({socket}) {
   //************* Using Context *************
   const Users = useContext(AppContext);
 
+  const scrolRef = useRef();
+
+  // Receiving messages from
   useEffect(() => {
     console.log(socket.current)
     if(socket.current){
@@ -17,26 +20,29 @@ export default function ChatContainer({socket}) {
         const {message } = data;
         Users.addMessage({sender:false, text: message}); 
       });
-    }
+    
 
     socket.current.on("disconnect", () => {
       console.log("Socket disconnected");
     });
-    
+  }
     Users.SetMessage("");
     console.log(Users.chatMessages);
     
     // eslint-disable-next-line
   },[]);
 
+  useEffect(() => {
+    console.log("Scrolling")
+    scrolRef.current.scrollIntoView({
+        behavior: "smooth",
+    });
+}, [Users.chatMessages])
 
-
-
-  
 
   return (
     <>
-    <Box className="ChatContainer">
+    <Box className="ChatContainer" ref={scrolRef}>
       {Users.chatMessages.map((message, index) => (
         <Box className={"MessageGroup"} key={index}>
         <Box className={`${message.sender  ? 'SenderMsg' : 'ReceiverMsg'}`}>

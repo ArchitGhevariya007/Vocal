@@ -88,6 +88,7 @@ export default function ContextAPI(props) {
   const addMessage = (message) => {
     setChatMessages((prevMessages) =>[...prevMessages, message]);
   };
+  
 
 
   return (

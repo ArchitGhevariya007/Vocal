@@ -29,6 +29,7 @@ export default function Users() {
   };
 
 
+  
 
   //Searching User
   const FilterdUsers = Users.users?.filter((user) =>
@@ -39,8 +40,6 @@ export default function Users() {
   const handleUserClick = (userId) => {
     Users.setSelectedUser(userId);
   };
-
-
 
   //Add user Modal
   const handleOpenModal = () => {

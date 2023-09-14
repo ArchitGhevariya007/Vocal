@@ -6,14 +6,17 @@ import { ImagePlus, ArrowUpFromLine } from "lucide-react";
 import "../style/style.css";
 
 export default function MsgSender({socket}) {
+  
   //************* Using Context *************
   const Users = useContext(AppContext);
   
+  //Handling message Input
   const HandleMsgInput = (event) => {
     const { value } = event.target;
     Users.SetMessage(value);
   };
 
+  // Sending message to server
   const HandleMsgSend = () => {
     const newMsg = Users.message;
     const to = Users.selectedUserInfo.id;
@@ -21,8 +24,6 @@ export default function MsgSender({socket}) {
 
     console.log("Sender is "+from+" Receiver is "+to);
 
-    // if (to && newMsg) {
-    //   console.log('Sending message:', newMsg);
       socket.current.emit('send_msg', {to,from, message: newMsg }, (response) => {
         if (response.error) {
           console.error('Error sending message:', response.error);
@@ -32,13 +33,7 @@ export default function MsgSender({socket}) {
           Users.SetMessage('');
         }
       });
-
-      // Users.addMessage({ sender:true, text: newMsg });
-      // Users.SetMessage("");
-    // }
   };
-  
-
   
   return (
     <>
