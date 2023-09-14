@@ -17,7 +17,7 @@ import "../style/style.css";
 import "react-toastify/dist/ReactToastify.css";
 
 
-export default function Users() {
+export default function Users({socket}) {
   //************* Using Context *************
   const Users = useContext(AppContext);
   const navigate = useNavigate();
@@ -28,9 +28,6 @@ export default function Users() {
     navigate("/login");
   };
 
-
-  
-
   //Searching User
   const FilterdUsers = Users.users?.filter((user) =>
     user.participant.name.toLowerCase().includes(Users.searchUser.toLowerCase())
@@ -39,6 +36,7 @@ export default function Users() {
   // Selecting User
   const handleUserClick = (userId) => {
     Users.setSelectedUser(userId);
+
   };
 
   //Add user Modal

@@ -41,7 +41,7 @@ export default function MainContainer() {
 
   return (
     <>
-      <Users/>
+      <Users socket={socket}/>
       {/* If user is not selected then displaying default page */}
       {userInfo !== null && userInfo !== undefined ? (
         <>

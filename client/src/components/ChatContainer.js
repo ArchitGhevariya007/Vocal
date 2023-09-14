@@ -9,7 +9,7 @@ export default function ChatContainer({socket}) {
   //************* Using Context *************
   const Users = useContext(AppContext);
 
-  const scrolRef = useRef();
+  const scrollRef = useRef();
 
   // Receiving messages from
   useEffect(() => {
@@ -33,16 +33,18 @@ export default function ChatContainer({socket}) {
   },[]);
 
   useEffect(() => {
-    console.log("Scrolling")
-    scrolRef.current.scrollIntoView({
-        behavior: "smooth",
-    });
+    if (scrollRef.current) {
+      const lastMessage = scrollRef.current.lastChild;
+      if (lastMessage) {
+        lastMessage.scrollIntoView({ behavior: "smooth" });
+      }
+    }
 }, [Users.chatMessages])
 
 
   return (
     <>
-    <Box className="ChatContainer" ref={scrolRef}>
+    <Box className="ChatContainer" ref={scrollRef}>
       {Users.chatMessages.map((message, index) => (
         <Box className={"MessageGroup"} key={index}>
         <Box className={`${message.sender  ? 'SenderMsg' : 'ReceiverMsg'}`}>

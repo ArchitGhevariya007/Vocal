@@ -9,26 +9,27 @@ const SocketIO = (server) => {
         },
     });
 
-    global.onlineUsers = new Map();
+    // global.onlineUsers = new Map();
+    const userSockets = new Map();
 
 io.on("connection", (socket) => {
     console.log(`User connected ${socket.id}`);
 
-    global.chatSocket = socket;
+    // global.chatSocket = socket;
 
-        // Adding users
+    // Adding users
     socket.on("add-user", (userId) => {
-        onlineUsers.set(userId, socket.id);
+        userSockets.set(userId, socket.id);
     });
 
     //Receving messages from client
     socket.on("send_msg", (data, callback) => {
         const { from, to, message } = data;
-        const recipientSocket = onlineUsers.get(data.to);
+        const recipientSocket = userSockets.get(data.to);
 
             //sending message to client
         if (recipientSocket) {
-            socket.to(recipientSocket).emit("receive_msg", { from, message });
+            socket.to(recipientSocket).emit("receive_msg", { from, message });;
             console.log("Sender: " + from + " Receiver: " + to + " message: " + message);
             callback({ message: "Message sent successfully" });
         } else {
@@ -38,6 +39,13 @@ io.on("connection", (socket) => {
 
     // Disconnecting user
     socket.on("disconnect", () => {
+    for (const [userId, socketId] of userSockets.entries()) {
+        if (socketId === socket.id) {
+            userSockets.delete(userId);
+            break;
+        }
+    }
+    socket.disconnect();
         console.log(`User disconnected ${socket.id}`);
     });
 });
