@@ -18,8 +18,10 @@ export default function ChatContainer({socket}) {
     if(socket.current){
       socket.current.on("receive_msg", (data) => {
         console.log('Received message:', data);
-        const {message } = data;
-        Users.addMessage({sender:false, text: message}); 
+        const {message} = data;
+        if(data.from===Users.selectedUser){
+          Users.addMessage({sender:false, text: message}); 
+        }
       });
   }
     Users.SetMessage("");

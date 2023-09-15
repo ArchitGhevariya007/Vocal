@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
 
         //sending message to client
         if (recipientSocket) {
-            socket.to(recipientSocket).emit("receive_msg", { from, message });;
+            socket.to(recipientSocket).emit("receive_msg", { to,from, message });;
             console.log("Sender: " + from + " Receiver: " + to + " message: " + message);
             callback({ message: "Message sent successfully" });
         } else {

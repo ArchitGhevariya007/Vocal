@@ -36,7 +36,13 @@ export default function MainContainer() {
 
       socket.current.emit("add-user", UsersContext.currentUser);
     }
-    console.log(UsersContext.currentUser);
+    
+    return () => {
+      if (socket.current) {
+          socket.current.disconnect();
+      }
+  };
+    // console.log(UsersContext.currentUser);
     // eslint-disable-next-line
   }, [UsersContext.selectedUserInfo]);
 
