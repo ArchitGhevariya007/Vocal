@@ -13,20 +13,20 @@ export default function ChatContainer({socket}) {
 
 
   // Receiving messages from
-  // useEffect(() => {
-  //   console.log(socket.current)
-  //   if(socket.current){
-  //     socket.current.on("receive_msg", (data) => {
-  //       console.log('Received message:', data);
-  //       const {message } = data;
-  //       Users.addMessage({sender:false, text: message}); 
-  //     });
-  // }
-  //   Users.SetMessage("");
-  //   console.log(Users.chatMessages);
+  useEffect(() => {
+    console.log(socket.current)
+    if(socket.current){
+      socket.current.on("receive_msg", (data) => {
+        console.log('Received message:', data);
+        const {message } = data;
+        Users.addMessage({sender:false, text: message}); 
+      });
+  }
+    Users.SetMessage("");
+    console.log(Users.chatMessages);
     
-  //   // eslint-disable-next-line
-  // },[Users.selectedUser,socket,Users.selectedUserInfo]);
+    // eslint-disable-next-line
+  },[Users.selectedUser,socket,Users.selectedUserInfo]);
 
   useEffect(() => {
     if (scrollRef.current) {
