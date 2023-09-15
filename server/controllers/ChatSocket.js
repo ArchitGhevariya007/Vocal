@@ -9,13 +9,10 @@ const SocketIO = (server) => {
         },
     });
 
-    // global.onlineUsers = new Map();
     const userSockets = new Map();
 
 io.on("connection", (socket) => {
     console.log(`User connected ${socket.id}`);
-
-    // global.chatSocket = socket;
 
     // Adding users
     socket.on("add-user", (userId) => {
@@ -27,7 +24,7 @@ io.on("connection", (socket) => {
         const { from, to, message } = data;
         const recipientSocket = userSockets.get(data.to);
 
-            //sending message to client
+        //sending message to client
         if (recipientSocket) {
             socket.to(recipientSocket).emit("receive_msg", { from, message });;
             console.log("Sender: " + from + " Receiver: " + to + " message: " + message);
@@ -39,13 +36,13 @@ io.on("connection", (socket) => {
 
     // Disconnecting user
     socket.on("disconnect", () => {
-    for (const [userId, socketId] of userSockets.entries()) {
-        if (socketId === socket.id) {
-            userSockets.delete(userId);
-            break;
+        for (const [userId, socketId] of userSockets.entries()) {
+            if (socketId === socket.id) {
+                userSockets.delete(userId);
+                break;
+            }
         }
-    }
-    socket.disconnect();
+        socket.disconnect();
         console.log(`User disconnected ${socket.id}`);
     });
 });

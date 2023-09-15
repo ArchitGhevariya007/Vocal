@@ -28,11 +28,22 @@ export default function MainContainer() {
 
   //If user is available then adding it to socket server
   useEffect(() => {
+    // if(socket.current){
+    //   socket.current.disconnect();
+    // }
+
     if (UsersContext.currentUser && UsersContext.selectedUserInfo) {
       socket.current = io("http://localhost:5001",{
         reconnection: true,
       });
       socket.current.emit("add-user", UsersContext.currentUser);
+
+      socket.current.on("receive_msg", (data) => {
+        console.log("Received message:", data);
+        const { message } = data;
+        // Add the received message to your chatMessages state
+        UsersContext.addMessage({ sender: false, text: message });
+      });
     }
     console.log(UsersContext.currentUser);
     // eslint-disable-next-line
