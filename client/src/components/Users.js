@@ -1,4 +1,4 @@
-import React, { useContext,useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   TextField,
   InputAdornment,
@@ -16,8 +16,7 @@ import AddUserModal from "./AddUserModal";
 import "../style/style.css";
 import "react-toastify/dist/ReactToastify.css";
 
-
-export default function Users({socket}) {
+export default function Users({ socket }) {
   //************* Using Context *************
   const Users = useContext(AppContext);
   const navigate = useNavigate();
@@ -36,7 +35,6 @@ export default function Users({socket}) {
   // Selecting User
   const handleUserClick = (userId) => {
     Users.setSelectedUser(userId);
-
   };
 
   //Add user Modal
@@ -49,29 +47,31 @@ export default function Users({socket}) {
   };
 
   // Fetching userdata after loading
-  useEffect(()=>{
+  useEffect(() => {
     Users.fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     Users.setChatMessages([]);
     // eslint-disable-next-line
-  },[Users.selectedUser])
+  }, [Users.selectedUser]);
 
   return (
     <>
-      <Box className  ="Sidebar" >
-        <Box >
+      <Box className="Sidebar">
+        <Box>
           <IconButton className="add-user-btn" onClick={handleOpenModal}>
             <Plus color="#296eff" />
           </IconButton>
         </Box>
       </Box>
 
-      <AddUserModal open={Users.AddUserModalOpen} handleClose={handleCloseModal}/>
+      <AddUserModal
+        open={Users.AddUserModalOpen}
+        handleClose={handleCloseModal}
+      />
       <Container className="UserContacts">
-
         {/* App header and search */}
         <Box className="Heading_Search">
           {/* Title */}
@@ -120,7 +120,9 @@ export default function Users({socket}) {
           {FilterdUsers?.map((user) => (
             <div
               className={`profile_Container ${
-                user.participant.id === Users.selectedUser ? "selected-user" : ""
+                user.participant.id === Users.selectedUser
+                  ? "selected-user"
+                  : ""
               }`}
               key={user.participant.id}
               onClick={() => handleUserClick(user.participant.id)}

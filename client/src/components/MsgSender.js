@@ -22,8 +22,6 @@ export default function MsgSender({socket}) {
     const to = Users.selectedUserInfo.id;
     const from =Users.currentUser;
 
-    console.log("Sender is "+from+" Receiver is "+to);
-
       socket.current.emit('send_msg', {to,from, message: newMsg }, (response) => {
         if (response.error) {
           console.error('Error sending message:', response.error);
