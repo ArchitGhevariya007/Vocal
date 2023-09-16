@@ -24,11 +24,17 @@ export default function ChatContainer({socket}) {
         }
       });
   }
+
+  return () => {
+    if (socket.current) {
+      socket.current.off('receive_msg');
+    }
+  }
     Users.SetMessage("");
     console.log(Users.chatMessages);
     
     // eslint-disable-next-line
-  },[Users.selectedUserInfo]);
+  },[Users.chatMessages]);
 
   useEffect(() => {
     if (scrollRef.current) {
