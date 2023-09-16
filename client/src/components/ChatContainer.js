@@ -28,7 +28,7 @@ export default function ChatContainer({socket}) {
     console.log(Users.chatMessages);
     
     // eslint-disable-next-line
-  },[Users.selectedUser,socket,Users.selectedUserInfo]);
+  },[Users.selectedUserInfo]);
 
   useEffect(() => {
     if (scrollRef.current) {

@@ -28,21 +28,18 @@ export default function MainContainer() {
 
   //If user is available then adding it to socket server
   useEffect(() => {
-    if (UsersContext.currentUser && UsersContext.selectedUserInfo) {
+    if (UsersContext.currentUser && UsersContext.selectedUserInfo  && !socket.current) {
 
-      socket.current = io("http://localhost:5001",{
-        reconnection: true,
-      });
+      socket.current = io("http://localhost:5001");
 
       socket.current.emit("add-user", UsersContext.currentUser);
     }
     
-    return () => {
-      if (socket.current) {
-          socket.current.disconnect();
-      }
-  };
-    // console.log(UsersContext.currentUser);
+  //   return () => {
+  //     if (socket.current) {
+  //         socket.current.disconnect();
+  //     }
+  // };
     // eslint-disable-next-line
   }, [UsersContext.selectedUserInfo]);
 

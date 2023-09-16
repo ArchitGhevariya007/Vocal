@@ -16,18 +16,24 @@ io.on("connection", (socket) => {
 
     // Adding users
     socket.on("add-user", (userId) => {
-        userSockets.set(userId, socket.id);
+        if (!userSockets.has(userId)) {
+            userSockets.set(userId, socket.id);
+            console.log(userSockets)
+        }
     });
+
 
     //Receving messages from client
     socket.on("send_msg", (data, callback) => {
         const { from, to, message } = data;
         const recipientSocket = userSockets.get(data.to);
+        const senderSocket = userSockets.get(data.from);
+
 
         //sending message to client
         if (recipientSocket) {
             socket.to(recipientSocket).emit("receive_msg", { to,from, message });;
-            console.log("Sender: " + from + " Receiver: " + to + " message: " + message);
+            console.log("Sender: " + senderSocket + " Receiver: " + recipientSocket + " message: " + message);
             callback({ message: "Message sent successfully" });
         } else {
             callback({ error: "User not found" });
