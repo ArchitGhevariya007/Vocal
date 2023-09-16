@@ -14,6 +14,7 @@ export default function ChatContainer({socket}) {
 
   // Receiving messages from
   useEffect(() => {
+    let currentSocket = socket.current;
     console.log(socket.current)
     if(socket.current){
       socket.current.on("receive_msg", (data) => {
@@ -25,13 +26,14 @@ export default function ChatContainer({socket}) {
       });
   }
 
+  Users.SetMessage("");
+  console.log(Users.chatMessages);
+
   return () => {
-    if (socket.current) {
-      socket.current.off('receive_msg');
+    if (currentSocket) {
+      currentSocket.off('receive_msg');
     }
   }
-    Users.SetMessage("");
-    console.log(Users.chatMessages);
     
     // eslint-disable-next-line
   },[Users.chatMessages]);
