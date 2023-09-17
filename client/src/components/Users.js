@@ -70,6 +70,7 @@ export default function Users({ socket }) {
       <AddUserModal
         open={Users.AddUserModalOpen}
         handleClose={handleCloseModal}
+        socket={socket}
       />
       <Container className="UserContacts">
         {/* App header and search */}

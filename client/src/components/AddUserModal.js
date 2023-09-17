@@ -14,8 +14,7 @@ import Cookies from "js-cookie";
 
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AddUserModal({ open, handleClose }) {
-
+export default function AddUserModal({ open, handleClose,socket }) {
   //-------------- Using Context --------------
   const Users = useContext(AppContext);
 
@@ -50,6 +49,14 @@ export default function AddUserModal({ open, handleClose }) {
           className: "toast_message",
         });
         handleCloseButtonClick();
+
+        // socket.current?.on("add_user_to_list", (userId) => {
+        //   console.log(`User with ID ${userId} added you.`);
+        //   Users.fetchUsers();
+        // });
+
+        socket.emit("add_user_to_list",)
+
       } else {
         toast.error(data.message, {
           className: "toast_message",
@@ -147,6 +154,7 @@ export default function AddUserModal({ open, handleClose }) {
           </Box>
         </Box>
       </Modal>
+
       {/*-------------- Toast Message --------------*/}
       <ToastContainer
         position="top-right"

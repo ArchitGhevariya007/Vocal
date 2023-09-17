@@ -31,7 +31,12 @@ const AddUser=async (req,res)=>{
         }
 
         // Check if Room is already registered
-        const userAvailable=await Room.findOne({participants:[phone_no_sender,phone_no_receiver]});
+        const userAvailable=await Room.findOne({
+            $or:[
+                {participants:[phone_no_sender,phone_no_receiver]},
+                {participants:[phone_no_receiver,phone_no_sender]}
+            ]});
+            
         if(userAvailable){
             return res.status(404).json({
                 message:"User already added!",

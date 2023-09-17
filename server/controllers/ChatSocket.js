@@ -19,7 +19,14 @@ const SocketIO = (server) => {
                 userSockets.set(userId, socket.id);
                 console.log(userSockets);
             }
+            io.emit("add_user_to_list", userId);
+
+            const addedUserSocketId = userSockets.get(userId);
+            if (addedUserSocketId) {
+                socket.to(addedUserSocketId).emit("added_to_chat", socket.id);
+            }
         });
+
 
         //Receving messages from client
         socket.on("send_msg", (data, callback) => {
@@ -37,14 +44,14 @@ const SocketIO = (server) => {
 
         // Disconnecting user
         socket.on("disconnect", () => {
-        for (const [userId, socketId] of userSockets.entries()) {
-            if (socketId === socket.id) {
-            userSockets.delete(userId);
-            break;
+            for (const [userId, socketId] of userSockets.entries()) {
+                if (socketId === socket.id) {
+                userSockets.delete(userId);
+                break;
+                }
             }
-        }
-        socket.disconnect();
-        console.log(`User disconnected ${socket.id}`);
+            socket.disconnect();
+            console.log(`User disconnected ${socket.id}`);
         });
     });
 };
