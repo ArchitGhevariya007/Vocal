@@ -52,6 +52,7 @@ export default function Users({ socket }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
   useEffect(() => {
     Users.setChatMessages([]);
     // eslint-disable-next-line

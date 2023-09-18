@@ -50,12 +50,6 @@ export default function AddUserModal({ open, handleClose,socket }) {
         });
         handleCloseButtonClick();
 
-        // socket.current?.on("add_user_to_list", (userId) => {
-        //   console.log(`User with ID ${userId} added you.`);
-        //   Users.fetchUsers();
-        // });
-
-        socket.emit("add_user_to_list",)
 
       } else {
         toast.error(data.message, {

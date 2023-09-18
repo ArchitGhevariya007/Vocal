@@ -19,14 +19,7 @@ const SocketIO = (server) => {
                 userSockets.set(userId, socket.id);
                 console.log(userSockets);
             }
-            io.emit("add_user_to_list", userId);
-
-            const addedUserSocketId = userSockets.get(userId);
-            if (addedUserSocketId) {
-                socket.to(addedUserSocketId).emit("added_to_chat", socket.id);
-            }
         });
-
 
         //Receving messages from client
         socket.on("send_msg", (data, callback) => {

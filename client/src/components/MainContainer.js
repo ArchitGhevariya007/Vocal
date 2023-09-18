@@ -36,7 +36,6 @@ export default function MainContainer() {
   }, [UsersContext.selectedUserInfo]);
 
 
-
   return (
     <>
       <Users socket={socket}/>
