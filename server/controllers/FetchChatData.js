@@ -1,8 +1,6 @@
 const Users = require("../models/UsersModel");
 const Room = require("../models/RoomModel");
 const Messages = require("../models/MessageModel");
-const mongoose = require('mongoose');
-
 
 const FetchSelectedUser = async (req, res) => {
     try {
@@ -43,6 +41,7 @@ const FetchSelectedUser = async (req, res) => {
 
         res.status(200).json({
             id: user._id,
+            roomId:room._id,
             senderId:userId,
             name: user.name,
             phone_no: user.phone_no,
@@ -60,35 +59,19 @@ const FetchSelectedUser = async (req, res) => {
 
 const FetchChatData = async (req, res) => {
     try {
-        const { participantId } = mongoose.Types.ObjectId(req.body);
-        const userId = mongoose.Types.ObjectId(req.user.userId);
+        const { roomId } = req.body;
+        const room = await Messages.find({roomId});
 
-        // const msg=await Messages.find({'$or':[{ sender:userId },{receiver:userId}]});
-        const msg = await Messages.find({
-        $or: [
-            { sender: userId, receiver: participantId },
-            { sender: participantId, receiver: userId },
-        ],
-        });
-        // console.log(msg);
+        const messageList=room.map((mesasge)=>({
+            sender: mesasge.sender,
+            receiver:mesasge.receiver,
+            message:mesasge.content,
+            time:mesasge.createdAt
+        }))
         
-        const msgList = msg.map((message) => ({
-        sender: message.sender,
-        msg: message.content,
-        msgTime: message.createdAt,
-        }));
-
-        // const newMsg = await Messages.create({
-        //     roomId: "64ea4aad5cbd115e2b7aadb9",
-        //     sender: userId,
-        //     receiver: participantId,
-        //     content:"Hello"
-        // });
-
-        res.status(200).json({
-        messages: msgList,
-        });
-    } catch (err) {
+        res.status(200).json(messageList);
+    } 
+    catch (err) {
         return res.status(500).json({
         message: err.message,
         app_status: false,

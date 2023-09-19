@@ -34,6 +34,10 @@ export default function ChatContainer({ socket }) {
     // eslint-disable-next-line
   }, [Users.chatMessages]);
 
+  // useEffect(()=>{
+  //   Users.FetchSelectedUserChat();
+  // },[Users.selectedUserInfo])
+
   // Scrolling to the last message
   useEffect(() => {
     if (scrollRef.current) {

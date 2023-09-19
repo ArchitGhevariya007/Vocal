@@ -1,4 +1,5 @@
 const { Server } = require("socket.io");
+const Messages = require("../models/MessageModel");
 
 const SocketIO = (server) => {
     const io = new Server(server, {
@@ -17,15 +18,15 @@ const SocketIO = (server) => {
         socket.on("add-user", (userId) => {
             if (!userSockets.has(userId)) {
                 userSockets.set(userId, socket.id);
-                console.log(userSockets);
             }
         });
 
         //Receving messages from client
-        socket.on("send_msg", (data, callback) => {
-            const { from, to, message } = data;
+        socket.on("send_msg", async (data, callback) => {
+            const { room,from, to, message } = data;
             const recipientSocket = userSockets.get(data.to);
-            
+            const newMessage = await Messages.create({roomId:room,sender:from,receiver:to,content:message});
+
             //sending message to client
             if (recipientSocket) {
                 socket.to(recipientSocket).emit("receive_msg", { to, from, message });

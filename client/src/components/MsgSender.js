@@ -21,8 +21,9 @@ export default function MsgSender({socket}) {
     const newMsg = Users.message;
     const to = Users.selectedUserInfo.id;
     const from =Users.currentUser;
+    const room=Users.selectedUserInfo.roomId;
 
-      socket.current?.emit('send_msg', {to,from, message: newMsg }, (response) => {
+      socket.current?.emit('send_msg', {room, to, from, message: newMsg }, (response) => {
         if (response.error) {
           console.error('Error sending message:', response.error);
         } else {

@@ -80,7 +80,44 @@ export default function ContextAPI(props) {
   }, [selectedUser]);
 
 
-  // MSG sending
+  //Fetching chat messages
+  const FetchSelectedUserChat = async () => {
+    try {
+    const response = await fetch(
+        "http://localhost:5001/user/fetchchatdata",
+        {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${Cookies.get("Token")}`,
+        },
+        body: JSON.stringify({ roomId: selectedUserInfo.roomId }),
+        }
+    );
+    console.log(selectedUserInfo.roomId)
+    const data = await response.json();
+
+    if (response.ok) {
+      setChatMessages([]);
+      data.forEach((data)=>{
+        addMessage({sender:(data.sender===selectedUserInfo.id)?false:true,text: data.message});
+        console.log(data)
+      })
+    }
+    } catch (err) { 
+        // console.log(err);
+    }
+};
+
+  useEffect(() => {
+    if (selectedUserInfo) {
+      FetchSelectedUserChat();
+    }
+      // eslint-disable-next-line
+  }, [selectedUserInfo,selectedUser]);
+
+
+  // Message sending
   const [message,SetMessage]=useState("");
   const [chatMessages, setChatMessages] = useState([]);
 
@@ -118,7 +155,8 @@ export default function ContextAPI(props) {
         setChatMessages,
         addMessage,
         currentUser,
-        SetcurrentUser
+        SetcurrentUser,
+        FetchSelectedUserChat
       }}
     >
       {props.children}
