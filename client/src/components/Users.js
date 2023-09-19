@@ -136,7 +136,7 @@ export default function Users({ socket }) {
                   <p className="username">{user.participant.name}</p>
                   <p className="recent-time">{user.participant.last_message_time}</p>
                 </div>
-                <p className="last-message">{user.participant.last_message}</p>
+                <p className="last-message">{user.participant.last_message?user.participant.last_message:"Hello, there!"}</p>
               </div>
             </div>
           ))}

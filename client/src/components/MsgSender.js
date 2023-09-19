@@ -27,16 +27,23 @@ export default function MsgSender({socket}) {
     const to = Users.selectedUserInfo.id;
     const from =Users.currentUser;
     const room=Users.selectedUserInfo.roomId;
+      if(newMsg){
+        socket.current?.emit('send_msg', {room, to, from, message: newMsg }, (response) => {
+          if (response.error) {
+            console.error('Error sending message:', response.error);
+          } else {
+            console.log('Message sent successfully:', response.message);
+            Users.addMessage({ sender: true, text: newMsg,time:currTime });
+            Users.SetMessage('');
+          }
+        });
+      }
+  };
 
-      socket.current?.emit('send_msg', {room, to, from, message: newMsg }, (response) => {
-        if (response.error) {
-          console.error('Error sending message:', response.error);
-        } else {
-          console.log('Message sent successfully:', response.message);
-          Users.addMessage({ sender: true, text: newMsg,time:currTime });
-          Users.SetMessage('');
-        }
-      });
+  const HandleEnterKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      HandleMsgSend();
+    }
   };
   
   return (
@@ -50,13 +57,14 @@ export default function MsgSender({socket}) {
           size="small"
           value={Users.message}
           onChange={HandleMsgInput}
+          onKeyDown={HandleEnterKeyPress}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton>
                   <ImagePlus size="18" className="AttachIcon" />
                 </IconButton>
-                <IconButton onClick={HandleMsgSend}>
+                <IconButton onClick={HandleMsgSend} >
                   <ArrowUpFromLine
                     size="18"
                     className="sendIcon"
