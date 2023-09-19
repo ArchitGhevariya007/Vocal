@@ -9,6 +9,11 @@ export default function MsgSender({socket}) {
   
   //************* Using Context *************
   const Users = useContext(AppContext);
+  const currTime = new Date().toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  });
   
   //Handling message Input
   const HandleMsgInput = (event) => {
@@ -28,7 +33,7 @@ export default function MsgSender({socket}) {
           console.error('Error sending message:', response.error);
         } else {
           console.log('Message sent successfully:', response.message);
-          Users.addMessage({ sender: true, text: newMsg });
+          Users.addMessage({ sender: true, text: newMsg,time:currTime });
           Users.SetMessage('');
         }
       });

@@ -130,14 +130,13 @@ export default function Users({ socket }) {
               onClick={() => handleUserClick(user.participant.id)}
             >
               <Avatar src={`${user.participant.photo}`} alt="" />
-              {/* <img src={`../../../server/${user.participant.photo}`} alt="" /> */}
 
               <div className="user-info ">
                 <div className="username-time">
                   <p className="username">{user.participant.name}</p>
-                  <p className="recent-time">{user.recenttime}sad</p>
+                  <p className="recent-time">{user.participant.last_message_time}</p>
                 </div>
-                <p className="last-message">{user.lastmsg}sad</p>
+                <p className="last-message">{user.participant.last_message}</p>
               </div>
             </div>
           ))}

@@ -1,5 +1,7 @@
 const Users = require("../models/UsersModel");
 const Room = require("../models/RoomModel");
+const Messages = require("../models/MessageModel");
+const moment = require("moment-timezone");
 
 // Adding Users for Chat
 const AddUser=async (req,res)=>{
@@ -75,7 +77,9 @@ const ListUsers=async (req,res)=>{
 
         //Finding in  how many rooms our user is enrolled
         const userRooms =await Room.find({participants:{$in:[userId]}})
-
+        
+        //Finding user time-zone
+        const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const participantsList = [];
 
         // Fetching Room id / participant id,name and profile photo
@@ -84,12 +88,15 @@ const ListUsers=async (req,res)=>{
 
             if(otherParticipant){
                 const participant=await Users.findOne({_id:otherParticipant})
+                const lastMessage=await Messages.findOne({roomId:room._id}).sort({ createdAt: -1 });
                 participantsList.push({
                     room_id: room._id,
                     participant:{
                         id:otherParticipant,
                         name:participant.name,
-                        photo:participant.profile_photo
+                        photo:participant.profile_photo,
+                        last_message:lastMessage?lastMessage.content:"",
+                        last_message_time:lastMessage?moment(lastMessage.createdAt).tz(userTimeZone).format('h:mm A'): '',
                     } 
                 });
             }

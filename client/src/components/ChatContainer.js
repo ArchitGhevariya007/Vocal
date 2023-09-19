@@ -9,6 +9,12 @@ export default function ChatContainer({ socket }) {
   const Users = useContext(AppContext);
 
   const scrollRef = useRef();
+  const currTime = new Date().toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  });
+
 
   // Receiving messages from server
   useEffect(() => {
@@ -18,7 +24,7 @@ export default function ChatContainer({ socket }) {
       socket.current.on("receive_msg", (data) => {
         const { message } = data;
         if (data.from === Users.selectedUser) {
-          Users.addMessage({ sender: false, text: message });
+          Users.addMessage({ sender: false, text: message,time:currTime });
         }
       });
     }
@@ -34,9 +40,6 @@ export default function ChatContainer({ socket }) {
     // eslint-disable-next-line
   }, [Users.chatMessages]);
 
-  // useEffect(()=>{
-  //   Users.FetchSelectedUserChat();
-  // },[Users.selectedUserInfo])
 
   // Scrolling to the last message
   useEffect(() => {
@@ -59,7 +62,7 @@ export default function ChatContainer({ socket }) {
             <Box
               className={`${message.sender ? "msgSentTime" : "msgReceiveTime"}`}
             >
-              <p>1.25 PM</p>
+              <p>{message.time}</p>
             </Box>
           </Box>
         ))}
