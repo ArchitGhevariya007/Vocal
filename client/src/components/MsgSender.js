@@ -18,12 +18,13 @@ export default function MsgSender({socket}) {
   const HandleMsgInput = (event) => {
     const { value } = event.target;
     const to = Users.selectedUserInfo.id;
+    const from =Users.currentUser;
     const name =Users.selectedUserInfo.name;
     Users.SetMessage(value);
     
     //sending Typing event to server
     if (!Users.isTyping) {
-      socket.current?.emit('typing_msg',{to,name});
+      socket.current?.emit('typing_msg',{to,from,name});
       Users.setIsTyping(true);
     }
 
@@ -33,7 +34,7 @@ export default function MsgSender({socket}) {
     
     //sending stop Typing event to server
     const newTypingTimeout = setTimeout(() => {
-      socket.current?.emit('stop_typing', { to });
+      socket.current?.emit('stop_typing', { to,from });
       Users.setIsTyping(false);
     }, 3000);
 

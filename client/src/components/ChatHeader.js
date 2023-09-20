@@ -12,12 +12,26 @@ export default function ChatHeader({socket}) {
 
     //Getting typing response from server
     useEffect(()=>{
+    let currentSocket = socket.current;
+
         socket.current?.on("typing_msg_send",(data)=>{
-            Users.SetTyping(data);
+            if(data.from === Users.selectedUser){
+                Users.SetTyping(data.message);
+            }
         });
-        socket.current?.on("stop_typing_send", () => {
+
+        socket.current?.on("stop_typing_send", (data) => {
+        if (data.from === Users.selectedUser) {
             Users.SetTyping("");
+        }
         });
+
+        return () => {
+            if (currentSocket) {
+                currentSocket.off("typing_msg_send");
+                currentSocket.off("stop_typing_send");
+            }
+        };
     })
 
 return (
