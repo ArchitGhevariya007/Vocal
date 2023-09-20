@@ -125,9 +125,12 @@ export default function ContextAPI(props) {
   const addMessage = (message) => {
     setChatMessages((prevMessages) =>[...prevMessages, message]);
   };
+
+  //Typing notification states
+  const [Typing,SetTyping]=useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [typingTimeout, setTypingTimeout] = useState(null);
   
-
-
   return (
     <AppContext.Provider
       value={{
@@ -156,7 +159,13 @@ export default function ContextAPI(props) {
         addMessage,
         currentUser,
         SetcurrentUser,
-        FetchSelectedUserChat
+        FetchSelectedUserChat,
+        Typing,
+        SetTyping,
+        isTyping,
+        setIsTyping,
+        typingTimeout,
+        setTypingTimeout
       }}
     >
       {props.children}

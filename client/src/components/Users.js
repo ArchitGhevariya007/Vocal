@@ -35,6 +35,7 @@ export default function Users({ socket }) {
   // Selecting User
   const handleUserClick = (userId) => {
     Users.setSelectedUser(userId);
+    Users.SetTyping("");
   };
 
   //Add user Modal

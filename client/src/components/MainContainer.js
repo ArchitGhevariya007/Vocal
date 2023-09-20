@@ -42,7 +42,7 @@ export default function MainContainer() {
       {/* If user is not selected then displaying default page */}
       {userInfo !== null && userInfo !== undefined ? (
         <>
-          <ChatHeader />
+          <ChatHeader socket={socket}/>
           <MsgSender socket={socket} />
           <ChatContainer socket={socket} />
         </>

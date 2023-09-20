@@ -21,6 +21,20 @@ const SocketIO = (server) => {
             }
         });
 
+        //Typing Message
+        socket.on("typing_msg",(data)=>{
+            const {to,name}=data;
+            const recipientSocket = userSockets.get(to);
+            socket.to(recipientSocket).emit("typing_msg_send",`${name} is Typing...`);
+        });
+
+        //Stop Typing Message
+        socket.on("stop_typing", (data) => {
+            const {to} = data;
+            const recipientSocket = userSockets.get(to);
+            socket.to(recipientSocket).emit("stop_typing_send");
+        });
+
         //Receving messages from client
         socket.on("send_msg", async (data, callback) => {
             const { room,from, to, message } = data;
