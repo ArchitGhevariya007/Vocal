@@ -49,13 +49,9 @@ export default function MsgSender({socket}) {
     const room=Users.selectedUserInfo.roomId;
       if(newMsg){
         socket.current?.emit('send_msg', {room, to, from, message: newMsg }, (response) => {
-          if (response.error) {
-            console.error('Error sending message:', response.error);
-          } else {
             console.log('Message sent successfully:', response.message);
             Users.addMessage({ sender: true, text: newMsg,time:currTime });
             Users.SetMessage('');
-          }
         });
       }
   };

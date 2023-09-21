@@ -10,6 +10,8 @@ const SocketIO = (server) => {
     });
 
     const userSockets = new Map();
+    const offlineMessages = new Map();
+
 
     io.on("connection", (socket) => {
         console.log(`User connected ${socket.id}`);
