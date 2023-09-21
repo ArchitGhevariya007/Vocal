@@ -1,29 +1,47 @@
-import React, { useContext,useEffect } from "react";
-import { Box, Avatar } from "@mui/material";
-import { Search } from "lucide-react";
+import React, { useContext, useEffect } from "react";
+import {
+    Box,
+    Avatar,
+    Menu,
+    MenuItem,
+    IconButton,
+    ListItemIcon,
+    ListItemText,
+} from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
+import { MoreVertical, Trash } from "lucide-react";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import Cookies from 'js-cookie';
 
 import "../style/style.css";
 
-export default function ChatHeader({socket}) {
+const ITEM_HEIGHT = 50;
 
-    //************* Using Context *************
+export default function ChatHeader({ socket }) {
+  //************* Using Context *************
     const Users = useContext(AppContext);
 
-    //Getting typing response from server
-    useEffect(()=>{
-    let currentSocket = socket.current;
+    const open = Boolean(Users.deleteMenu);
+    const handleClick = (event) => {
+        Users.setDeleteMenu(event.currentTarget);
+    };
+    const handleClose = () => {
+    };
 
-        socket.current?.on("typing_msg_send",(data)=>{
-            if(data.from === Users.selectedUser){
+    //Getting typing response from server
+    useEffect(() => {
+        let currentSocket = socket.current;
+
+        socket.current?.on("typing_msg_send", (data) => {
+            if (data.from === Users.selectedUser) {
                 Users.SetTyping(data.message);
             }
         });
 
         socket.current?.on("stop_typing_send", (data) => {
-        if (data.from === Users.selectedUser) {
-            Users.SetTyping("");
-        }
+            if (data.from === Users.selectedUser) {
+                Users.SetTyping("");
+            }
         });
 
         return () => {
@@ -32,21 +50,95 @@ export default function ChatHeader({socket}) {
                 currentSocket.off("stop_typing_send");
             }
         };
-    })
+    });
 
-return (
-    <>
+    const deleteChat=async ()=>{
+        try{
+            const response=await fetch(
+                "http://localhost:5001/user/deletechatdata",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${Cookies.get("Token")}`,
+                    },
+                    body: JSON.stringify({ roomId: Users.selectedUserInfo.roomId }),
+                }
+                );
+                const data=await response.json();
+                
+            if(response.ok){
+                Users.setDeleteMenu(null);
+                Users.FetchSelectedUserChat();
+                toast.success(data.message, {
+                    className: "toast_message",
+                });
+            }
+        }catch(err){
+            console.log(err.message)
+            toast.error(err.message, {
+                className: "toast_message",
+            });
+        }
+    }
+
+    return (
+        <>
         <Box className="ChatHeader">
             <Avatar src={`${Users.selectedUserInfo.photo}`} alt="" />
 
             <div className="name_msg">
-            <p className="UserNameTitle">
-                {Users.selectedUserInfo.name}
-            </p>
-            <p className="TypingMsg">{Users?.Typing}</p>
+                <p className="UserNameTitle">{Users.selectedUserInfo.name}</p>
+                <p className="TypingMsg">{Users?.Typing}</p>
             </div>
-            <Search size="25" className="SearchIcon" />
+
+            <IconButton
+                aria-label="more"
+                aria-controls={open ? "long-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-haspopup="true"
+                onClick={handleClick}
+                style={{ marginLeft: "auto" }}
+            >
+                <MoreVertical size="20" className="MoreOptionIcon" />
+            </IconButton>
+
+            <Menu
+                MenuListProps={{
+                    "aria-labelledby": "long-button",
+                }}
+                anchorEl={Users.deleteMenu}
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                    style: {
+                    maxHeight: ITEM_HEIGHT * 4.5,
+                    width: "14ch",
+                    backgroundColor: "#282932",
+                    },
+                }}
+            >
+            <MenuItem onClick={deleteChat}>
+                    <ListItemIcon>
+                        <Trash size="16" color="#9A3B3B" />
+                    </ListItemIcon>
+                    <ListItemText
+                        disableTypography
+                        primary="Delete chat"
+                        style={{ color: "#9A3B3B", fontSize: "14px" }}
+                    />
+            </MenuItem>
+            </Menu>
         </Box>
+
+    {/*-------------- Toast Message --------------*/}
+        <ToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar={true}
+            theme="dark"
+            transition={Slide}
+        />
         </>
     );
 }

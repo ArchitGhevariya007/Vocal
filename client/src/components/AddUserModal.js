@@ -32,6 +32,7 @@ export default function AddUserModal({ open, handleClose,socket }) {
   //Add Users
   const AddUser = async () => {
     try {
+      if(Users.AddUser){
       const response = await fetch("http://localhost:5001/user/addusers", {
         method: "POST",
         headers: {
@@ -56,6 +57,7 @@ export default function AddUserModal({ open, handleClose,socket }) {
           className: "toast_message",
         });
       }
+    }
     } catch (err) {
       toast.error(err.message, {
         className: "toast_message",

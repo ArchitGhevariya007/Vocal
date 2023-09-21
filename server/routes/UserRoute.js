@@ -6,14 +6,16 @@ const authenticateToken = require("../middlewares/Authorization");
 
 //---------------------------- Controllers ----------------------------
 const {AddUser,ListUsers}  = require("../controllers/AddUsers");
-const {FetchChatData,FetchSelectedUser}  = require("../controllers/FetchChatData");
+const {FetchChatData,FetchSelectedUser,DeleteChatData}  = require("../controllers/FetchChatData");
 
 
 //---------------------------- Routes ----------------------------
 routes.post("/AddUsers",authenticateToken, AddUser);
 routes.get("/ListUsers",authenticateToken, ListUsers);
+
 routes.post("/fetchchatdata",authenticateToken, FetchChatData);
 routes.post("/fetchselecteduser",authenticateToken, FetchSelectedUser);
+routes.post("/deletechatdata",authenticateToken, DeleteChatData);
 
 
 

@@ -94,7 +94,6 @@ export default function ContextAPI(props) {
         body: JSON.stringify({ roomId: selectedUserInfo.roomId }),
         }
     );
-    console.log(selectedUserInfo.roomId)
     const data = await response.json();
 
     if (response.ok) {
@@ -131,6 +130,8 @@ export default function ContextAPI(props) {
   const [isTyping, setIsTyping] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState(null);
   
+  //Delete chat
+  const [deleteMenu,setDeleteMenu]=useState(null);
   return (
     <AppContext.Provider
       value={{
@@ -165,7 +166,9 @@ export default function ContextAPI(props) {
         isTyping,
         setIsTyping,
         typingTimeout,
-        setTypingTimeout
+        setTypingTimeout,
+        deleteMenu,
+        setDeleteMenu
       }}
     >
       {props.children}

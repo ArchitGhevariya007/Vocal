@@ -251,15 +251,7 @@ fieldset {
     color: #18a449;
 }
 
-.SearchIcon {
-    margin-left: auto;
-    cursor: pointer;
-    color: #dfdfdf;
-}
 
-.SearchIcon:hover {
-    color: #ffffff;
-}
 
 /****************************************** MsgSender ******************************************/
 

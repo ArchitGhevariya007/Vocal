@@ -84,4 +84,27 @@ const FetchChatData = async (req, res) => {
         }
 };
 
-module.exports = { FetchChatData, FetchSelectedUser };
+const DeleteChatData=async (req,res)=>{
+    try{
+        const { roomId } = req.body;
+        const chatRoom=await Messages.deleteMany({roomId});
+        if(chatRoom){
+            return res.status(200).json({
+                message:"Data deleted Successfully",
+                app_status:true
+            });
+        }else{
+            return res.status(403).json({
+                message:"Something went wrong!",
+                app_status:false
+            });
+        }
+    }catch(err){
+        return res.status(500).json({
+            message: err.message,
+            app_status: false,
+        });
+    }
+}
+
+module.exports = { FetchChatData, FetchSelectedUser,DeleteChatData };
