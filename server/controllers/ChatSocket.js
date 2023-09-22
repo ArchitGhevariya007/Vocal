@@ -10,8 +10,6 @@ const SocketIO = (server) => {
     });
 
     const userSockets = new Map();
-    const offlineMessages = new Map();
-
 
     io.on("connection", (socket) => {
         console.log(`User connected ${socket.id}`);
@@ -50,6 +48,15 @@ const SocketIO = (server) => {
             } else {
                 callback({ error: "User not found" });
             }
+        });
+
+        //Delete all chat messages
+        socket.on('delete_chat', (data) => {
+            const { to, roomId } = data;
+            console.log(data);
+            const recipientSocket = userSockets.get(to);
+
+            socket.to(recipientSocket).emit('updated_chat_messages', {roomId});
         });
 
         // Disconnecting user

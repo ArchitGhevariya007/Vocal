@@ -50,6 +50,28 @@ export default function ChatContainer({ socket }) {
       }
     }
   }, [Users.chatMessages]);
+  
+
+  // Updating chat on chat deletion by other user
+  useEffect(() => {
+    let currentSocket = socket.current;
+
+    if (socket.current) {
+        socket.current.on("updated_chat_messages", (data) => {
+            const { roomId } = data;
+            // Check if the received chat deletion notification is for the current chat room
+            if (roomId === Users.selectedUserInfo.roomId) {
+                Users.FetchSelectedUserChat();
+            }
+        });
+    }
+
+    return () => {
+      if (currentSocket) {
+          currentSocket.off("updated_chat_messages");
+      }
+  };
+  });
 
   return (
     <>

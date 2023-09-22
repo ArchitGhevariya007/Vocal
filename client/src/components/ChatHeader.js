@@ -52,6 +52,7 @@ export default function ChatHeader({ socket }) {
         };
     });
 
+    // chat deletion
     const deleteChat=async ()=>{
         try{
             const response=await fetch(
@@ -70,11 +71,19 @@ export default function ChatHeader({ socket }) {
             if(response.ok){
                 Users.setDeleteMenu(null);
                 Users.FetchSelectedUserChat();
+
+                //sending deletion event to server
+                socket.current.emit("delete_chat", {
+                    to: Users.selectedUser,
+                    roomId: Users.selectedUserInfo.roomId,
+                });
+
                 toast.success(data.message, {
                     className: "toast_message",
                 });
             }
-        }catch(err){
+        }
+        catch(err){
             console.log(err.message)
             toast.error(err.message, {
                 className: "toast_message",
