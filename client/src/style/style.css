@@ -282,6 +282,16 @@ fieldset {
 .sendIcon:hover {
     background-color: #282932;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+.AttachIcon{
+    padding: 8px;
+}
+.AttachIcon:hover{
+    background-color: #282932;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 
