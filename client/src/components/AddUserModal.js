@@ -14,7 +14,7 @@ import Cookies from "js-cookie";
 
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AddUserModal({ open, handleClose,socket }) {
+export default function AddUserModal({ open, handleClose }) {
   //-------------- Using Context --------------
   const Users = useContext(AppContext);
 

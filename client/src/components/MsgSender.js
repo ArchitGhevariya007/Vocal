@@ -5,12 +5,14 @@ import { ImagePlus, ArrowUpFromLine } from "lucide-react";
 // import { google } from 'googleapis';
 
 import "../style/style.css";
+import ImagePreviewModal from "./ImagePreviewModal";
 
 export default function MsgSender({socket}) {
   
   //************* Using Context *************
   const Users = useContext(AppContext);
   const fileInputRef = useRef(null);
+
   const currTime = new Date().toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
@@ -52,7 +54,7 @@ export default function MsgSender({socket}) {
       if(newMsg){
         socket.current?.emit('send_msg', {room, to, from, message: newMsg }, (response) => {
             console.log('Message sent successfully:', response.message);
-            Users.addMessage({ sender: true, text: newMsg,time:currTime });
+            Users.addMessage({ sender: true,contentType: "text", text: newMsg,time:currTime });
             Users.SetMessage('');
         });
       }
@@ -71,60 +73,21 @@ export default function MsgSender({socket}) {
 
   const handleFileInputChange =async (e) => {
     const selectedFile = e.target.files[0];
-    
-    // if (selectedFile) {
-    //   // Initialize the Google Drive API with your credentials
-    //   gapi.client.init({
-    //     apiKey: "YOUR_API_KEY",
-    //     clientId: "YOUR_CLIENT_ID",
-    //     discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-    //     scope: "https://www.googleapis.com/auth/drive.file",
-    //   });
-  
-    //   // Authenticate the user
-    //   await gapi.auth2.getAuthInstance().signIn();
-  
-    //   // Upload the image to Google Drive
-    //   const fileMetadata = {
-    //     name: selectedFile.name,
-    //   };
-
-    //   const media = {
-    //     mimeType: selectedFile.type,
-    //     body: selectedFile,
-    //   };
-  
-    //   gapi.client.drive.files
-    //     .create({
-    //       resource: fileMetadata,
-    //       media: media,
-    //       fields: "id",
-    //     })
-    //     .then((response) => {
-    //       const fileId = response.result.id;
-    //       const imageUrl = `https://drive.google.com/uc?id=${fileId}`;
-  
-    //       // Now you can send the image URL as a message
-    //       const newMsg = Users.message;
-    //       const to = Users.selectedUserInfo.id;
-    //       const from = Users.currentUser;
-    //       const room = Users.selectedUserInfo.roomId;
-  
-    //       if (newMsg) {
-    //         socket.current?.emit("send_msg", { room, to, from, message: imageUrl }, (response) => {
-    //           console.log("Message sent successfully:", response.message);
-    //           Users.addMessage({ sender: true, text: imageUrl, time: currTime });
-    //           Users.SetMessage("");
-    //         });
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error uploading image to Google Drive:", error);
-    //     });
-    // }
-
-      
+    if (selectedFile) {
+      Users.setSelectedImage(URL.createObjectURL(selectedFile));
+      Users.setIsModalOpen(true);
+    }
   };
+
+  const closeModal = () => {
+    Users.setSelectedImage(null);
+    Users.setIsModalOpen(false);
+};
+
+
+
+
+
   
   return (
     <>
@@ -169,6 +132,10 @@ export default function MsgSender({socket}) {
           }}
         />
       </Box>
+
+      {/* Image preview modal */}
+      <ImagePreviewModal open={Users.isModalOpen} close={closeModal}/>
+
     </>
   );
 }

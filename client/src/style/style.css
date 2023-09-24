@@ -373,3 +373,21 @@ fieldset {
     margin-top: 5px !important;
 }
 
+/****************************************** Image Preview Modal ******************************************/
+
+.PreviewImage{
+    width:50%;
+    border-radius: 10px;
+}
+
+.ImagePreviewModal{
+    background-color: #212229;
+    border-radius: 10px;
+}
+
+.ImageSendButton{
+    text-transform: none !important;
+}
+
+
+

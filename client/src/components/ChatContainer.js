@@ -78,6 +78,7 @@ export default function ChatContainer({ socket }) {
       <Box className="ChatContainer" ref={scrollRef}>
         {Users.chatMessages.map((message, index) => (
           <Box className={"MessageGroup"} key={index}>
+            
             <Box className={`${message.sender ? "SenderMsg" : "ReceiverMsg"}`}>
               <p>{message.text}</p>
             </Box>

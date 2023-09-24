@@ -132,6 +132,11 @@ export default function ContextAPI(props) {
   
   //Delete chat
   const [deleteMenu,setDeleteMenu]=useState(null);
+
+  //Image Preview
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <AppContext.Provider
       value={{
@@ -168,7 +173,11 @@ export default function ContextAPI(props) {
         typingTimeout,
         setTypingTimeout,
         deleteMenu,
-        setDeleteMenu
+        setDeleteMenu,
+        selectedImage,
+        setSelectedImage,
+        isModalOpen,
+        setIsModalOpen
       }}
     >
       {props.children}

@@ -1,16 +1,16 @@
-import { useContext } from "react";
+// import { useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainContainer from "./components/MainContainer";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import ContextAPI, { AppContext } from "./context/ContextAPI";
+import ContextAPI from "./context/ContextAPI";
 // import DefaultWindow from "./components/DefaultWindow";
 import "./style/style.css";
 
 function App() {
 
   //-------------- Using Context --------------
-  const isAuthUser = useContext(AppContext);
+  // const isAuthUser = useContext(AppContext);
 
   return (
     <>
