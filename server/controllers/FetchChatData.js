@@ -71,6 +71,7 @@ const FetchChatData = async (req, res) => {
                 receiver: message.receiver,
                 message: message.content,
                 time: moment(message.createdAt).tz(userTimeZone).format("h:mm A"),
+                contentType:message.contentType
             }));
 
             //sending response

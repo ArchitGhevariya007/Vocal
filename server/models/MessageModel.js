@@ -22,6 +22,11 @@ const messasgeSchema = mongoose.Schema({
         lowercase:true,
         trim:true,
     },
+    contentType:{
+        type: String,
+        enum: ["text", "image"],
+        required: true,
+    }
 },{
     timestamps:true
 });

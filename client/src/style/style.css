@@ -330,7 +330,22 @@ fieldset {
     word-break: break-all;
     align-self: flex-start;
     margin: 5px 0px 5px 0px;
+}
 
+.SenderImageMsg{
+    background-color: #296eff;
+    padding:5px;
+    border-radius: 8px 0px 8px 8px;
+    align-self: flex-end; 
+    margin: 10px 0px 5px 0px;
+}
+
+.ReceiverImageMsg{
+    background-color:#1e1f25;
+    padding:5px;
+    border-radius: 0px 8px 8px 8px;
+    align-self: flex-start;
+    margin: 5px 0px 5px 0px;
 }
 
 .msgSentTime{
@@ -387,6 +402,11 @@ fieldset {
 
 .ImageSendButton{
     text-transform: none !important;
+}
+
+.displayImage{
+    width: 200px;
+    border-radius: 8px
 }
 
 

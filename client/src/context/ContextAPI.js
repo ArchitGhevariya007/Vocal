@@ -99,7 +99,7 @@ export default function ContextAPI(props) {
     if (response.ok) {
       setChatMessages([]);
       data.forEach((data)=>{
-        addMessage({sender:(data.sender===selectedUserInfo.id)?false:true,text: data.message,time:data.time});
+        addMessage({sender:(data.sender===selectedUserInfo.id)?false:true,text: data.message,time:data.time,contentType:data.contentType});
         console.log(data)
       })
     }

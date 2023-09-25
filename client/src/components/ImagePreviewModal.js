@@ -4,7 +4,7 @@ import { AppContext } from "../context/ContextAPI";
 import { X ,ArrowRightFromLine } from "lucide-react";
 
 
-export default function ImagePreviewModal({ open,close }) {
+export default function ImagePreviewModal({ open,close,socket }) {
   //-------------- Using Context --------------
     const Users = useContext(AppContext);
     const currTime = new Date().toLocaleTimeString([], {
@@ -15,6 +15,12 @@ export default function ImagePreviewModal({ open,close }) {
 
 
     const sendImage = () => {
+        const newMsg = Users.message;
+        const to = Users.selectedUserInfo.id;
+        const from =Users.currentUser;
+        const room=Users.selectedUserInfo.roomId;
+        const contentType="image";
+
         if (Users.selectedImage) {
             const newImageMsg = {
                 sender: true,
@@ -22,7 +28,12 @@ export default function ImagePreviewModal({ open,close }) {
                 imageSrc: Users.selectedImage,
                 time: currTime,
             };
-        Users.addMessage(newImageMsg);
+
+        socket.current?.emit('send_Imgmsg', {room, to, from, message: newMsg,contentType }, (response) => {
+            console.log('Message sent successfully:', response.message);
+            Users.addMessage({ sender: true,contentType: "image", text: newImageMsg,time:currTime });
+            Users.SetMessage('');
+        });
     }
         close();
     };

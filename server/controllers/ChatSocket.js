@@ -37,13 +37,13 @@ const SocketIO = (server) => {
 
         //Receving messages from client
         socket.on("send_msg", async (data, callback) => {
-            const { room,from, to, message } = data;
+            const { room,from, to,contentType, message } = data;
             const recipientSocket = userSockets.get(data.to);
-            const newMessage = await Messages.create({roomId:room,sender:from,receiver:to,content:message});
+            const newMessage = await Messages.create({roomId:room,sender:from,receiver:to,content:message,contentType});
 
             //sending message to client
             if (recipientSocket) {
-                socket.to(recipientSocket).emit("receive_msg", { to, from, message });
+                socket.to(recipientSocket).emit("receive_msg", { to, from, message,contentType });
                 callback({ message: "Message sent successfully" });
             } else {
                 callback({ error: "User not found" });

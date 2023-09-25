@@ -51,8 +51,9 @@ export default function MsgSender({socket}) {
     const to = Users.selectedUserInfo.id;
     const from =Users.currentUser;
     const room=Users.selectedUserInfo.roomId;
+    const contentType="text";
       if(newMsg){
-        socket.current?.emit('send_msg', {room, to, from, message: newMsg }, (response) => {
+        socket.current?.emit('send_msg', {room, to, from, message: newMsg,contentType }, (response) => {
             console.log('Message sent successfully:', response.message);
             Users.addMessage({ sender: true,contentType: "text", text: newMsg,time:currTime });
             Users.SetMessage('');
@@ -84,11 +85,6 @@ export default function MsgSender({socket}) {
     Users.setIsModalOpen(false);
 };
 
-
-
-
-
-  
   return (
     <>
       <Box className="MsgSenderContainer">
@@ -134,7 +130,7 @@ export default function MsgSender({socket}) {
       </Box>
 
       {/* Image preview modal */}
-      <ImagePreviewModal open={Users.isModalOpen} close={closeModal}/>
+      <ImagePreviewModal open={Users.isModalOpen} close={closeModal} socket={socket}/>
 
     </>
   );
