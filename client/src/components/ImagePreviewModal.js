@@ -5,6 +5,7 @@ import { X ,ArrowRightFromLine } from "lucide-react";
 
 
 export default function ImagePreviewModal({ open,close,socket }) {
+    
   //-------------- Using Context --------------
     const Users = useContext(AppContext);
     const currTime = new Date().toLocaleTimeString([], {
@@ -25,12 +26,12 @@ export default function ImagePreviewModal({ open,close,socket }) {
             const newImageMsg = {
                 sender: true,
                 contentType: "image",
-                imageSrc: Users.selectedImage,
+                text: Users.selectedImage,
                 time: currTime,
             };
 
-        console.log(Users.chatMessages)
-        socket.current?.emit('send_img', {room, to, from, message: newImageMsg,contentType }, (response) => {
+        console.log(Users.selectedImage)
+        socket.current?.emit('send_img', {room, to, from, message: Users.selectedImage,contentType }, (response) => {
             console.log('Message sent successfully:', response.message);
             Users.addMessage(newImageMsg);
         });

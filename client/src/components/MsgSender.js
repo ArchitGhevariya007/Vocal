@@ -75,8 +75,13 @@ export default function MsgSender({socket}) {
   const handleFileInputChange =async (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
-      Users.setSelectedImage(URL.createObjectURL(selectedFile));
-      Users.setIsModalOpen(true);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64String = event.target.result;
+        Users.setSelectedImage(base64String);
+        Users.setIsModalOpen(true);
+      };
+      reader.readAsDataURL(selectedFile);
     }
   };
 

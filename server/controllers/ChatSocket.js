@@ -1,5 +1,6 @@
 const { Server } = require("socket.io");
 const Messages = require("../models/MessageModel");
+const fs = require('fs');
 
 const SocketIO = (server) => {
     const io = new Server(server, {
@@ -54,8 +55,12 @@ const SocketIO = (server) => {
         socket.on("send_img", async (data, callback) => {
             const { room,from, to,contentType, message } = data;
             const recipientSocket = userSockets.get(data.to);
+
+            const imageFileName = `image_${Date.now()}.png`;
+            fs.writeFileSync(imageFileName, message, 'base64');
+            
             const newImage = await Messages.create({roomId:room,sender:from,receiver:to,content:message,contentType});
-            console.log(newImage)
+
             //sending Image to client
             if (recipientSocket) {
                 socket.to(recipientSocket).emit("receive_img", { to, from, message,contentType });

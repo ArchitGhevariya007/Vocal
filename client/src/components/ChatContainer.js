@@ -26,6 +26,13 @@ export default function ChatContainer({ socket }) {
           Users.addMessage({ sender: false, text: message, time: currTime,contentType });
         }
       });
+
+      socket.current.on("receive_img", (data) => {
+        const { message,contentType } = data;
+        if (data.from === Users.selectedUser) {
+          Users.addMessage({ sender: false, text: message, time: currTime,contentType });
+        }
+      });
     }
 
     Users.SetMessage("");
@@ -33,6 +40,8 @@ export default function ChatContainer({ socket }) {
     return () => {
       if (currentSocket) {
         currentSocket.off("receive_msg");
+        currentSocket.off("receive_img");
+
       }
     };
 
@@ -100,8 +109,7 @@ export default function ChatContainer({ socket }) {
                 <Box
                   className={`${message.sender ? "SenderImageMsg" : "ReceiverImageMsg"}`}
                 >
-                  {console.log(message.imageSrc)}
-                  <img src={message.imageSrc} className="displayImage" alt="data not found!" />
+                  <img src={message.text} className="displayImage" alt="data not found!" />
                 </Box>
                 <Box
                   className={`${
