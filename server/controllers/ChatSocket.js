@@ -50,6 +50,21 @@ const SocketIO = (server) => {
             }
         });
 
+        //Receving Image messages from client
+        socket.on("send_img", async (data, callback) => {
+            const { room,from, to,contentType, message } = data;
+            const recipientSocket = userSockets.get(data.to);
+            const newImage = await Messages.create({roomId:room,sender:from,receiver:to,content:message,contentType});
+            console.log(newImage)
+            //sending Image to client
+            if (recipientSocket) {
+                socket.to(recipientSocket).emit("receive_img", { to, from, message,contentType });
+                callback({ message: "Image sent successfully" });
+            } else {
+                callback({ error: "User not found" });
+            }
+        });
+
         //Delete all chat messages
         socket.on('delete_chat', (data) => {
             const { to, roomId } = data;

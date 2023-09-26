@@ -18,7 +18,7 @@ const messasgeSchema = mongoose.Schema({
         required: true,
     },
     content: {
-        type:String,
+        type:mongoose.Schema.Types.Mixed,
         lowercase:true,
         trim:true,
     },

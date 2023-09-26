@@ -15,13 +15,13 @@ export default function ImagePreviewModal({ open,close,socket }) {
 
 
     const sendImage = () => {
-        const newMsg = Users.message;
         const to = Users.selectedUserInfo.id;
         const from =Users.currentUser;
         const room=Users.selectedUserInfo.roomId;
         const contentType="image";
 
         if (Users.selectedImage) {
+
             const newImageMsg = {
                 sender: true,
                 contentType: "image",
@@ -29,10 +29,10 @@ export default function ImagePreviewModal({ open,close,socket }) {
                 time: currTime,
             };
 
-        socket.current?.emit('send_Imgmsg', {room, to, from, message: newMsg,contentType }, (response) => {
+        console.log(Users.chatMessages)
+        socket.current?.emit('send_img', {room, to, from, message: newImageMsg,contentType }, (response) => {
             console.log('Message sent successfully:', response.message);
-            Users.addMessage({ sender: true,contentType: "image", text: newImageMsg,time:currTime });
-            Users.SetMessage('');
+            Users.addMessage(newImageMsg);
         });
     }
         close();
