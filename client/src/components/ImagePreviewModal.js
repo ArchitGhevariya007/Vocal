@@ -1,28 +1,26 @@
 import React, { useContext } from "react";
 import { Box, Modal, Button, Backdrop, Typography } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
-import { X ,ArrowRightFromLine } from "lucide-react";
+import { X, ArrowRightFromLine } from "lucide-react";
 
+export default function ImagePreviewModal({ open, close, socket }) {
 
-export default function ImagePreviewModal({ open,close,socket }) {
-    
-  //-------------- Using Context --------------
+    //-------------- Using Context --------------
     const Users = useContext(AppContext);
     const currTime = new Date().toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
+        hour: "2-digit",
+        minute: "2-digit",
         hour12: true,
     });
 
-
+    //sending image to server
     const sendImage = () => {
         const to = Users.selectedUserInfo.id;
-        const from =Users.currentUser;
-        const room=Users.selectedUserInfo.roomId;
-        const contentType="image";
+        const from = Users.currentUser;
+        const room = Users.selectedUserInfo.roomId;
+        const contentType = "image";
 
         if (Users.selectedImage) {
-
             const newImageMsg = {
                 sender: true,
                 contentType: "image",
@@ -30,18 +28,18 @@ export default function ImagePreviewModal({ open,close,socket }) {
                 time: currTime,
             };
 
-        console.log(Users.selectedImage)
-        socket.current?.emit('send_img', {room, to, from, message: Users.selectedImage,contentType }, (response) => {
-            console.log('Message sent successfully:', response.message);
-            Users.addMessage(newImageMsg);
-        });
-    }
+            socket.current?.emit("send_img",{ room, to, from, message: Users.selectedImage, contentType },(response) => {
+                console.log("Message sent successfully:", response.message);
+                Users.addMessage(newImageMsg);
+                }
+            );
+        }
         close();
     };
 
     return (
         <>
-            <Modal
+        <Modal
             open={open}
             onClose={close}
             aria-labelledby="transition-modal-title"
@@ -49,13 +47,13 @@ export default function ImagePreviewModal({ open,close,socket }) {
             closeAfterTransition
             slots={{ backdrop: Backdrop }}
             slotProps={{
-                backdrop: {
+            backdrop: {
                 timeout: 500,
-                },
+            },
             }}
-            >
+        >
             <Box
-                sx={{
+            sx={{
                 position: "absolute",
                 top: "50%",
                 left: "50%",
@@ -64,52 +62,52 @@ export default function ImagePreviewModal({ open,close,socket }) {
                 border: "1px solid #000",
                 boxShadow: 24,
                 p: 3,
-                }}
-                className="ImagePreviewModal"
+            }}
+            className="ImagePreviewModal"
             >
-                <Box
+            <Box
                 component="div"
                 sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
-                >
+            >
                 <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    fontWeight="bold"
-                    mb={2}
+                id="modal-modal-title"
+                variant="h6"
+                fontWeight="bold"
+                mb={2}
                 >
-                    Attached Image
+                Attached Image
                 </Typography>
                 <X className="close-icon" onClick={close} size={18} />
-                </Box>
+            </Box>
 
-                <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
                 {Users.selectedImage && (
-                    <img
+                <img
                     src={Users.selectedImage}
                     alt="Selected"
                     className="PreviewImage"
-                    />
+                />
                 )}
-                </Box>
-
-                <Box sx={{ display: "flex", justifyContent: "end", mt: 3 }}>
-                <Button
-                    onClick={sendImage}
-                    variant="text"
-                    color="primary"
-                    sx={{
-                        "&:hover": {
-                        backgroundColor: "#282932",
-                        },
-                    }}
-                    endIcon={<ArrowRightFromLine size={16} color="#296eff" />}
-                    className="ImageSendButton"
-                >
-                    Send
-                </Button>
-                </Box>
             </Box>
-            </Modal>
+
+            <Box sx={{ display: "flex", justifyContent: "end", mt: 3 }}>
+                <Button
+                onClick={sendImage}
+                variant="text"
+                color="primary"
+                sx={{
+                    "&:hover": {
+                    backgroundColor: "#282932",
+                    },
+                }}
+                endIcon={<ArrowRightFromLine size={16} color="#296eff" />}
+                className="ImageSendButton"
+                >
+                Send
+                </Button>
+            </Box>
+            </Box>
+        </Modal>
         </>
     );
 }

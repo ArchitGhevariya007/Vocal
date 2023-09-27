@@ -45,7 +45,7 @@ export default function MsgSender({socket}) {
     Users.setTypingTimeout(newTypingTimeout);
   };
 
-  // Sending message to server
+  // Sending text message to server
   const HandleMsgSend = () => {
     const newMsg = Users.message;
     const to = Users.selectedUserInfo.id;
@@ -61,6 +61,7 @@ export default function MsgSender({socket}) {
       }
   };
 
+  // sending message on enter
   const HandleEnterKeyPress = (event) => {
     if (event.key === 'Enter') {
       HandleMsgSend();
@@ -72,6 +73,7 @@ export default function MsgSender({socket}) {
     fileInputRef.current.click();
   };
 
+  // handling image input
   const handleFileInputChange =async (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -85,6 +87,7 @@ export default function MsgSender({socket}) {
     }
   };
 
+  //closing image preview modal
   const closeModal = () => {
     Users.setSelectedImage(null);
     Users.setIsModalOpen(false);

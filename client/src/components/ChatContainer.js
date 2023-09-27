@@ -20,6 +20,8 @@ export default function ChatContainer({ socket }) {
     let currentSocket = socket.current;
 
     if (socket.current) {
+      
+      //text message
       socket.current.on("receive_msg", (data) => {
         const { message,contentType } = data;
         if (data.from === Users.selectedUser) {
@@ -27,6 +29,7 @@ export default function ChatContainer({ socket }) {
         }
       });
 
+      //image message
       socket.current.on("receive_img", (data) => {
         const { message,contentType } = data;
         if (data.from === Users.selectedUser) {
@@ -45,10 +48,10 @@ export default function ChatContainer({ socket }) {
       }
     };
 
-    // eslint-disable-next-line
+  // eslint-disable-next-line
   }, [Users.chatMessages]);
 
-  // Scrolling to the last message
+  // scrolling to the last message
   useEffect(() => {
     if (scrollRef.current) {
       const lastMessage = scrollRef.current.lastChild;
@@ -58,17 +61,20 @@ export default function ChatContainer({ socket }) {
     }
   }, [Users.chatMessages]);
 
-  // Updating chat on chat deletion by other user
+
+  // updating chat on chat deletion by other user
   useEffect(() => {
     let currentSocket = socket.current;
 
     if (socket.current) {
       socket.current.on("updated_chat_messages", (data) => {
         const { roomId } = data;
+
         // Check if the received chat deletion notification is for the current chat room
         if (roomId === Users.selectedUserInfo.roomId) {
           Users.FetchSelectedUserChat();
         }
+
       });
     }
 
@@ -77,6 +83,7 @@ export default function ChatContainer({ socket }) {
         currentSocket.off("updated_chat_messages");
       }
     };
+
   });
 
   return (
@@ -88,16 +95,11 @@ export default function ChatContainer({ socket }) {
             {/* If message is text */}
             {message.contentType === "text" && (
               <>
-                <Box
-                  className={`${message.sender ? "SenderMsg" : "ReceiverMsg"}`}
-                >
+                <Box className={`${message.sender ? "SenderMsg" : "ReceiverMsg"}`}>
                   <p>{message.text}</p>
                 </Box>
-                <Box
-                  className={`${
-                    message.sender ? "msgSentTime" : "msgReceiveTime"
-                  }`}
-                >
+
+                <Box className={`${message.sender ? "msgSentTime" : "msgReceiveTime"}`}>
                   <p>{message.time}</p>
                 </Box>
               </>
@@ -106,20 +108,17 @@ export default function ChatContainer({ socket }) {
             {/* If message is image */}
             {message.contentType === "image" && (
               <>
-                <Box
-                  className={`${message.sender ? "SenderImageMsg" : "ReceiverImageMsg"}`}
-                >
+                <Box className={`${message.sender ? "SenderImageMsg" : "ReceiverImageMsg"}`}>
                   <img src={message.text} className="displayImage" alt="data not found!" />
                 </Box>
-                <Box
-                  className={`${
-                    message.sender ? "msgSentTime" : "msgReceiveTime"
-                  }`}
-                >
+
+                <Box className={`${message.sender ? "msgSentTime" : "msgReceiveTime"}`}>
                   <p>{message.time}</p>
                 </Box>
               </>
             )}
+
+            
           </Box>
         ))}
       </Box>

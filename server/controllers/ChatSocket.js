@@ -36,13 +36,13 @@ const SocketIO = (server) => {
             socket.to(recipientSocket).emit("stop_typing_send",{from});
         });
 
-        //Receving messages from client
+        //Receving text messages from client
         socket.on("send_msg", async (data, callback) => {
             const { room,from, to,contentType, message } = data;
             const recipientSocket = userSockets.get(data.to);
             const newMessage = await Messages.create({roomId:room,sender:from,receiver:to,content:message,contentType});
 
-            //sending message to client
+            //sending text message to client
             if (recipientSocket) {
                 socket.to(recipientSocket).emit("receive_msg", { to, from, message,contentType });
                 callback({ message: "Message sent successfully" });
@@ -51,7 +51,7 @@ const SocketIO = (server) => {
             }
         });
 
-        //Receving Image messages from client
+        //Receving Image message from client
         socket.on("send_img", async (data, callback) => {
             const { room,from, to,contentType, message } = data;
             const recipientSocket = userSockets.get(data.to);
