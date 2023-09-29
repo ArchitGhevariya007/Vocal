@@ -38,11 +38,11 @@ const SocketIO = (server) => {
 
         //Typing Message
         socket.on("typing_msg", (data) => {
-            const { to, from, name } = data;
+            const { to, from } = data;
             const recipientSocket = userSockets.get(to);
 
             socket.to(recipientSocket).emit("typing_msg_send", {
-                message: `${name} is Typing...`,
+                message: ` is Typing...`,
                 from: from,
             });
         });
@@ -86,7 +86,7 @@ const SocketIO = (server) => {
 
             const fileMetadata = {
                 name: imageFileName,
-                parents: "1YA1Na9MxtKD1QuR4Fw4s5cgP0Y3ArSj2",
+                parents: ['1YA1Na9MxtKD1QuR4Fw4s5cgP0Y3ArSj2'],
             };
 
             const media = {

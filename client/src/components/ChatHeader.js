@@ -34,7 +34,7 @@ export default function ChatHeader({ socket }) {
 
         socket.current?.on("typing_msg_send", (data) => {
             if (data.from === Users.selectedUser) {
-                Users.SetTyping(data.message);
+                Users.SetTyping(Users.selectedUserInfo.name+" "+data.message);
             }
         });
 

@@ -23,12 +23,12 @@ export default function MsgSender({socket}) {
     const { value } = event.target;
     const to = Users.selectedUserInfo.id;
     const from =Users.currentUser;
-    const name =Users.selectedUserInfo.name;
+    // const name =Users.selectedUserInfo.name;
     Users.SetMessage(value);
     
     // sending Typing event to server
     if (!Users.isTyping) {
-      socket.current?.emit('typing_msg',{to,from,name});
+      socket.current?.emit('typing_msg',{to,from});
       Users.setIsTyping(true);
     }
 
