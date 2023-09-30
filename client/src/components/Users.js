@@ -7,7 +7,7 @@ import {
   Avatar,
   IconButton,
 } from "@mui/material";
-import { Search, MessagesSquare, ArrowRightToLine, Plus } from "lucide-react";
+import { Search, MessagesSquare, ArrowRightToLine, Plus,Image } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { AppContext } from "../context/ContextAPI";
@@ -136,8 +136,12 @@ export default function Users({ socket }) {
                   <p className="username">{user.participant.name}</p>
                   <p className="recent-time">{user.participant.last_message_time}</p>
                 </div>
-                <p className="last-message">{user.participant.last_message?user.participant.last_message:"Hello, there!"}</p>
-              </div>
+                {
+                  user.participant.last_message_type==='image'?
+                  <div style={{display: "flex", alignItems: "center",marginTop:"4px" }}><Image size="14" style={{ marginRight: "5px" }} /><p className="last-message" style={{ margin: '0' }}>Image</p></div>:
+                  <p className="last-message" >{user.participant.last_message?user.participant.last_message:"Hello, there!"}</p>
+                }
+                </div>
             </div>
           ))}
         </Box>

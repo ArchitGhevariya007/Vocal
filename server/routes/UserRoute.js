@@ -5,13 +5,15 @@ const routes = express.Router();
 const authenticateToken = require("../middlewares/Authorization");
 
 //---------------------------- Controllers ----------------------------
-const {AddUser,ListUsers}  = require("../controllers/AddUsers");
+const {AddUser,ListUsers,LoggedinUserInfo}  = require("../controllers/AddUsers");
 const {FetchChatData,FetchSelectedUser,DeleteChatData}  = require("../controllers/FetchChatData");
 
 
 //---------------------------- Routes ----------------------------
 routes.post("/AddUsers",authenticateToken, AddUser);
 routes.get("/ListUsers",authenticateToken, ListUsers);
+routes.get("/loggedinuserinfo",authenticateToken, LoggedinUserInfo);
+
 
 routes.post("/fetchchatdata",authenticateToken, FetchChatData);
 routes.post("/fetchselecteduser",authenticateToken, FetchSelectedUser);

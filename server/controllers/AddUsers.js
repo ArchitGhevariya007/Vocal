@@ -96,6 +96,7 @@ const ListUsers=async (req,res)=>{
                         name:participant.name,
                         photo:participant.profile_photo,
                         last_message:lastMessage?lastMessage.content:"",
+                        last_message_type:lastMessage?lastMessage.contentType:"",
                         last_message_time:lastMessage?moment(lastMessage.createdAt).tz(userTimeZone).format('h:mm A'): '',
                     } 
                 });
@@ -110,7 +111,27 @@ const ListUsers=async (req,res)=>{
             app_status:false
         })
     }
-
 }
 
-module.exports={AddUser,ListUsers};
+const LoggedinUserInfo=async(req,res)=>{
+    try{
+
+        const {userId}=req.body;
+        const user=await Users.findOne({ _id:userId });
+        
+        return res.status(200).json({
+            id:user._id,
+            name:user.name,
+            phone_no:user.phone_no,
+            profile_photo:user.profile_photo,
+            email:user.email
+        });
+
+    }catch(err){
+        return res.status(500).json({
+            message:err.message,
+            app_status:false
+        })
+    }
+}
+module.exports={AddUser,ListUsers,LoggedinUserInfo};
