@@ -33,7 +33,8 @@ export default function ChatContainer({ socket }) {
       socket.current.on("receive_img", (data) => {
         const { message,contentType } = data;
         if (data.from === Users.selectedUser) {
-          Users.addMessage({ sender: false, text: message, time: currTime,contentType });
+          const imageSrc = `https://drive.google.com/uc?export=view&id=${message}`;
+          Users.addMessage({ sender: false, text: imageSrc, time: currTime,contentType });
         }
       });
     }
@@ -110,6 +111,7 @@ export default function ChatContainer({ socket }) {
               <>
                 <Box className={`${message.sender ? "SenderImageMsg" : "ReceiverImageMsg"}`}>
                   <img src={message.text} className="displayImage" alt="data not found!" />
+                  {console.log(message.text)}
                 </Box>
 
                 <Box className={`${message.sender ? "msgSentTime" : "msgReceiveTime"}`}>

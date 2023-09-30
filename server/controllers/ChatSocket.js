@@ -112,7 +112,7 @@ const SocketIO = (server) => {
             });
 
             if (recipientSocket) {
-                socket.to(recipientSocket).emit("receive_img", { to, from, message, contentType });
+                socket.to(recipientSocket).emit("receive_img", { to, from, message:driveFileId, contentType });
                 callback({ message: "Image sent successfully" });
             } else {
                 callback({ error: "User not found" });

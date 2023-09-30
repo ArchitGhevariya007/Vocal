@@ -99,7 +99,8 @@ export default function ContextAPI(props) {
     if (response.ok) {
       setChatMessages([]);
       data.forEach((data)=>{
-        addMessage({sender:(data.sender===selectedUserInfo.id)?false:true,text: data.message,time:data.time,contentType:data.contentType});
+        const imageSrc = `https://drive.google.com/uc?export=view&id=${data.message}`;
+        addMessage({sender:(data.sender===selectedUserInfo.id)?false:true,text: imageSrc,time:data.time,contentType:data.contentType});
         console.log(data)
       })
     }
