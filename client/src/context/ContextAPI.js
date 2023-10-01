@@ -138,6 +138,9 @@ export default function ContextAPI(props) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  //User Detail Menu
+  const [userMenu,setUserMenu]=useState(null);
+
   return (
     <AppContext.Provider
       value={{
@@ -178,7 +181,9 @@ export default function ContextAPI(props) {
         selectedImage,
         setSelectedImage,
         isModalOpen,
-        setIsModalOpen
+        setIsModalOpen,
+        userMenu,
+        setUserMenu
       }}
     >
       {props.children}

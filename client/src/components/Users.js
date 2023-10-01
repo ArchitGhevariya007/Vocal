@@ -6,6 +6,9 @@ import {
   Box,
   Avatar,
   IconButton,
+  Button,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { Search, MessagesSquare, ArrowRightToLine, Plus,Image } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -15,8 +18,10 @@ import AddUserModal from "./AddUserModal";
 
 import "../style/style.css";
 import "react-toastify/dist/ReactToastify.css";
+const ITEM_HEIGHT = 100;
 
 export default function Users({ socket }) {
+
   //************* Using Context *************
   const Users = useContext(AppContext);
   const navigate = useNavigate();
@@ -59,13 +64,76 @@ export default function Users({ socket }) {
     // eslint-disable-next-line
   }, [Users.selectedUser]);
 
+
+  const open = Boolean(Users.userMenu);
+  const handleClick = (event) => {
+    Users.setUserMenu(event.currentTarget);
+  };
+
+  const handleClose = () => {
+      Users.setUserMenu(null);
+  };
+
   return (
     <>
+      {/*----------------------- Sidebar -----------------------*/}
       <Box className="Sidebar">
-        <Box>
+        <Box style={{ display: 'flex', flexDirection: 'column',justifyContent: 'space-between', alignItems: 'center', height: '98%' }}>
           <IconButton className="add-user-btn" onClick={handleOpenModal}>
             <Plus color="#296eff" />
           </IconButton>
+          <Button
+            aria-label="more"
+            aria-controls={open ? "long-menu" : undefined}
+            aria-expanded={open ? "true" : undefined}
+            aria-haspopup="true"
+            onClick={handleClick}
+          >
+            <Avatar className="ProfileMenu"/>
+          </Button>
+
+          <Menu
+              MenuListProps={{
+                    "aria-labelledby": "long-button",
+              }}
+              anchorEl={Users.deleteMenu}
+              open={open}
+              onClose={handleClose}
+              anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+              transformOrigin={{vertical: 'top',horizontal: 'right'}}
+              PaperProps={{
+                  style: {
+                  maxHeight: ITEM_HEIGHT * 4.5,
+                  width: "35ch",
+                  backgroundColor: "#282932",
+                  margin:'0px 0px 0px 30px'
+                  },
+              }}
+          >
+                <MenuItem>
+                <Box>
+                    <Box className="userAvatar">
+                      <Avatar className="ProfileIcon"/>
+                    </Box>
+                    <Box className="DetailsContainer">
+                      <Box className="DataContainer">
+                        <p className="textlbl">Name</p>
+                        <p className="datalbl">Ghevariya Archit</p>
+                      </Box>
+                      <Box className="DataContainer">
+                        <p className="textlbl">Phone no</p>
+                        <p className="datalbl">+91 9714787211</p>
+                      </Box>
+                      <Box className="DataContainer">
+                        <p className="textlbl">email</p>
+                        <p className="datalbl">archit@gmail.com</p>
+                      </Box>
+
+                    </Box>
+                      
+                </Box>
+                </MenuItem>
+          </Menu>
         </Box>
       </Box>
 
@@ -73,10 +141,11 @@ export default function Users({ socket }) {
         open={Users.AddUserModalOpen}
         handleClose={handleCloseModal}
       />
+
+      {/*----------------------- User List -----------------------*/}
       <Container className="UserContacts">
         {/* App header and search */}
         <Box className="Heading_Search">
-          {/* Title */}
           <Box
             sx={{
               display: "flex",
@@ -118,19 +187,13 @@ export default function Users({ socket }) {
         </Box>
 
         <Box className="UserList">
-          {/* Displaying Users */}
+          {/* Users list */}
           {FilterdUsers?.map((user) => (
-            <div
-              className={`profile_Container ${
-                user.participant.id === Users.selectedUser
-                  ? "selected-user"
-                  : ""
-              }`}
+            <div className={`profile_Container ${user.participant.id === Users.selectedUser? "selected-user": ""}`}
               key={user.participant.id}
-              onClick={() => handleUserClick(user.participant.id)}
+              onClick={() => handleUserClick(user.participant.id)} 
             >
               <Avatar src={`${user.participant.photo}`} alt="" />
-
               <div className="user-info ">
                 <div className="username-time">
                   <p className="username">{user.participant.name}</p>
@@ -141,11 +204,10 @@ export default function Users({ socket }) {
                   <div style={{display: "flex", alignItems: "center",marginTop:"4px" }}><Image size="14" style={{ marginRight: "5px" }} /><p className="last-message" style={{ margin: '0' }}>Image</p></div>:
                   <p className="last-message" >{user.participant.last_message?user.participant.last_message:"Hello, there!"}</p>
                 }
-                </div>
+              </div>
             </div>
           ))}
         </Box>
-
         {/* User component end*/}
       </Container>
     </>

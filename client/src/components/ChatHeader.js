@@ -25,7 +25,9 @@ export default function ChatHeader({ socket }) {
     const handleClick = (event) => {
         Users.setDeleteMenu(event.currentTarget);
     };
+
     const handleClose = () => {
+        Users.setDeleteMenu(null);
     };
 
     //Getting typing response from server
@@ -127,16 +129,16 @@ export default function ChatHeader({ socket }) {
                     },
                 }}
             >
-            <MenuItem onClick={deleteChat}>
-                    <ListItemIcon>
-                        <Trash size="16" color="#9A3B3B" />
-                    </ListItemIcon>
-                    <ListItemText
-                        disableTypography
-                        primary="Delete chat"
-                        style={{ color: "#9A3B3B", fontSize: "14px" }}
-                    />
-            </MenuItem>
+                <MenuItem onClick={deleteChat}>
+                        <ListItemIcon>
+                            <Trash size="16" color="#9A3B3B" />
+                        </ListItemIcon>
+                        <ListItemText
+                            disableTypography
+                            primary="Delete chat"
+                            style={{ color: "#9A3B3B", fontSize: "14px" }}
+                        />
+                </MenuItem>
             </Menu>
         </Box>
 
