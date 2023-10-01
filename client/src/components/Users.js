@@ -8,7 +8,6 @@ import {
   IconButton,
   Button,
   Menu,
-  MenuItem,
 } from "@mui/material";
 import { Search, MessagesSquare, ArrowRightToLine, Plus,Image } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -58,7 +57,6 @@ export default function Users({ socket }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   useEffect(() => {
     Users.setChatMessages([]);
     // eslint-disable-next-line
@@ -68,11 +66,30 @@ export default function Users({ socket }) {
   const open = Boolean(Users.userMenu);
   const handleClick = (event) => {
     Users.setUserMenu(event.currentTarget);
+    fetchUserDetails();
   };
 
   const handleClose = () => {
       Users.setUserMenu(null);
   };
+
+  const fetchUserDetails=async ()=>{
+    try{
+      const response=await fetch("http://localhost:5001/user/loggedinuserinfo",{
+        method:"POST",
+        headers:{
+          "Content-type":"application/json",
+          Authorization:`Bearer ${Cookies.get("Token")}`,
+        },
+        body: JSON.stringify({ userId: Users.currentUser }),
+      });
+
+      const data=await response.json();
+      Users.setUserBio(data);
+    }catch(err){
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -96,7 +113,7 @@ export default function Users({ socket }) {
               MenuListProps={{
                     "aria-labelledby": "long-button",
               }}
-              anchorEl={Users.deleteMenu}
+              anchorEl={Users.userMenu}
               open={open}
               onClose={handleClose}
               anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
@@ -110,29 +127,30 @@ export default function Users({ socket }) {
                   },
               }}
           >
-                <MenuItem>
-                <Box>
+                <Box className="UserDetails">
                     <Box className="userAvatar">
                       <Avatar className="ProfileIcon"/>
                     </Box>
+
                     <Box className="DetailsContainer">
                       <Box className="DataContainer">
                         <p className="textlbl">Name</p>
-                        <p className="datalbl">Ghevariya Archit</p>
+                        <p className="datalbl">{Users.userBio.name}</p>
                       </Box>
                       <Box className="DataContainer">
                         <p className="textlbl">Phone no</p>
-                        <p className="datalbl">+91 9714787211</p>
+                        <p className="datalbl">+91 {Users.userBio.phone_no}</p>
                       </Box>
                       <Box className="DataContainer">
                         <p className="textlbl">email</p>
-                        <p className="datalbl">archit@gmail.com</p>
+                        <p className="datalbl">{Users.userBio.email}</p>
                       </Box>
+                    </Box> 
 
+                    <Box className="logoutContainer">
+                      <Button className="logoutbtn" onClick={LogOutUser}>Logout</Button>
                     </Box>
-                      
                 </Box>
-                </MenuItem>
           </Menu>
         </Box>
       </Box>

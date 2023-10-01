@@ -141,6 +141,8 @@ export default function ContextAPI(props) {
   //User Detail Menu
   const [userMenu,setUserMenu]=useState(null);
 
+  //User bio
+  const [userBio,setUserBio]=useState("");
   return (
     <AppContext.Provider
       value={{
@@ -183,7 +185,9 @@ export default function ContextAPI(props) {
         isModalOpen,
         setIsModalOpen,
         userMenu,
-        setUserMenu
+        setUserMenu,
+        userBio,
+        setUserBio
       }}
     >
       {props.children}

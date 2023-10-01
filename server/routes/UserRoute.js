@@ -12,7 +12,7 @@ const {FetchChatData,FetchSelectedUser,DeleteChatData}  = require("../controller
 //---------------------------- Routes ----------------------------
 routes.post("/AddUsers",authenticateToken, AddUser);
 routes.get("/ListUsers",authenticateToken, ListUsers);
-routes.get("/loggedinuserinfo",authenticateToken, LoggedinUserInfo);
+routes.post("/loggedinuserinfo",authenticateToken, LoggedinUserInfo);
 
 
 routes.post("/fetchchatdata",authenticateToken, FetchChatData);

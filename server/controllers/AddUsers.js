@@ -115,7 +115,6 @@ const ListUsers=async (req,res)=>{
 
 const LoggedinUserInfo=async(req,res)=>{
     try{
-
         const {userId}=req.body;
         const user=await Users.findOne({ _id:userId });
         

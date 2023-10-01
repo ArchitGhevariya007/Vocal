@@ -104,6 +104,7 @@
 }
 
 .textlbl{
+    color: #aaaaaa;
     font-size: 13px;
 }
 
@@ -119,9 +120,26 @@
     padding:8px 0px;
 }
 
-.userAvatar{
+.userAvatar {
     display:flex;
     align-items: center;
+    justify-content: center;
+}
+
+.UserDetails{
+    padding:18px;
+}
+
+.logoutContainer{
+    margin: 10px 0px -5px 0px;
+}
+
+.logoutbtn{
+    background-color: #c51a1a4a !important;
+    border-radius: 7px !important;
+    color: #c51a1a !important;
+    text-transform: none !important;
+    padding: 5px !important;
 }
 /****************************************** User List ******************************************/
 
@@ -218,8 +236,6 @@ fieldset {
     padding: 15px;
     flex: 1;
 }
-
-
 
 .username-time {
     display: flex;
