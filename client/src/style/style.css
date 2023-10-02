@@ -127,7 +127,8 @@
 }
 
 .UserDetails{
-    padding:18px;
+    padding:25px;
+    backdrop-filter: blur(100px);
 }
 
 .logoutContainer{

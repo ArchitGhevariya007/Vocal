@@ -121,7 +121,7 @@ export default function Users({ socket }) {
               PaperProps={{
                   style: {
                   maxHeight: ITEM_HEIGHT * 4.5,
-                  width: "35ch",
+                  width: "32ch",
                   backgroundColor: "#282932",
                   margin:'0px 0px 0px 30px'
                   },
