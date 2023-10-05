@@ -1,7 +1,8 @@
 import React, { useContext,useRef } from "react";
 import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
-import { ImagePlus, ArrowUpFromLine } from "lucide-react";
+import { ImagePlus, ArrowUpFromLine,Smile } from "lucide-react";
+import EmojiPicker from 'emoji-picker-react';
 // import { google } from 'googleapis';
 
 import "../style/style.css";
@@ -73,6 +74,13 @@ export default function MsgSender({socket}) {
     fileInputRef.current.click();
   };
 
+  const handleEmojiSend=(emojiObject)=>{
+    const { message } = Users;
+    const newMsg = `${message}${emojiObject.emoji}`;
+    Users.SetMessage(newMsg);
+    Users.setEmoji(false);
+  }
+
   // handling image input
   const handleFileInputChange =async (e) => {
     const selectedFile = e.target.files[0];
@@ -93,8 +101,18 @@ export default function MsgSender({socket}) {
     Users.setIsModalOpen(false);
 };
 
+const emojiPicker=Users.Emoji?(
+  <EmojiPicker Theme="dark" emojiStyle="apple" onEmojiClick={handleEmojiSend}/>
+  ):null;
+
+const emojiOpen=()=>{
+  Users.setEmoji(!Users.Emoji)
+}
+
+
   return (
     <>
+    {emojiPicker}
       <Box className="MsgSenderContainer">
         <TextField
           name="msg"
@@ -117,6 +135,9 @@ export default function MsgSender({socket}) {
                 />
                 <IconButton onClick={handleImageUpload}>
                   <ImagePlus size="18" className="AttachIcon" />
+                </IconButton>
+                <IconButton onClick={emojiOpen}>
+                  <Smile size="18"/>
                 </IconButton>
                 <IconButton onClick={HandleMsgSend} >
                   <ArrowUpFromLine

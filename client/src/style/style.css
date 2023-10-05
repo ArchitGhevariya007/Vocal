@@ -165,8 +165,6 @@
 }
 
 
-
-
 /* removing blue outline of mui textfeild */
 fieldset {
     border: none !important;
@@ -209,7 +207,6 @@ fieldset {
     height: 100vh;
     overflow-y: auto;
 }
-
 
 .profile-image {
     border-radius: 50%;
