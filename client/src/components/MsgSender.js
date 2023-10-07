@@ -109,8 +109,6 @@ const emojiOpen=()=>{
   Users.setEmoji(!Users.Emoji)
 }
 
-
-
   return (
     <>
     {emojiPicker}
@@ -165,3 +163,4 @@ const emojiOpen=()=>{
     </>
   );
 }
+
