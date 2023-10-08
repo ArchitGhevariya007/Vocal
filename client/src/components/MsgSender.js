@@ -102,7 +102,7 @@ export default function MsgSender({socket}) {
 };
 
 const emojiPicker=Users.Emoji?(
-  <EmojiPicker Theme="dark" emojiStyle="apple" onEmojiClick={handleEmojiSend}/>
+    <EmojiPicker Theme="dark" emojiStyle="apple" onEmojiClick={handleEmojiSend}/>
   ):null;
 
 const emojiOpen=()=>{
