@@ -1,88 +1,129 @@
-import React, { useContext,useRef } from "react";
+import React, { useContext,useEffect, useRef } from "react";
 import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
-import { ImagePlus, ArrowUpFromLine,Smile } from "lucide-react";
-import EmojiPicker from 'emoji-picker-react';
+import { ImagePlus, ArrowUpFromLine, Smile } from "lucide-react";
+import EmojiPicker from "emoji-picker-react";
+
 // import { google } from 'googleapis';
 
 import "../style/style.css";
 import ImagePreviewModal from "./ImagePreviewModal";
 
-export default function MsgSender({socket}) {
-  
+export default function MsgSender({ socket }) {
   //************* Using Context *************
   const Users = useContext(AppContext);
   const fileInputRef = useRef(null);
+  const emojiPickerRef = useRef(null);
+
+
+  // emoji picker open/close
+  useEffect(() => {
+  const handleOutsideClick = (event) => {
+    if (Users.Emoji && emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+      Users.setEmoji(false);
+      Users.setSelectedEmojis([]);
+      console.log(Users.Emoji)
+    }
+  };
+  
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+    // eslint-disable-next-line
+  }, []);
+
 
   const currTime = new Date().toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
+    hour: "2-digit",
+    minute: "2-digit",
     hour12: true,
   });
 
+  // handle input
   const HandleMsgInput = (event) => {
     const { value } = event.target;
     const to = Users.selectedUserInfo.id;
-    const from =Users.currentUser;
+    const from = Users.currentUser;
     // const name =Users.selectedUserInfo.name;
     Users.SetMessage(value);
-    
+
     // sending Typing event to server
     if (!Users.isTyping) {
-      socket.current?.emit('typing_msg',{to,from});
+      socket.current?.emit("typing_msg", { to, from });
       Users.setIsTyping(true);
     }
 
     if (Users.typingTimeout) {
       clearTimeout(Users.typingTimeout);
     }
-    
+
     // sending stop Typing event to server
     const newTypingTimeout = setTimeout(() => {
-      socket.current?.emit('stop_typing', { to,from });
+      socket.current?.emit("stop_typing", { to, from });
       Users.setIsTyping(false);
     }, 3000);
 
     Users.setTypingTimeout(newTypingTimeout);
   };
 
-  // Sending text message to server
+  // sending text message to server
   const HandleMsgSend = () => {
     const newMsg = Users.message;
     const to = Users.selectedUserInfo.id;
-    const from =Users.currentUser;
-    const room=Users.selectedUserInfo.roomId;
-    const contentType="text";
-      if(newMsg){
-        socket.current?.emit('send_msg', {room, to, from, message: newMsg,contentType }, (response) => {
-            console.log('Message sent successfully:', response.message);
-            Users.addMessage({ sender: true,contentType: "text", text: newMsg,time:currTime });
-            Users.SetMessage('');
-        });
-      }
+    const from = Users.currentUser;
+    const room = Users.selectedUserInfo.roomId;
+    const contentType = "text";
+    if (newMsg) {
+      socket.current?.emit(
+        "send_msg",
+        { room, to, from, message: newMsg, contentType },
+        (response) => {
+          console.log("Message sent successfully:", response.message);
+          Users.addMessage({
+            sender: true,
+            contentType: "text",
+            text: newMsg,
+            time: currTime,
+          });
+          Users.SetMessage("");
+        }
+      );
+    }
   };
 
   // sending message on enter
   const HandleEnterKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       HandleMsgSend();
     }
   };
 
-
+  // select image
   const handleImageUpload = () => {
     fileInputRef.current.click();
   };
 
-  const handleEmojiSend=(emojiObject)=>{
+  // select emoji
+  const selectEmoji = (emojiObject) => {
+    const newEmoji = emojiObject.emoji;
+    Users.setSelectedEmojis([newEmoji]);
+  };
+
+  const updateMessageWithEmojis = () => {
     const { message } = Users;
-    const newMsg = `${message}${emojiObject.emoji}`;
-    Users.SetMessage(newMsg);
-    Users.setEmoji(false);
-  }
+    const updatedMessage = `${message} ${Users.selectedEmojis.join(' ')}`;
+    Users.SetMessage(updatedMessage);
+    console.log(updatedMessage);
+  };
+
+  useEffect(() => {
+    updateMessageWithEmojis();
+    // eslint-disable-next-line
+  }, [Users.selectedEmojis]); 
 
   // handling image input
-  const handleFileInputChange =async (e) => {
+  const handleFileInputChange = async (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       const reader = new FileReader();
@@ -99,19 +140,29 @@ export default function MsgSender({socket}) {
   const closeModal = () => {
     Users.setSelectedImage(null);
     Users.setIsModalOpen(false);
-};
+  };
 
-const emojiPicker=Users.Emoji?(
-    <EmojiPicker Theme="dark" emojiStyle="apple" onEmojiClick={handleEmojiSend}/>
-  ):null;
+  const emojiPicker = Users.Emoji ? (
+    <div className="emoji_picker_div" ref={emojiPickerRef}>
+      <EmojiPicker
+        className="emoji-picker"
+        theme="dark"
+        emojiStyle="google"
+        onEmojiClick={selectEmoji}
+        lazyLoadEmojis={true}
+        previewConfig={{ showPreview: false }}
+      />
+    </div>
+  ) : null;
 
-const emojiOpen=()=>{
-  Users.setEmoji(!Users.Emoji)
-}
+  const emojiOpen = () => {
+    console.log(Users.Emoji);
+    Users.setEmoji(!Users.Emoji);
+  };
 
   return (
     <>
-    {emojiPicker}
+      {emojiPicker}
       <Box className="MsgSenderContainer">
         <TextField
           name="msg"
@@ -136,9 +187,9 @@ const emojiOpen=()=>{
                   <ImagePlus size="18" className="AttachIcon" />
                 </IconButton>
                 <IconButton onClick={emojiOpen}>
-                  <Smile size="18"/>
+                  <Smile size="18" />
                 </IconButton>
-                <IconButton onClick={HandleMsgSend} >
+                <IconButton onClick={HandleMsgSend}>
                   <ArrowUpFromLine
                     size="18"
                     className="sendIcon"
@@ -158,9 +209,11 @@ const emojiOpen=()=>{
       </Box>
 
       {/* Image preview modal */}
-      <ImagePreviewModal open={Users.isModalOpen} close={closeModal} socket={socket}/>
-
+      <ImagePreviewModal
+        open={Users.isModalOpen}
+        close={closeModal}
+        socket={socket}
+      />
     </>
   );
 }
-

@@ -146,6 +146,7 @@ export default function ContextAPI(props) {
 
   //Emoji
   const [Emoji,setEmoji]=useState(false);
+  const [selectedEmojis, setSelectedEmojis]=useState([]);
   return (
     <AppContext.Provider
       value={{
@@ -192,7 +193,9 @@ export default function ContextAPI(props) {
         userBio,
         setUserBio,
         Emoji,
-        setEmoji
+        setEmoji,
+        selectedEmojis,
+        setSelectedEmojis
       }}
     >
       {props.children}

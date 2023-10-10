@@ -341,8 +341,28 @@ fieldset {
     cursor: pointer;
 }
 
+.emoji_picker_div{
+    position: absolute;
+    z-index: 1;
+    bottom: 70px;
+    right: 30px;
+}
 
+.emoji-picker{
+    --epr-bg-color: #fff !important;
+}
 
+.EmojiPickerReact{
+    background-color: #212229 !important;
+}
+
+.epr-emoji-category-label{
+    background: none !important;
+}
+
+.epr-search{
+    background-color:#131517 !important;
+}
 .ChatContainer {
     background-color: #131517;
     height: calc(100vh - 200px);
