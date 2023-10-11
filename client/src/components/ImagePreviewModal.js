@@ -47,9 +47,9 @@ export default function ImagePreviewModal({ open, close, socket }) {
             closeAfterTransition
             slots={{ backdrop: Backdrop }}
             slotProps={{
-            backdrop: {
-                timeout: 500,
-            },
+                backdrop: {
+                    timeout: 500,
+                },
             }}
         >
             <Box

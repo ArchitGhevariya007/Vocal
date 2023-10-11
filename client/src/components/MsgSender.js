@@ -142,6 +142,7 @@ export default function MsgSender({ socket }) {
     Users.setIsModalOpen(false);
   };
 
+  // emoji container
   const emojiPicker = Users.Emoji ? (
     <div className="emoji_picker_div" ref={emojiPickerRef}>
       <EmojiPicker
