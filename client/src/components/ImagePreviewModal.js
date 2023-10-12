@@ -12,7 +12,7 @@ export default function ImagePreviewModal({ open, close, socket }) {
         minute: "2-digit",
         hour12: true,
     });
-
+    
     //sending image to server
     const sendImage = () => {
         const to = Users.selectedUserInfo.id;

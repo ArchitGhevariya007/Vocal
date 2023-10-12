@@ -121,7 +121,7 @@ export default function MsgSender({ socket }) {
     updateMessageWithEmojis();
     // eslint-disable-next-line
   }, [Users.selectedEmojis]); 
-
+  
   // handling image input
   const handleFileInputChange = async (e) => {
     const selectedFile = e.target.files[0];
@@ -135,6 +135,7 @@ export default function MsgSender({ socket }) {
       reader.readAsDataURL(selectedFile);
     }
   };
+
 
   //closing image preview modal
   const closeModal = () => {
