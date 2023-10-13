@@ -78,33 +78,33 @@ const SocketIO = (server) => {
             const { room, from, to, contentType, message } = data;
             const recipientSocket = userSockets.get(data.to);
 
-            const imageFileName = `image_${Date.now()}.png`;
+            // const imageFileName = `image_${Date.now()}.png`;
             
-            base64Img.img(message, './assets/imgs/', imageFileName, async (err, filepath) => {
-                if (err) {
-                    console.error("Error saving base64 image as a file:", err);
-                    callback({ error: "Failed to save image" });
-                    return;
-                }
+            // base64Img.img(message, './assets/imgs/', imageFileName, async (err, filepath) => {
+            //     if (err) {
+            //         console.error("Error saving base64 image as a file:", err);
+            //         callback({ error: "Failed to save image" });
+            //         return;
+            //     }
 
-                const fileMetadata = {
-                    name: imageFileName,
-                    parents: ['1YA1Na9MxtKD1QuR4Fw4s5cgP0Y3ArSj2'],
-                };
+            //     const fileMetadata = {
+            //         name: imageFileName,
+            //         parents: ['1YA1Na9MxtKD1QuR4Fw4s5cgP0Y3ArSj2'],
+            //     };
 
-                const media = {
-                    mimeType: 'image/png',
-                    body: fs.createReadStream(filepath),
-                };
+            //     const media = {
+            //         mimeType: 'image/png',
+            //         body: fs.createReadStream(filepath),
+            //     };
 
-                try {
-                    const uploadedFile = await drive.files.create({
-                        resource: fileMetadata,
-                        media: media,
-                        fields: 'id',
-                    });
+                // try {
+                //     const uploadedFile = await drive.files.create({
+                //         resource: fileMetadata,
+                //         media: media,
+                //         fields: 'id',
+                //     });
 
-                    const driveFileId = uploadedFile.data.id;
+                //     const driveFileId = uploadedFile.data.id;
 
                     const newImage = await Messages.create({
                         roomId: room,
@@ -121,14 +121,15 @@ const SocketIO = (server) => {
                         callback({ error: "User not found" });
                     }
 
-                } catch (error) {
-                    console.error("Error uploading image to Google Drive:", error);
-                    callback({ error: "Failed to upload image" });
-                } finally {
-                    // Clean up: Delete the local image file
-                    fs.unlinkSync(filepath);
-                }
-            });
+                // } catch (error) {
+                //     console.error("Error uploading image to Google Drive:", error);
+                //     callback({ error: "Failed to upload image" });
+                // } 
+                // finally {
+                //     // Clean up: Delete the local image file
+                //     fs.unlinkSync(filepath);
+                // }
+            // });
         });
 
         //Delete all chat messages

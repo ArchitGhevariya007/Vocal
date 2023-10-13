@@ -1,13 +1,25 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Users = require("../models/UsersModel");
+const { google } = require('googleapis');
+const keyFile = './config/googleAuth.json';
+const fs = require("fs");
+
+const auth = new google.auth.GoogleAuth({
+    keyFile,
+    scopes: ['https://www.googleapis.com/auth/drive'],
+});
+
+const drive = google.drive({
+    version: 'v3',
+    auth,
+});
 
 //------------------------ Register user ------------------------
 const register = async (req, res) => {
     try {
         const { name, phone_no, password, email, visibility } = req.body;
 
-        // console.log(req.file);
         if (!name || !phone_no || !password || !email) {
             return res.status(404).json({
             message: "Please Provide all data!",
@@ -22,7 +34,34 @@ const register = async (req, res) => {
             });
         }
 
-        // Check if phone_no is already registered
+        // uploading image in drive
+        const imageFileName = `image_${Date.now()}.png`;
+
+        const fileMetadata = {
+            name: imageFileName,
+            parents: ['1dKn9vcQz2gCDEkQWelfOnAEM67lM5oqY'],
+        };
+
+        const media = {
+            mimeType: 'image/png',
+            body: fs.createReadStream(req.file.path),
+        };
+
+        const uploadedFile = await drive.files.create({
+            resource: fileMetadata,
+            media: media,
+            fields: 'id',
+        });
+        
+        const driveFileId = uploadedFile.data.id;
+        
+        fs.unlink(req.file.path, (err) => {
+            if (err) {
+                console.error('Error deleting local file:', err);
+            }
+        });
+        
+        // check if phone_no is already registered
         const phoneAvailable = await Users.findOne({ phone_no });
         if (phoneAvailable) {
             return res.status(403).json({
@@ -31,7 +70,7 @@ const register = async (req, res) => {
             });
         }
 
-        // Check if email is already registered
+        // check if email is already registered
         const emailAvailable = await Users.findOne({ email });
         if (emailAvailable) {
         return res.status(403).json({
@@ -40,7 +79,7 @@ const register = async (req, res) => {
         });
         }
 
-        // Hash the password using bcrypt
+        // hash the password using bcrypt
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // JWT token
@@ -52,11 +91,11 @@ const register = async (req, res) => {
         { expiresIn: "365d" }
         );
 
-        // Insert new User
+        // insert new User
         const newUser = await Users.create({
             name,
             phone_no,
-            profile_photo: req.file.path,
+            profile_photo: driveFileId,
             email,
             password: hashedPassword,
             visibility,

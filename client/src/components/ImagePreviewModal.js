@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Box, Modal, Button, Backdrop, Typography } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
 import { X, ArrowRightFromLine } from "lucide-react";
+import Cookies from "js-cookie";
 
 export default function ImagePreviewModal({ open, close, socket }) {
 
@@ -14,27 +15,54 @@ export default function ImagePreviewModal({ open, close, socket }) {
     });
     
     //sending image to server
-    const sendImage = () => {
-        const to = Users.selectedUserInfo.id;
-        const from = Users.currentUser;
-        const room = Users.selectedUserInfo.roomId;
-        const contentType = "image";
+    const sendImage = async () => {
+        try {
+            let formData = new FormData();
+            formData.append('image', Users.selectedImage.image);
 
-        if (Users.selectedImage) {
-            const newImageMsg = {
-                sender: true,
-                contentType: "image",
-                text: Users.selectedImage,
-                time: currTime,
-            };
+            console.log(formData)
+            //-------------- Fetching API --------------
+            const response = await fetch("http://localhost:5001/user/upload_img", {
+                method: "POST",
+                headers:{
+                    "Content-type":"application/json",
+                    Authorization:`Bearer ${Cookies.get("Token")}`,
+                },
+                body: formData,
+            });
 
-            socket.current?.emit("send_img",{ room, to, from, message: Users.selectedImage, contentType },(response) => {
-                console.log("Message sent successfully:", response.message);
-                Users.addMessage(newImageMsg);
+            const data = await response.json();
+            console.log(data);
+            console.log(response.ok);
+
+            if (response.ok) {
+
+                const to = Users.selectedUserInfo.id;
+                const from = Users.currentUser;
+                const room = Users.selectedUserInfo.roomId;
+                const contentType = "image";
+        
+                if (Users.selectedImage) {
+                    const newImageMsg = {
+                        sender: true,
+                        contentType: "image",
+                        // text: Users.selectedImage,
+                        time: currTime,
+                    };
+        
+                    socket.current?.emit("send_img",{ room, to, from, contentType },(response) => {
+                        console.log("Message sent successfully:", response.message);
+                        Users.addMessage(newImageMsg);
+                        }
+                    );
                 }
-            );
+                close();
+            } 
+
+        } catch (err) {
+                console.log(err.message);
         }
-        close();
+
     };
 
     return (
@@ -83,7 +111,7 @@ export default function ImagePreviewModal({ open, close, socket }) {
             <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
                 {Users.selectedImage && (
                 <img
-                    src={Users.selectedImage}
+                    src={Users.selectedImage.image}
                     alt="Selected"
                     className="PreviewImage"
                 />

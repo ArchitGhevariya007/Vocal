@@ -96,7 +96,7 @@ export default function ChatHeader({ socket }) {
     return (
         <>
         <Box className="ChatHeader">
-            <Avatar src={`${Users.selectedUserInfo.photo}`} alt="" />
+            <Avatar src={`https://drive.google.com/uc?export=view&id=${Users.selectedUserInfo.photo}`} alt="" />
 
             <div className="name_msg">
                 <p className="UserNameTitle">{Users.selectedUserInfo.name}</p>

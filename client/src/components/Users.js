@@ -106,7 +106,7 @@ export default function Users({ socket }) {
             aria-haspopup="true"
             onClick={handleClick}
           >
-            <Avatar className="ProfileMenu"/>
+            <Avatar className="ProfileMenu" src={`https://drive.google.com/uc?export=view&id=${Users.userBio.profile_photo}`}/>
           </Button>
 
           <Menu
@@ -129,7 +129,7 @@ export default function Users({ socket }) {
           >
                 <Box className="UserDetails">
                     <Box className="userAvatar">
-                      <Avatar className="ProfileIcon"/>
+                      <Avatar className="ProfileIcon" src={`https://drive.google.com/uc?export=view&id=${Users.userBio.profile_photo}`}/>
                     </Box>
 
                     <Box className="DetailsContainer">
@@ -211,7 +211,7 @@ export default function Users({ socket }) {
               key={user.participant.id}
               onClick={() => handleUserClick(user.participant.id)} 
             >
-              <Avatar src={`${user.participant.photo}`} alt="" />
+              <Avatar src={`https://drive.google.com/uc?export=view&id=${user.participant.photo}`} alt="" />
               <div className="user-info ">
                 <div className="username-time">
                   <p className="username">{user.participant.name}</p>

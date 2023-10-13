@@ -123,19 +123,19 @@ export default function MsgSender({ socket }) {
   }, [Users.selectedEmojis]); 
   
   // handling image input
-  const handleFileInputChange = async (e) => {
-    const selectedFile = e.target.files[0];
+  const handleFileInputChange = async (event) => {
+    const selectedFile = event.target.files[0];
     if (selectedFile) {
       const reader = new FileReader();
-      reader.onload = (event) => {
-        const base64String = event.target.result;
-        Users.setSelectedImage(base64String);
+
+      reader.onload = (e) => {
+        Users.setSelectedImage({image:e.target.result});
         Users.setIsModalOpen(true);
       };
+      
       reader.readAsDataURL(selectedFile);
     }
   };
-
 
   //closing image preview modal
   const closeModal = () => {
@@ -179,6 +179,7 @@ export default function MsgSender({ socket }) {
             endAdornment: (
               <InputAdornment position="end">
                 <input
+                  name="image"
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
