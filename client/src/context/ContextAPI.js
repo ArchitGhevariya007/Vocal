@@ -136,6 +136,9 @@ export default function ContextAPI(props) {
 
   //Image Preview
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isSendingImage, setIsSendingImage] = useState(false);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   //User Detail Menu
@@ -186,6 +189,10 @@ export default function ContextAPI(props) {
         setDeleteMenu,
         selectedImage,
         setSelectedImage,
+        imagePreview,
+        setImagePreview,
+        isSendingImage,
+        setIsSendingImage,
         isModalOpen,
         setIsModalOpen,
         userMenu,

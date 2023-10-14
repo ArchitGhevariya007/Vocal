@@ -10,62 +10,61 @@ import "../style/style.css";
 import ImagePreviewModal from "./ImagePreviewModal";
 
 export default function MsgSender({ socket }) {
-  //************* Using Context *************
-  const Users = useContext(AppContext);
-  const fileInputRef = useRef(null);
-  const emojiPickerRef = useRef(null);
+    //************* Using Context *************
+    const Users = useContext(AppContext);
+    const fileInputRef = useRef(null);
+    const emojiPickerRef = useRef(null);
 
 
-  // emoji picker open/close
-  useEffect(() => {
-  const handleOutsideClick = (event) => {
-    if (Users.Emoji && emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
-      Users.setEmoji(false);
-      Users.setSelectedEmojis([]);
-      console.log(Users.Emoji)
-    }
-  };
-  
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
+    // emoji picker open/close
+    useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (Users.Emoji && emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+        Users.setEmoji(false);
+        Users.setSelectedEmojis([]);
+        console.log(Users.Emoji)
+      }
     };
-    // eslint-disable-next-line
-  }, []);
+    
+      document.addEventListener("mousedown", handleOutsideClick);
+      return () => {
+        document.removeEventListener("mousedown", handleOutsideClick);
+      };
+      // eslint-disable-next-line
+    }, []);
 
 
-  const currTime = new Date().toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
+    const currTime = new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
 
-  // handle input
-  const HandleMsgInput = (event) => {
-    const { value } = event.target;
-    const to = Users.selectedUserInfo.id;
-    const from = Users.currentUser;
-    // const name =Users.selectedUserInfo.name;
-    Users.SetMessage(value);
+    // handle input
+    const HandleMsgInput = (event) => {
+        const { value } = event.target;
+        const to = Users.selectedUserInfo.id;
+        const from = Users.currentUser;
+        Users.SetMessage(value);
 
-    // sending Typing event to server
-    if (!Users.isTyping) {
-      socket.current?.emit("typing_msg", { to, from });
-      Users.setIsTyping(true);
-    }
+        // sending Typing event to server
+        if (!Users.isTyping) {
+          socket.current?.emit("typing_msg", { to, from });
+          Users.setIsTyping(true);
+        }
 
-    if (Users.typingTimeout) {
-      clearTimeout(Users.typingTimeout);
-    }
+        if (Users.typingTimeout) {
+          clearTimeout(Users.typingTimeout);
+        }
 
-    // sending stop Typing event to server
-    const newTypingTimeout = setTimeout(() => {
-      socket.current?.emit("stop_typing", { to, from });
-      Users.setIsTyping(false);
-    }, 3000);
+        // sending stop Typing event to server
+        const newTypingTimeout = setTimeout(() => {
+          socket.current?.emit("stop_typing", { to, from });
+          Users.setIsTyping(false);
+        }, 3000);
 
-    Users.setTypingTimeout(newTypingTimeout);
-  };
+        Users.setTypingTimeout(newTypingTimeout);
+    };
 
   // sending text message to server
   const HandleMsgSend = () => {
@@ -127,12 +126,11 @@ export default function MsgSender({ socket }) {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       const reader = new FileReader();
-
       reader.onload = (e) => {
-        Users.setSelectedImage({image:e.target.result});
+        Users.setSelectedImage({image:selectedFile});
+        Users.setImagePreview({image:e.target.result});
         Users.setIsModalOpen(true);
       };
-      
       reader.readAsDataURL(selectedFile);
     }
   };

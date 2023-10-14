@@ -2,7 +2,10 @@ import React, { useContext } from "react";
 import { Box, Modal, Button, Backdrop, Typography } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
 import { X, ArrowRightFromLine } from "lucide-react";
+import { ToastContainer, toast, Slide } from "react-toastify";
 import Cookies from "js-cookie";
+
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ImagePreviewModal({ open, close, socket }) {
 
@@ -16,25 +19,26 @@ export default function ImagePreviewModal({ open, close, socket }) {
     
     //sending image to server
     const sendImage = async () => {
+        if (Users.isSendingImage) {
+            return;
+        }
+
         try {
+            Users.setIsSendingImage(true);
             let formData = new FormData();
             formData.append('image', Users.selectedImage.image);
 
-            console.log(formData)
             //-------------- Fetching API --------------
             const response = await fetch("http://localhost:5001/user/upload_img", {
                 method: "POST",
                 headers:{
-                    "Content-type":"application/json",
                     Authorization:`Bearer ${Cookies.get("Token")}`,
                 },
                 body: formData,
             });
 
             const data = await response.json();
-            console.log(data);
-            console.log(response.ok);
-
+            console.log(data)
             if (response.ok) {
 
                 const to = Users.selectedUserInfo.id;
@@ -46,23 +50,31 @@ export default function ImagePreviewModal({ open, close, socket }) {
                     const newImageMsg = {
                         sender: true,
                         contentType: "image",
-                        // text: Users.selectedImage,
+                        text: `https://drive.google.com/uc?export=view&id=${data}`,
                         time: currTime,
                     };
         
-                    socket.current?.emit("send_img",{ room, to, from, contentType },(response) => {
+                    socket.current?.emit("send_img",{ room, to, from,message:data, contentType },(response) => {
                         console.log("Message sent successfully:", response.message);
                         Users.addMessage(newImageMsg);
                         }
                     );
+                    Users.setIsSendingImage(false);
+                    close();
                 }
+            } else {
+                toast.error(data.message, {
+                    className: "toast_message",
+                });
+                Users.setIsSendingImage(false);
                 close();
-            } 
 
+            }
         } catch (err) {
-                console.log(err.message);
+            toast.error(err.message, {
+                className: "toast_message",
+            });
         }
-
     };
 
     return (
@@ -111,7 +123,7 @@ export default function ImagePreviewModal({ open, close, socket }) {
             <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
                 {Users.selectedImage && (
                 <img
-                    src={Users.selectedImage.image}
+                    src={Users.imagePreview.image}
                     alt="Selected"
                     className="PreviewImage"
                 />
@@ -136,6 +148,15 @@ export default function ImagePreviewModal({ open, close, socket }) {
             </Box>
             </Box>
         </Modal>
+
+        {/*-------------- Toast Message --------------*/}
+        <ToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar={true}
+            theme="dark"
+            transition={Slide}
+        />
         </>
     );
 }
