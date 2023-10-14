@@ -2,6 +2,18 @@ const Users = require("../models/UsersModel");
 const Room = require("../models/RoomModel");
 const Messages = require("../models/MessageModel");
 const moment = require("moment-timezone");
+const { google } = require('googleapis');
+const keyFile = './config/googleAuth.json';
+
+const auth = new google.auth.GoogleAuth({
+    keyFile,
+    scopes: ['https://www.googleapis.com/auth/drive'],
+});
+
+const drive = google.drive({
+    version: 'v3',
+    auth,
+});
 
 const FetchSelectedUser = async (req, res) => {
     try {
@@ -88,6 +100,12 @@ const FetchChatData = async (req, res) => {
 const DeleteChatData=async (req,res)=>{
     try{
         const { roomId } = req.body;
+        const chatImages=await Messages.find({roomId, content: { $exists: true } ,contentType: "image" }).select('-_id content');;
+        for (const chatImage of chatImages) {
+            const fileId = chatImage.content;
+            //Google Drive API to delete the file
+            await drive.files.delete({ fileId });
+        }
         const chatRoom=await Messages.deleteMany({roomId});
         if(chatRoom){
             return res.status(200).json({
