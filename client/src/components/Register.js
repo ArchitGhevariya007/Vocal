@@ -40,6 +40,7 @@ export default function Register() {
   //-------------- Handling API --------------
   const handleRegister = async () => {
     try {
+      Users.setRegisterClick(true);
       let formData = new FormData();
 
       formData.append('name', Users.registerData.name);   
@@ -73,9 +74,11 @@ export default function Register() {
           className: "toast_message",
         });
       }
+      Users.setRegisterClick(false);
 
     } 
     catch (err) {
+      Users.setRegisterClick(false);
       toast.error(err.message, {
         className: "toast_message",
       });
@@ -150,7 +153,7 @@ export default function Register() {
             onChange={handleInput}
           />
 
-          <Button className="LoginButton" size="small" onClick={handleRegister}>
+          <Button className="LoginButton" size="small" onClick={handleRegister} disabled={Users.registerClick}>
             Sign up{" "}
           </Button>
 

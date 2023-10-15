@@ -85,6 +85,7 @@ export default function Users({ socket }) {
       });
 
       const data=await response.json();
+      console.log(data);
       Users.setUserBio(data);
     }catch(err){
       console.log(err);

@@ -1,20 +1,6 @@
 const { Server } = require("socket.io");
 const Messages = require("../models/MessageModel");
-const fs = require("fs");
-const { google } = require('googleapis');
-const keyFile = './config/googleAuth.json';
-const base64Img = require('base64-img');
 
-
-const auth = new google.auth.GoogleAuth({
-    keyFile,
-    scopes: ['https://www.googleapis.com/auth/drive'],
-});
-
-const drive = google.drive({
-    version: 'v3',
-    auth,
-});
 
 const SocketIO = (server) => {
 
