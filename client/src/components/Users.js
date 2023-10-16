@@ -58,6 +58,11 @@ export default function Users({ socket }) {
   }, []);
 
   useEffect(() => {
+    fetchUserDetails();
+    console.log(Users.profileImage)
+  }, []);
+
+  useEffect(() => {
     Users.setChatMessages([]);
     // eslint-disable-next-line
   }, [Users.selectedUser]);
@@ -87,6 +92,7 @@ export default function Users({ socket }) {
       const data=await response.json();
       console.log(data);
       Users.setUserBio(data);
+      Users.setProfileImage(data.profile_photo);
     }catch(err){
       console.log(err);
     }
@@ -107,7 +113,7 @@ export default function Users({ socket }) {
             aria-haspopup="true"
             onClick={handleClick}
           >
-            <Avatar className="ProfileMenu" src={`https://drive.google.com/uc?export=view&id=${Users.userBio.profile_photo}`}/>
+            <Avatar className="ProfileMenu" src={`https://drive.google.com/uc?export=view&id=${Users.profileImage}`}/>
           </Button>
 
           <Menu
