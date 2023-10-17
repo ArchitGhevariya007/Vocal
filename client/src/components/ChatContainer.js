@@ -112,7 +112,6 @@ export default function ChatContainer({ socket }) {
               <>
                 <Box className={`${message.sender ? "SenderImageMsg" : "ReceiverImageMsg"}`}>
                   <img src={message.text} className="displayImage" alt="data not found!" />
-                  {console.log(message.text)}
                 </Box>
 
                 <Box className={`${message.sender ? "msgSentTime" : "msgReceiveTime"}`}>

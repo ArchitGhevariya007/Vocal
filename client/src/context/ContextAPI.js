@@ -101,7 +101,6 @@ export default function ContextAPI(props) {
       data.forEach((data)=>{
         const imageSrc = `https://drive.google.com/uc?export=view&id=${data.message}`;
         addMessage({sender:(data.sender===selectedUserInfo.id)?false:true,text: (data.contentType==="image")?imageSrc:data.message,time:data.time,contentType:data.contentType});
-        console.log(data)
       })
     }
     } catch (err) { 

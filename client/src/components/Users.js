@@ -59,8 +59,8 @@ export default function Users({ socket }) {
 
   useEffect(() => {
     fetchUserDetails();
-    console.log(Users.profileImage)
-  }, []);
+    // eslint-disable-next-line
+  }, [Users.currentUser]);
 
   useEffect(() => {
     Users.setChatMessages([]);
@@ -90,9 +90,8 @@ export default function Users({ socket }) {
       });
 
       const data=await response.json();
-      console.log(data);
-      Users.setUserBio(data);
-      Users.setProfileImage(data.profile_photo);
+        Users.setUserBio(data);
+        Users.setProfileImage(data.profile_photo);
     }catch(err){
       console.log(err);
     }
