@@ -10,14 +10,15 @@ import DefaultWindow from "./DefaultWindow";
 import { io } from "socket.io-client";
 
 export default function MainContainer() {
+
   //************* Using Context *************
   const UsersContext = useContext(AppContext);
   const navigate = useNavigate();
 
-  // Socket useRef Hook
+  // socket useRef Hook
   const socket = useRef();
-  
-  // Validating user
+
+  // validating user
   useEffect(() => {
     if (!Cookies.get("Token")) {
       navigate("/login");
@@ -26,28 +27,56 @@ export default function MainContainer() {
 
   const userInfo = UsersContext.selectedUserInfo;
 
-  //If user is available then adding it to socket server
+  // if user is available then adding it to socket server
   useEffect(() => {
-    if (UsersContext.currentUser && UsersContext.selectedUserInfo  && !socket.current) {
+    if (
+      UsersContext.currentUser &&
+      UsersContext.selectedUserInfo &&
+      !socket.current
+    ) {
       socket.current = io("http://localhost:5001");
       socket.current.emit("add-user", UsersContext.currentUser);
     }
     // eslint-disable-next-line
   }, [UsersContext.selectedUserInfo]);
 
+  useEffect(() => {
+    const checkScreenSize = () => {
+      if (window.innerWidth <= 768) {
+        UsersContext.setIsMobileScreen(true);
+      } else {
+        UsersContext.setIsMobileScreen(false);
+      }
+    };
+
+    checkScreenSize();
+
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+    };
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <>
-      <Users socket={socket}/>
-      {/* If user is not selected then displaying default page */}
-      {userInfo !== null && userInfo !== undefined ? (
+      {UsersContext.isMobileScreen?(
+      <Users socket={socket} />
+      ):(
+      <>
+        <Users socket={socket} />
+        {userInfo !== null && userInfo !== undefined ? ( 
+        // If user is not selected then displaying default page
         <>
-          <ChatHeader socket={socket}/>
+          <ChatHeader socket={socket} />
           <MsgSender socket={socket} />
           <ChatContainer socket={socket} />
         </>
-      ) : (
+        ) : (
         <DefaultWindow />
+        )}
+      </>
       )}
     </>
   );

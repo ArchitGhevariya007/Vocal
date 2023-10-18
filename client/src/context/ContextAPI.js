@@ -153,6 +153,7 @@ export default function ContextAPI(props) {
   const [registerClick,setRegisterClick]=useState(false);
   const [profileImage,setProfileImage]=useState();
 
+  const [isMobileScreen,setIsMobileScreen]=useState(false);
   return (
     <AppContext.Provider
       value={{
@@ -209,7 +210,9 @@ export default function ContextAPI(props) {
         registerClick,
         setRegisterClick,
         profileImage,
-        setProfileImage
+        setProfileImage,
+        isMobileScreen,
+        setIsMobileScreen
       }}
     >
       {props.children}
