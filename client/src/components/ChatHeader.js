@@ -9,7 +9,7 @@ import {
     ListItemText,
 } from "@mui/material";
 import { AppContext } from "../context/ContextAPI";
-import { MoreVertical, Trash } from "lucide-react";
+import { MoreVertical, Trash,ChevronLeft } from "lucide-react";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import Cookies from 'js-cookie';
 
@@ -29,6 +29,10 @@ export default function ChatHeader({ socket }) {
     const handleClose = () => {
         Users.setDeleteMenu(null);
     };
+
+    const backButton=()=>{
+        console.log("Hello")
+    }
 
     //Getting typing response from server
     useEffect(() => {
@@ -95,11 +99,12 @@ export default function ChatHeader({ socket }) {
 
     return (
         <>
-        <Box className="ChatHeader">
-            <Avatar src={`https://drive.google.com/uc?export=view&id=${Users.selectedUserInfo.photo}`} alt="" />
+        <Box className={Users.isMobileScreen?"ChatHeaderMobile":"ChatHeader"}>
+            {Users.isMobileScreen?<IconButton onClick={backButton}><ChevronLeft size="24" className="BackIcon"/></IconButton>:""}
+            <Avatar src={`https://drive.google.com/uc?export=view&id=${Users.selectedUserInfo?.photo}`} alt="" />
 
             <div className="name_msg">
-                <p className="UserNameTitle">{Users.selectedUserInfo.name}</p>
+                <p className="UserNameTitle">{Users.selectedUserInfo?.name}</p>
                 <p className="TypingMsg">{Users?.Typing}</p>
             </div>
 

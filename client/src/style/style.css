@@ -203,6 +203,15 @@ fieldset {
     border-right: 1.5px solid #131517;
 }
 
+.UserContactsMobile {
+    background-color: #212229;
+    width: calc(100% - 50px) !important;
+    float: left !important;
+    overflow-y: auto;
+    height: 100vh;
+    border-right: 1.5px solid #131517;
+}
+
 .UserList{
     height: 100vh;
     overflow-y: auto;
@@ -281,6 +290,14 @@ fieldset {
     padding: 0px 30px 0px 30px;
 }
 
+.ChatHeaderMobile {
+    background-color: #212229;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0px 10px 0px 10px;
+}
+
 .UserNameTitle {
     font-size: 19px;
     font-weight: 500;
@@ -298,6 +315,10 @@ fieldset {
     color: #18a449;
 }
 
+.BackIcon{
+    margin-right: 10px;
+    cursor: pointer;
+}
 
 
 /****************************************** MsgSender ******************************************/
@@ -315,6 +336,19 @@ fieldset {
     right: 0;
     padding: 7px 50px 0px 50px;
 
+}
+
+.MsgSenderContainerMobile {
+    background-color: #282932;
+    height: 80px;
+    width: 95% !important;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 7px 10px 0px 10px;
 }
 
 .MsgBox {
@@ -367,6 +401,15 @@ fieldset {
     background-color: #131517;
     height: calc(100vh - 200px);
     margin-left: 430px;
+    overflow-y: auto;
+    padding: 40px;
+}
+
+.ChatContainerMobile {
+    background-color: #131517;
+    height: calc(100vh - 200px);
+    /* width: 100%; */
+    /* margin-left: 430px; */
     overflow-y: auto;
     padding: 40px;
 }

@@ -154,6 +154,8 @@ export default function ContextAPI(props) {
   const [profileImage,setProfileImage]=useState();
 
   const [isMobileScreen,setIsMobileScreen]=useState(false);
+  const [isChatOpen,setIsChatOpen]=useState(false);
+
   return (
     <AppContext.Provider
       value={{
@@ -212,7 +214,9 @@ export default function ContextAPI(props) {
         profileImage,
         setProfileImage,
         isMobileScreen,
-        setIsMobileScreen
+        setIsMobileScreen,
+        isChatOpen,
+        setIsChatOpen
       }}
     >
       {props.children}

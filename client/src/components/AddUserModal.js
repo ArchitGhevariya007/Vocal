@@ -86,7 +86,7 @@ export default function AddUserModal({ open, handleClose }) {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400,
+            width: Users.isMobileScreen?"80%":"90%",
             border: "1px solid #000",
             boxShadow: 24,
             p: 3,

@@ -163,7 +163,7 @@ export default function MsgSender({ socket }) {
   return (
     <>
       {emojiPicker}
-      <Box className="MsgSenderContainer">
+      <Box className={Users.isMobileScreen?"MsgSenderContainerMobile":"MsgSenderContainer"}>
         <TextField
           name="msg"
           placeholder="Type a message..."

@@ -90,7 +90,7 @@ export default function ChatContainer({ socket }) {
 
   return (
     <>
-      <Box className="ChatContainer" ref={scrollRef}>
+      <Box className={Users.isMobileScreen?"ChatContainerMobile":"ChatContainer"} ref={scrollRef}>
         {Users.chatMessages.map((message, index) => (
           <Box className={"MessageGroup"} key={index}>
 

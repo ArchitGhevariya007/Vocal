@@ -62,7 +62,15 @@ export default function MainContainer() {
   return (
     <>
       {UsersContext.isMobileScreen?(
-      <Users socket={socket} />
+      UsersContext.isChatOpen?(
+        <>
+          <ChatHeader socket={socket} />
+          <ChatContainer socket={socket} />
+          <MsgSender socket={socket} />
+          </>
+      ):(
+        <Users socket={socket} />
+      )
       ):(
       <>
         <Users socket={socket} />

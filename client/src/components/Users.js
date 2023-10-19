@@ -40,6 +40,7 @@ export default function Users({ socket }) {
   const handleUserClick = (userId) => {
     Users.setSelectedUser(userId);
     Users.SetTyping("");
+    Users.setIsChatOpen(true);
   };
 
   //Add user Modal
@@ -167,7 +168,7 @@ export default function Users({ socket }) {
       />
 
       {/*----------------------- User List -----------------------*/}
-      <Container className="UserContacts">
+      <Container className={Users.isMobileScreen?"UserContactsMobile":"UserContacts"}>
         {/* App header and search */}
         <Box className="Heading_Search">
           <Box
