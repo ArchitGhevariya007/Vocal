@@ -155,6 +155,7 @@ export default function ContextAPI(props) {
 
   const [isMobileScreen,setIsMobileScreen]=useState(false);
   const [isChatOpen,setIsChatOpen]=useState(false);
+  const [isBackButton,setBackButton]=useState(false);
 
   return (
     <AppContext.Provider
@@ -216,7 +217,9 @@ export default function ContextAPI(props) {
         isMobileScreen,
         setIsMobileScreen,
         isChatOpen,
-        setIsChatOpen
+        setIsChatOpen,
+        isBackButton,
+        setBackButton
       }}
     >
       {props.children}
