@@ -12,7 +12,6 @@ import { AppContext } from "../context/ContextAPI";
 import { MoreVertical, Trash,ChevronLeft } from "lucide-react";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import Cookies from 'js-cookie';
-// import {useHistory} from "react-router-dom"
 
 import "../style/style.css";
 
@@ -31,11 +30,10 @@ export default function ChatHeader({ socket }) {
         Users.setDeleteMenu(null);
     };
 
-    // const history = useHistory();
 
     const backButton=()=>{
-        console.log("Hello")
-        window.history.back();
+        console.log(Users.isBackButton);
+        Users.setBackButton(false);
     }
 
     //Getting typing response from server

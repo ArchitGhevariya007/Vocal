@@ -41,6 +41,7 @@ export default function Users({ socket }) {
     Users.setSelectedUser(userId);
     Users.SetTyping("");
     Users.setIsChatOpen(true);
+    Users.setBackButton(true);
   };
 
   //Add user Modal
