@@ -399,6 +399,10 @@ fieldset {
 }
 .ChatContainer {
     background-color: #131517;
+    background-image: url('../assets/imgs/doodle.png');
+    background-size: 15%;
+    background-repeat: repeat;
+    background-position: center; 
     height: calc(100vh - 200px);
     margin-left: 430px;
     overflow-y: auto;
@@ -408,8 +412,9 @@ fieldset {
 .ChatContainerMobile {
     background-color: #131517;
     height: calc(100vh - 200px);
-    /* width: 100%; */
-    /* margin-left: 430px; */
+    background-image: url('../assets/imgs/doodle.png');
+    background-size: 48%;
+    background-repeat: repeat;
     overflow-y: auto;
     padding: 40px;
 }
@@ -481,11 +486,15 @@ fieldset {
     margin-left: 430px;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-
+.default_screen_icon{
+    width: 170px;
+    opacity: 0.7;
+}
 /****************************************** Add User Modal ******************************************/
 
 .AddUserModal{

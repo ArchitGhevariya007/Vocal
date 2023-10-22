@@ -113,7 +113,6 @@ export default function MsgSender({ socket }) {
     const { message } = Users;
     const updatedMessage = `${message} ${Users.selectedEmojis.join(' ')}`;
     Users.SetMessage(updatedMessage);
-    console.log(updatedMessage);
   };
 
   useEffect(() => {

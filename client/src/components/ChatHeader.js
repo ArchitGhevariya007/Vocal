@@ -32,7 +32,6 @@ export default function ChatHeader({ socket }) {
 
 
     const backButton=()=>{
-        console.log(Users.isBackButton);
         Users.setBackButton(false);
     }
 
