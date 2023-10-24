@@ -23,10 +23,13 @@ export default function ContextAPI(props) {
   const [AddUserModalOpen,SetAddUserModalOpen] = useState(false);
   const [AddUser,SetAddUser] = useState("");
 
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  console.log(backendUrl)
+
   // Fetch Users in User-list
   const fetchUsers=async ()=>{
     try{
-      const response=await fetch("http://localhost:5001/user/listusers",{
+      const response=await fetch(`${backendUrl}/user/listusers`,{
         method:"GET",
         headers:{
           "Content-type":"application/json",
