@@ -13,6 +13,7 @@ export default function Register() {
 
   //-------------- Using Context --------------
   const Users = useContext(AppContext);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const navigate = useNavigate();
 
@@ -51,7 +52,7 @@ export default function Register() {
 
 
       //-------------- Fetching API --------------
-      const response = await fetch("http://localhost:5001/register", {
+      const response = await fetch(`${backendUrl}/register`, {
         method: "POST",
         body: formData,
       });

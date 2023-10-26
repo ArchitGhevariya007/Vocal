@@ -13,6 +13,8 @@ export default function MainContainer() {
 
   //************* Using Context *************
   const UsersContext = useContext(AppContext);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
   const navigate = useNavigate();
 
   // socket useRef Hook
@@ -34,7 +36,7 @@ export default function MainContainer() {
       UsersContext.selectedUserInfo &&
       !socket.current
     ) {
-      socket.current = io("http://localhost:5001");
+      socket.current = io(`${backendUrl}`);
       socket.current.emit("add-user", UsersContext.currentUser);
     }
     // eslint-disable-next-line

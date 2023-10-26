@@ -11,6 +11,7 @@ import "../style/style.css";
 export default function Login() {
   //-------------- Using Context --------------
   const Users = useContext(AppContext);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const navigate = useNavigate();
 
@@ -44,7 +45,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       //-------------- Fetching API --------------
-      const response = await fetch("http://localhost:5001/login", {
+      const response = await fetch(`${backendUrl}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

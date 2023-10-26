@@ -11,6 +11,8 @@ export default function ImagePreviewModal({ open, close, socket }) {
 
     //-------------- Using Context --------------
     const Users = useContext(AppContext);
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
     const currTime = new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
@@ -29,7 +31,7 @@ export default function ImagePreviewModal({ open, close, socket }) {
             formData.append('image', Users.selectedImage.image);
 
             //-------------- Fetching API --------------
-            const response = await fetch("http://localhost:5001/user/upload_img", {
+            const response = await fetch(`${backendUrl}/user/upload_img`, {
                 method: "POST",
                 headers:{
                     Authorization:`Bearer ${Cookies.get("Token")}`,

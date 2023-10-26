@@ -23,6 +23,8 @@ export default function Users({ socket }) {
 
   //************* Using Context *************
   const Users = useContext(AppContext);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
   const navigate = useNavigate();
 
   //Logout user
@@ -82,7 +84,7 @@ export default function Users({ socket }) {
 
   const fetchUserDetails=async ()=>{
     try{
-      const response=await fetch("http://localhost:5001/user/loggedinuserinfo",{
+      const response=await fetch(`${backendUrl}/user/loggedinuserinfo`,{
         method:"POST",
         headers:{
           "Content-type":"application/json",

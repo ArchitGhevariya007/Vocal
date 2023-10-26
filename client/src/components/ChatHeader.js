@@ -20,6 +20,8 @@ const ITEM_HEIGHT = 50;
 export default function ChatHeader({ socket }) {
   //************* Using Context *************
     const Users = useContext(AppContext);
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 
     const open = Boolean(Users.deleteMenu);
     const handleClick = (event) => {
@@ -63,7 +65,7 @@ export default function ChatHeader({ socket }) {
     const deleteChat=async ()=>{
         try{
             const response=await fetch(
-                "http://localhost:5001/user/deletechatdata",
+                `${backendUrl}/user/deletechatdata`,
                 {
                     method:"POST",
                     headers:{

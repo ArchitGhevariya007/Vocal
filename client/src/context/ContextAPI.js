@@ -24,7 +24,6 @@ export default function ContextAPI(props) {
   const [AddUser,SetAddUser] = useState("");
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
-  console.log(backendUrl)
 
 
   // Fetch Users in User-list
@@ -49,13 +48,14 @@ export default function ContextAPI(props) {
 
   useEffect(()=>{
     fetchUsers();
+    // eslint-disable-next-line
   },[])
 
   // Fetching Selected User
   const FetchSelectedUserInfo = async () => {
     try {
     const response = await fetch(
-        "http://localhost:5001/user/fetchselecteduser",
+        `${backendUrl}/user/fetchselecteduser`,
         {
         method: "POST",
         headers: {
@@ -88,7 +88,7 @@ export default function ContextAPI(props) {
   const FetchSelectedUserChat = async () => {
     try {
     const response = await fetch(
-        "http://localhost:5001/user/fetchchatdata",
+        `${backendUrl}/user/fetchchatdata`,
         {
         method: "POST",
         headers: {

@@ -14,10 +14,12 @@ import Cookies from "js-cookie";
 
 import "react-toastify/dist/ReactToastify.css";
 
+
 export default function AddUserModal({ open, handleClose }) {
   //-------------- Using Context --------------
   const Users = useContext(AppContext);
-
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  
   //closing Modal
   const handleCloseButtonClick = () => {
     handleClose();
@@ -33,7 +35,7 @@ export default function AddUserModal({ open, handleClose }) {
   const AddUser = async () => {
     try {
       if(Users.AddUser){
-      const response = await fetch("http://localhost:5001/user/addusers", {
+      const response = await fetch(`${backendUrl}/user/addusers`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
