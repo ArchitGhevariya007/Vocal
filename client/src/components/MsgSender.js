@@ -73,7 +73,7 @@ export default function MsgSender({ socket }) {
     const from = Users.currentUser;
     const room = Users.selectedUserInfo.roomId;
     const contentType = "text";
-    if (newMsg) {
+    if (newMsg.trim()) {
       socket.current?.emit(
         "send_msg",
         { room, to, from, message: newMsg, contentType },
