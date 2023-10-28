@@ -98,6 +98,7 @@ export default function MsgSender({ socket }) {
     }
   };
 
+
   // select image
   const handleImageUpload = () => {
     fileInputRef.current.click();
