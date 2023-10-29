@@ -93,7 +93,7 @@ export default function ChatHeader({ socket }) {
             }
         }
         catch(err){
-            console.log(err.message)
+            // console.log(err.message)
             toast.error(err.message, {
                 className: "toast_message",
             });

@@ -22,7 +22,7 @@ export default function MsgSender({ socket }) {
       if (Users.Emoji && emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
         Users.setEmoji(false);
         Users.setSelectedEmojis([]);
-        console.log(Users.Emoji)
+        // console.log(Users.Emoji)
       }
     };
     
@@ -78,7 +78,7 @@ export default function MsgSender({ socket }) {
         "send_msg",
         { room, to, from, message: newMsg, contentType },
         (response) => {
-          console.log("Message sent successfully:", response.message);
+          // console.log("Message sent successfully:", response.message);
           Users.addMessage({
             sender: true,
             contentType: "text",
@@ -156,7 +156,7 @@ export default function MsgSender({ socket }) {
   ) : null;
 
   const emojiOpen = () => {
-    console.log(Users.Emoji);
+    // console.log(Users.Emoji);
     Users.setEmoji(!Users.Emoji);
   };
 

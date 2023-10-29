@@ -40,7 +40,7 @@ export default function ImagePreviewModal({ open, close, socket }) {
             });
 
             const data = await response.json();
-            console.log(data)
+            // console.log(data)
             if (response.ok) {
 
                 const to = Users.selectedUserInfo.id;
@@ -57,7 +57,7 @@ export default function ImagePreviewModal({ open, close, socket }) {
                     };
         
                     socket.current?.emit("send_img",{ room, to, from,message:data, contentType },(response) => {
-                        console.log("Message sent successfully:", response.message);
+                        // console.log("Message sent successfully:", response.message);
                         Users.addMessage(newImageMsg);
                         }
                     );
